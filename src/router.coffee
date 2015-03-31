@@ -1,11 +1,9 @@
 Backbone = require 'backbone'
-_ = require 'lodash'
 $ = require 'jquery'
-
 Search = require './views/search'
 
 pages =
-	home: null
+	search: null
 	notFound: null
 
 prevPage = null
@@ -38,11 +36,11 @@ class MainRouter extends Backbone.Router
 		'niet-gevonden': 'notFound'
 
 	"home": ->
-		unless pages.home?
-			pages.home = new Search()
-			@$el.append pages.home.el
+		unless pages.search?
+			pages.search = new Search()
+			@$el.append pages.search.el
 
-		show pages.home
+		show pages.search
 
 	"notFound": ->
 		unless pages.notFound?

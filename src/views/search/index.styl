@@ -1,0 +1,67 @@
+.faceted-search-placeholder
+	.faceted-search
+		.text-search
+			.search-input
+				input
+					border 1px solid msLightBlue
+					border-right 0
+					
+				.search-icon
+					background msLightBlue
+					
+					svg
+						fill msDarkBlue
+						margin-top 5px
+					
+		.facets-menu
+			display none
+			
+		.facets	
+			ul.tabs
+				margin 20px 0
+				list-style none
+				width 100%
+				
+				li
+					padding 4px 0
+					inline-block()
+					width 25%
+					text-align center
+					border 1px solid msBlue
+					border-right 0px
+					font-size 1.2em
+					cursor pointer
+					color msDarkBlue
+						
+					&:first-child
+						border-top-left-radius 3px
+						border-bottom-left-radius 3px
+					
+					&:last-child
+						border-right 1px solid msBlue
+						border-top-right-radius 3px
+						border-bottom-right-radius 3px					
+					
+					&.active
+						cursor default
+						background msBlue
+						color white
+						
+			div.tab
+				display none
+				
+				&.active
+					display block
+					
+			.facet
+				color msDarkerBlue
+				margin-top 20px
+				
+				.body
+					margin-top 4px
+					
+					label
+						color msDarkerBlue
+						
+				&.range .body .slider .bar
+					background rgba(msBlue, 0.3)
