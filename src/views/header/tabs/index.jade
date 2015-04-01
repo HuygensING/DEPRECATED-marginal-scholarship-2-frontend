@@ -1,0 +1,9 @@
+ul.tabs
+	- var searchClass = route == "home" ? "active" : null;
+	li.tab(data-path="/", class=searchClass) Search
+
+	for codex in Object.keys(codices)
+		- var id = +codex.replace("COD", "")
+		- var codexClass = route == "codex" && codex == routeOptions[0] ? "active" : null;
+		li.with-close.tab(data-path="codex/"+codex, class=codexClass)= "Codex " + id
+			small(data-id=codex) &#x274c;

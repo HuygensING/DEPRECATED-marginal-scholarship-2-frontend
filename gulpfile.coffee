@@ -4,6 +4,7 @@ gutil = require 'gulp-util'
 extend = require 'extend'
 
 browserSync = require 'browser-sync'
+modRewrite = require 'connect-modrewrite'
 
 browserify = require 'browserify'
 watchify = require 'watchify'
@@ -47,6 +48,13 @@ gulp.task 'server', ['copy-svg', 'watch', 'watchify'], ->
 	browserSync
 		server:
 			baseDir: './build/development'
+			middleware: [
+				# proxy(proxyOptions),
+				modRewrite([
+					'^[^\\.]*$ /index.html [L]'
+				])
+			]
+		notify: false
 
 gulp.task 'watchify', ->
 	bundle = ->

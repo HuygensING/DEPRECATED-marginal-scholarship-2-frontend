@@ -1,18 +1,11 @@
 ul.tabs
-	li.active(data-tab="text") Text
-	li(data-tab="codex") Codex
+	li.active(data-tab="codex") Codex
 	li(data-tab="margin") Margin
+	li(data-tab="text") Text
 	li(data-tab="person") Person
 
 
-div.tab.text.active
-	.date_range-placeholder
-	.facet_s_text_title-placeholder
-	.facet_s_text_type-placeholder
-	.facet_s_text_period-placeholder
-	.facet_s_text_author-placeholder
-
-div.tab.codex
+div.tab.codex.active
 	.facet_s_codex_top_marginfill_pct-placeholder
 	.facet_s_codex_origin_place-placeholder
 	.facet_s_codex_provenance_place-placeholder
@@ -35,6 +28,13 @@ div.tab.margin
 	.facet_s_margin_origin_scriptorium-placeholder
 	.facet_s_margin_origin_region-placeholder
 	.facet_s_margin_phenomenon-placeholder
+
+div.tab.text
+	.date_range-placeholder
+	.facet_s_text_title-placeholder
+	.facet_s_text_type-placeholder
+	.facet_s_text_period-placeholder
+	.facet_s_text_author-placeholder
 
 div.tab.person
 	.facet_s_person_role-placeholder

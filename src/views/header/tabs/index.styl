@@ -1,0 +1,34 @@
+body > header
+	ul.tabs
+		position absolute
+		list-style none
+		top 86px
+		
+		li
+			background msBlue
+			inline-block()
+			padding 4px 12px
+			margin-right 10px
+			color msLightBlue
+			font-size 1.05em
+			text-shadow 1px 1px 1px msDarkBlue
+			box-shadow 2px 2px 3px msDarkBlue
+			border-bottom-right-radius 2px
+			border-bottom-left-radius 2px
+			cursor pointer
+				
+			small
+				color #666
+				text-shadow none
+				font-weight bold
+				margin-left 8px
+				font-size 0.7em
+
+				&:hover
+					color #444
+				
+			&.with-close
+				padding-right 8px
+				
+			&.active
+				color white

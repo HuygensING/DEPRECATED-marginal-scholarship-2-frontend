@@ -1,5 +1,9 @@
 .faceted-search-placeholder
+	.overlay
+		background-color rgba(msDarkBlue, 0.3)
 	.faceted-search
+		min-height 300px
+		
 		.text-search
 			.search-input
 				input
@@ -18,7 +22,6 @@
 			
 		.facets	
 			ul.tabs
-				margin 20px 0
 				list-style none
 				width 100%
 				
@@ -57,11 +60,18 @@
 				color msDarkerBlue
 				margin-top 20px
 				
+				svg
+					fill msDarkBlue
+				
+				header
+					h3
+						color msDarkerBlue
+				
 				.body
 					margin-top 4px
 					
 					label
-						color msDarkerBlue
+						color msDarkBlue
 						
 				&.range .body .slider .bar
 					background rgba(msBlue, 0.3)

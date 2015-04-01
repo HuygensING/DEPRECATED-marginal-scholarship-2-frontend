@@ -12,9 +12,10 @@ select_none()
 	user-select none
 
 msBlue = #8AB0C9
+msLighterBlue = lighten(msBlue, 90%)
 msLightBlue = lighten(msBlue, 50%)
 msDarkBlue = darken(msBlue, 50%)
-msDarkerBlue = darken(msBlue, 80%)
+msDarkerBlue = darken(msBlue, 75%)
 
 html, body
 	height 100%
@@ -26,4 +27,7 @@ html, body, ul, ol, h1, h2, h3, h4, h5
 	padding 0
 
 @import "./views/header/index"
+@import "./views/header/tabs/index"
 @import "./views/search/index"
+@import "./views/search/results"
+@import "./views/codex/index"

@@ -1,0 +1,69 @@
+thumbnailSize = 75px
+
+.faceted-search-placeholder
+	.results
+		header
+			color msDarkBlue
+			
+			.pagination
+				text-align right
+				
+			select, ul.hibb-pagination .active input
+				background msLighterBlue
+				border 1px solid msBlue
+				outline none
+				color msDarkBlue
+
+		.pages
+			ul.page
+				list-style none
+				
+				li.result
+					padding 10px
+					margin-top 20px
+					box-shadow 1px 1px 3px #CCC
+					background msLighterBlue
+					
+					.img-container, .data
+						inline-block()
+						
+					.img-container
+						width thumbnailSize
+						height thumbnailSize
+						text-align center
+						
+						&:before
+							content ""
+							display inline-block
+							vertical-align middle
+							height 100%
+						
+						img
+							vertical-align middle
+							box-shadow 1px 1px 3px msDarkBlue
+							max-width thumbnailSize
+							max-height thumbnailSize
+							
+					.data
+						width calc(100% - 120px)
+						padding-left 30px
+						font-size 1.1em
+						color msDarkBlue
+						
+						ul.metadata
+							margin-top 2px
+							font-size 0.7em
+							list-style none
+							
+							li
+								label, span
+									inline-block()
+									
+								label
+									width 90px
+									color #AAA
+									
+								span
+									width calc(100% - 90px)
+									color rgba(msDarkBlue, 0.7)
+								

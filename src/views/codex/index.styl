@@ -1,0 +1,96 @@
+codexPadding = 20px
+facsimileSize = 300px
+msGray = #666
+
+body > .main > .codex
+	// padding codexPadding
+	position relative
+	
+	& > div
+		padding codexPadding
+	
+	h2
+		max-width calc(100% - 360px)
+		font-size 1.6em
+	
+	ul
+		list-style none	
+		
+		&.data
+			margin-top 6px
+			max-width calc(100% - 360px)
+
+			li
+				margin-bottom 4px
+
+		label, span
+			inline-block()
+			
+		span
+			width calc(100% - 140px)
+			
+		label
+			color msGray
+			width 140px
+			inline-block()
+			font-size 0.9em
+		
+		&.metadata
+			margin 40px 0
+			color msGray
+			font-size 0.9em
+			max-width calc(100% - 360px)
+			
+		&.bibliographies, &.layouts, &.scripts, &.urls, &.origins, &.provenances
+			max-width calc(100% - 360px)
+			list-style square
+			padding-left 20px
+			
+			label
+				width 120px
+				inline-block()
+		
+	aside
+		position absolute
+		right codexPadding + 10px
+		top codexPadding
+		max-width 320px
+		box-sizing border-box
+		
+		& > ul
+			& > li
+				&.facsimile
+					// border 2px solid msBlue
+					box-shadow 1px 1px 4px msDarkBlue
+					width 300px
+					height 300px
+					text-align center
+					padding 10px
+					
+					&:before
+						content ""
+						display inline-block
+						vertical-align middle
+						height 100%
+							
+					img
+						vertical-align middle
+						max-width facsimileSize
+						max-height facsimileSize
+						
+		ol
+			padding-left 22px
+			
+		h3
+			max-width 100%
+				
+	h3
+		max-width calc(100% - 360px)
+		font-size 1.1em
+		font-weight normal
+		color msGray
+		border-bottom 1px solid #CCC
+		margin-top 20px
+		margin-bottom 4px
+		
+	

@@ -1,9 +1,15 @@
 Backbone = require 'backbone'
 $ = require 'jquery'
+_ = require 'underscore'
+
 Search = require './views/search'
+Codex = require './views/codex'
+
+header = require './views/header'
 
 pages =
 	search: null
+	codices: {}
 	notFound: null
 
 prevPage = null
@@ -14,11 +20,15 @@ show = (activePage, options) ->
 	activePage.activate(options) if activePage.activate?
 	
 	for pageId, pageInstance of pages
-		# DEBUG
-		# console.log pageId, pageInstance, activePage, pageInstance is activePage
+
 		if pageInstance?
-			display = if pageInstance is activePage then 'block' else 'none'
-			pageInstance.el.style.display = display
+			if pageInstance instanceof Backbone.View
+				display = if pageInstance is activePage then 'block' else 'none'
+				pageInstance.el.style.display = display
+			else
+				for id, pi of pageInstance
+					display = if pi is activePage then 'block' else 'none'
+					pi.el.style.display = display
 
 ###
 # @class
@@ -31,9 +41,35 @@ class MainRouter extends Backbone.Router
 		# Mimic a views $el var to use as the root el.
 		@$el = $('body > .main')
 
+		@once 'route', (route) ->
+			if route isnt "home"
+				pages.search = new Search()
+				pages.search.$el.hide()
+				@$el.append pages.search.el
+
+		@on 'route', (route, options) ->
+			pagesClone = $.extend {}, pages, true
+			delete pagesClone['notFound']
+
+			header.renderTabs pagesClone, route, options
+
+		@listenTo Backbone, "remove-codex-view", @_removeCodexView
+
+	_removeCodexView: (id) ->
+		pages.codices[id].remove()
+		delete pages.codices[id]
+		
+		if Backbone.history.getFragment() is ""
+			pagesClone = $.extend {}, pages, true
+			delete pagesClone['notFound']
+			header.renderTabs pagesClone, "home"
+		else
+			@navigate "", trigger: true
+
 	routes:
 		'': 'home'
 		'niet-gevonden': 'notFound'
+		'codex/:id': 'codex'
 
 	"home": ->
 		unless pages.search?
@@ -41,6 +77,12 @@ class MainRouter extends Backbone.Router
 			@$el.append pages.search.el
 
 		show pages.search
+
+	"codex": (id) ->
+		pages.codices[id] = new Codex id: id
+		$('body > .main > .codex').html pages.codices[id].el
+
+		show pages.codices[id]
 
 	"notFound": ->
 		unless pages.notFound?

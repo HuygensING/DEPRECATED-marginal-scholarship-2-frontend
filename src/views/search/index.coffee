@@ -4,6 +4,7 @@ FS = require 'hibb-faceted-search'
 config = require '../../models/config'
 
 facetsTpl = require './facets.jade'
+resultTpl = require './result.jade'
 
 ###
 # @class Search
@@ -30,10 +31,21 @@ class Search extends Backbone.View
 			baseUrl: config.get("backendUrl")
 			searchPath: "search"
 			results: true
+			showMetadata: false
+			textSearch: 'none'
+			# queryOptions:
+			# 	resultFields: ['date', 'marginalsSummary']
 			templates:
 				facets: facetsTpl
+				result: resultTpl
+			templateData:
+				result:
+					facsimileUrl: config.get('facsimileUrl')
 
 		fs.search()
+
+		@listenTo fs, 'result:click', (codex) ->
+			Backbone.history.navigate codex["^codex"], trigger: true
 
 		@
 

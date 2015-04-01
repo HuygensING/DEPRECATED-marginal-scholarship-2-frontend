@@ -1,0 +1,127 @@
+- console.dir(codex.attributes)
+
+- var ids = [140, 141, 144, 145, 146, 147, 148, 149, 150, 201, 203]
+- var file = "COD" + ids[Math.floor(Math.random() * ids.length)] + ".jpg"
+- var src = facsimileUrl+file;
+- var identifiers = codex.get("identifiers").map(function(identifier) { return identifier.type + ": " + identifier.identifier});
+
+h2= codex.get('name')
+
+aside
+	ul
+		li.facsimile
+			img(src=src)
+		li.textual-units
+			h3 Textual Units
+			ol
+				for textUnit in codex.get('textUnits')
+					li= textUnit.titleincodex
+		li.marginal-units
+			h3 Marginal Units
+			ul
+				for marginUnit, index in codex.get('marginUnits')
+					li= "Marginal unit " + (index + 1)
+
+
+ul.data
+	li
+		label Identiefer(s)
+		span= li= identifiers.join("; ")
+		
+	li
+		label Content Summary
+		span= codex.get('contentSummary')
+	//- li
+	//- 	label Marginal Activity Summary
+	//- 	span= codex.get('name')
+
+	li
+		label Date
+		span= codex.get('date')
+	//- li
+	//- 	label Remarks
+	//- 	span= codex.get('name')
+	li
+		label Book Dimensions
+		span= codex.get('pageDimensionWidth') + " x " + codex.get('pageDimensionHeight') + " mm"
+	li
+		label Number of Pages
+		span= codex.get('folia')
+	li
+		label Quire structure
+		span= codex.get('quireStructure')
+	li
+		label Remarks
+		span= codex.get('layoutRemarks')
+	//- li
+	//- 	label Persons
+	//- 	span= codex.get('name')
+
+if codex.get('marginalQuantities').length > 0
+	h3 Quantities Marginal Activity
+	- var mq = codex.get('marginalQuantities')[0]
+	ul
+		li Number of pages with marginalia = !{mq.firstpageswithmarginals}, out of !{mq.firstpagesconsidered} (!{Math.round(mq.firstpageswithmarginals/mq.firstpagesconsidered*100)}%)
+		li Number of blank pages: !{mq.totalblankpages}, out of !{codex.get('folia')} (!{Math.round(mq.totalblankpages/codex.get('folia')*100)}%)
+		li Most filled page: !{mq.mostfilledpagedesignation} (!{mq.mostfilledpagepctage}%)
+if codex.get('provenances').length > 0
+	h3 Provenance(s)
+	ul.provenances
+		for provenance in codex.get('provenances')
+			li.provenance
+				ul
+					li
+						label Name
+						span= provenance.remarks
+					li
+						label Date
+						span= provenance.date
+
+if codex.get('origins').length > 0
+	h3 Origin(s)
+	ul.origins
+		for origin in codex.get('origins')
+			li= origin.remarks
+
+if codex.get('pageLayouts').length > 0
+	h3 Layout(s)
+	ul.layouts
+		for layout in codex.get('pageLayouts')
+			li= layout.linesmin + " to " + layout.linesmax + " lines"
+
+
+if codex.get('scripts').length > 0
+	h3 Script(s)
+	ul.scripts
+		for script in codex.get('scripts')
+			li
+				ul.script
+					li
+						label Type
+						span= script.types
+					li
+						label Characteristics
+						span= script.characteristics
+					li
+						label Hand count
+						span= script.handscount
+					li
+						label Scribe
+						span= script.scriberemarks
+
+if codex.get('urls').length > 0
+	h3 URL(s)
+	ul.urls
+		for url in codex.get('urls')
+			li
+				a(href=url, data-bypass)= url
+
+if codex.get('bibliographies').length > 0
+	h3 Bibliographies
+	ul.bibliographies
+		for bibliopgraphy in codex.get('bibliographies')
+			li= bibliopgraphy
+
+ul.metadata
+	li Created: 23 November 2012, 12:54 by Evina Steinova
+	li Last changed: 28 August 2013, 15:11
