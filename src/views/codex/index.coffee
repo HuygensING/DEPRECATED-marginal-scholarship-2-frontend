@@ -33,4 +33,14 @@ class CodexView extends Backbone.View
 
 		@
 
+	events: ->
+		"click ul.tabs > li": "_handleTabClick"
+
+	_handleTabClick: (ev) ->
+		@$('ul.tabs li').removeClass 'active'
+		@$(ev.currentTarget).addClass 'active'
+
+		@$("div.tab").removeClass 'active'
+		@$("div.tab.#{ev.currentTarget.getAttribute('data-tab')}").addClass 'active'
+
 module.exports = CodexView

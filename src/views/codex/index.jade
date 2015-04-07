@@ -7,121 +7,171 @@
 
 h2= codex.get('name')
 
-aside
-	ul
-		li.facsimile
-			img(src=src)
-		li.textual-units
-			h3 Textual Units
-			ol
-				for textUnit in codex.get('textUnits')
-					li= textUnit.titleincodex
-		li.marginal-units
-			h3 Marginal Units
-			ul
-				for marginUnit, index in codex.get('marginUnits')
-					li= "Marginal unit " + (index + 1)
+ul.tabs
+	li.tab(data-tab="metadata").active 
+		button Metadata
+	li.tab(data-tab="textual-units")
+		button Textual units
+			small
+				for dot in codex.get('textUnits')
+					&#8226;
+	li.tab(data-tab="marginal-units")
+		button Marginal units
+			small
+				for dot in codex.get('marginUnits')
+					&#8226;
+	li.tab(data-tab="raw")
+		button Raw
 
 
-ul.data
-	li
-		label Identiefer(s)
-		span= li= identifiers.join("; ")
-		
-	li
-		label Content Summary
-		span= codex.get('contentSummary')
-	//- li
-	//- 	label Marginal Activity Summary
-	//- 	span= codex.get('name')
+.tab.metadata.active
+	ul.data
+		if identifiers.join("; ").length > 0
+			li
+				label Identiefer(s)
+				span= li= identifiers.join("; ")
+			
+		li
+			label Content Summary
+			span= codex.get('contentSummary')
+		//- li
+		//- 	label Marginal Activity Summary
+		//- 	span= codex.get('name')
 
-	li
-		label Date
-		span= codex.get('date')
-	//- li
-	//- 	label Remarks
-	//- 	span= codex.get('name')
-	li
-		label Book Dimensions
-		span= codex.get('pageDimensionWidth') + " x " + codex.get('pageDimensionHeight') + " mm"
-	li
-		label Number of Pages
-		span= codex.get('folia')
-	li
-		label Quire structure
-		span= codex.get('quireStructure')
-	li
-		label Remarks
-		span= codex.get('layoutRemarks')
-	//- li
-	//- 	label Persons
-	//- 	span= codex.get('name')
+		li
+			label Date
+			span= codex.get('date')
+		//- li
+		//- 	label Remarks
+		//- 	span= codex.get('name')
+		li
+			label Book Dimensions
+			span= codex.get('pageDimensionWidth') + " x " + codex.get('pageDimensionHeight') + " mm"
+		li
+			label Number of Pages
+			span= codex.get('folia')
+		if codex.get('quireStructure').length > 0
+			li
+				label Quire structure
+				span= codex.get('quireStructure')
+		if codex.get('layoutRemarks').length > 0
+			li
+				label Remarks
+				span= codex.get('layoutRemarks')
+		//- li
+		//- 	label Persons
+		//- 	span= codex.get('name')
 
-if codex.get('marginalQuantities').length > 0
-	h3 Quantities Marginal Activity
-	- var mq = codex.get('marginalQuantities')[0]
-	ul
-		li Number of pages with marginalia = !{mq.firstpageswithmarginals}, out of !{mq.firstpagesconsidered} (!{Math.round(mq.firstpageswithmarginals/mq.firstpagesconsidered*100)}%)
-		li Number of blank pages: !{mq.totalblankpages}, out of !{codex.get('folia')} (!{Math.round(mq.totalblankpages/codex.get('folia')*100)}%)
-		li Most filled page: !{mq.mostfilledpagedesignation} (!{mq.mostfilledpagepctage}%)
-if codex.get('provenances').length > 0
-	h3 Provenance(s)
-	ul.provenances
-		for provenance in codex.get('provenances')
-			li.provenance
+	if codex.get('marginalQuantities').length > 0
+		h3 Quantities Marginal Activity
+		- var mq = codex.get('marginalQuantities')[0]
+		ul
+			li Number of pages with marginalia = !{mq.firstpageswithmarginals}, out of !{mq.firstpagesconsidered} (!{Math.round(mq.firstpageswithmarginals/mq.firstpagesconsidered*100)}%)
+			li Number of blank pages: !{mq.totalblankpages}, out of !{codex.get('folia')} (!{Math.round(mq.totalblankpages/codex.get('folia')*100)}%)
+			li Most filled page: !{mq.mostfilledpagedesignation} (!{mq.mostfilledpagepctage}%)
+	if codex.get('provenances').length > 0
+		h3 Provenance(s)
+		ul.provenances
+			for provenance in codex.get('provenances')
+				li.provenance
+					ul
+						li
+							label Name
+							span= provenance.remarks
+						li
+							label Date
+							span= provenance.date
+
+	if codex.get('origins').length > 0
+		h3 Origin(s)
+		ul.origins
+			for origin in codex.get('origins')
+				li= origin.remarks
+
+	if codex.get('pageLayouts').length > 0
+		h3 Layout(s)
+		ul.layouts
+			for layout in codex.get('pageLayouts')
+				li= layout.linesmin + " to " + layout.linesmax + " lines"
+
+
+	if codex.get('scripts').length > 0
+		h3 Script(s)
+		ul.scripts
+			for script in codex.get('scripts')
+				li
+					ul.script
+						li
+							label Type
+							span= script.types
+						li
+							label Characteristics
+							span= script.characteristics
+						li
+							label Hand count
+							span= script.handscount
+						li
+							label Scribe
+							span= script.scriberemarks
+
+	if codex.get('urls').length > 0
+		h3 URL(s)
+		ul.urls
+			for url in codex.get('urls')
+				li
+					a(href=url, data-bypass)= url
+
+	if codex.get('bibliographies').length > 0
+		h3 Bibliographies
+		ul.bibliographies
+			for bibliopgraphy in codex.get('bibliographies')
+				li= bibliopgraphy
+
+	ul.metadata
+		li Created: 23 November 2012, 12:54 by Evina Steinova
+		li Last changed: 28 August 2013, 15:11
+
+.tab.textual-units
+	ol
+		for textUnit in codex.get('textUnits')
+			- console.log(textUnit)
+			li
 				ul
 					li
-						label Name
-						span= provenance.remarks
+						label Title in codex
+						span= textUnit.titleincodex
 					li
-						label Date
-						span= provenance.date
-
-if codex.get('origins').length > 0
-	h3 Origin(s)
-	ul.origins
-		for origin in codex.get('origins')
-			li= origin.remarks
-
-if codex.get('pageLayouts').length > 0
-	h3 Layout(s)
-	ul.layouts
-		for layout in codex.get('pageLayouts')
-			li= layout.linesmin + " to " + layout.linesmax + " lines"
-
-
-if codex.get('scripts').length > 0
-	h3 Script(s)
-	ul.scripts
-		for script in codex.get('scripts')
-			li
-				ul.script
+						label Title
+						span= textUnit.title || "-"
 					li
-						label Type
-						span= script.types
+						label Author
+						span= textUnit.author || "-"
 					li
-						label Characteristics
-						span= script.characteristics
+						label Incipit
+						span= textUnit.incipit || "-"
 					li
-						label Hand count
-						span= script.handscount
+						label Explicit
+						span= textUnit.explicit || "-"
 					li
-						label Scribe
-						span= script.scriberemarks
+						label Period
+						span= textUnit.period || "-"
+					li
+						label State of preservation
+						span= textUnit.stateofpreservation || "-"
+					li
+						label Folia range
+						span= textUnit.pages || "-"
+					li
+						label Remarks
+						span= textUnit.remarks || "-"
 
-if codex.get('urls').length > 0
-	h3 URL(s)
-	ul.urls
-		for url in codex.get('urls')
-			li
-				a(href=url, data-bypass)= url
+.tab.marginal-units
+	ul
+		for marginUnit, index in codex.get('marginUnits')
+			li= "Marginal unit " + (index + 1)
 
-if codex.get('bibliographies').length > 0
-	h3 Bibliographies
-	ul.bibliographies
-		for bibliopgraphy in codex.get('bibliographies')
-			li= bibliopgraphy
+.tab.raw
+	pre= JSON.stringify(codex.attributes, null, 4)
 
-ul.metadata
-	li Created: 23 November 2012, 12:54 by Evina Steinova
-	li Last changed: 28 August 2013, 15:11
+aside
+	img(src=src)

@@ -16,6 +16,8 @@ class Codex extends Backbone.Model
 		origins: []
 		provenances: []
 		marginalQuantities: []
+		layoutRemarks: ""
+		quireStructure: ""
 	
 	url: ->
 		config.get('backendUrl') + "codex/#{@id}"

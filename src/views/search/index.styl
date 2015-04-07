@@ -1,8 +1,12 @@
-.faceted-search-placeholder
+.faceted-search-placeholder.with-results
+	padding-top 20px
+	
 	.overlay
 		background-color rgba(msDarkBlue, 0.3)
+
 	.faceted-search
 		min-height 300px
+		padding-left 40px
 		
 		.text-search
 			.search-input
@@ -20,7 +24,8 @@
 		.facets-menu
 			display none
 			
-		.facets	
+
+		.facets
 			ul.tabs
 				list-style none
 				width 100%
@@ -49,8 +54,8 @@
 						cursor default
 						background msBlue
 						color white
-						
-			div.tab
+
+			.tab
 				display none
 				
 				&.active
@@ -75,3 +80,6 @@
 						
 				&.range .body .slider .bar
 					background rgba(msBlue, 0.3)
+					
+				&.list label em
+					color rgba(msDarkBlue, 0.5)

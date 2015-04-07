@@ -1,0 +1,113 @@
+facsimileSize = 300px
+msGray = #666
+labelWidth = 160px
+
+body > .main > .codex
+	// padding codexPadding
+	position relative
+	max-width 1400px
+	line-height 1.5em
+	
+	& > div
+		padding 40px 40px 40px 40px
+		
+	.left
+		width calc(100% - 480px)
+		
+	h2
+		font-size 1.6em
+
+	ul
+		list-style none	
+		
+		&.data
+			margin-top 6px
+
+			li
+				margin-bottom 4px
+
+		label, span
+			inline-block()
+			
+		span
+			width "calc(100% - %s)" % labelWidth
+			
+		label
+			color msGray
+			width labelWidth
+			inline-block()
+		
+		&.metadata
+			margin 40px 0
+			color msGray
+			font-size 0.75em
+		
+	aside
+		position absolute
+		right 50px
+		top 74px
+		max-width 320px
+		box-sizing border-box
+		
+		& > ul
+			& > li
+				&.facsimile
+					// border 2px solid msBlue
+					box-shadow 1px 1px 4px msDarkBlue
+					width 300px
+					height 300px
+					text-align center
+					padding 10px
+					
+					&:before
+						content ""
+						display inline-block
+						vertical-align middle
+						height 100%
+							
+					img
+						vertical-align middle
+						max-width facsimileSize
+						max-height facsimileSize
+						
+		ol
+			padding-left 22px
+			
+		h3
+			max-width 100%
+				
+	h3
+		font-size 1em
+		padding 1.5em 0 0 0
+		
+		& + ul > li
+			border-bottom 1px solid #EEE
+			
+			&:last-child
+				border-bottom none
+				
+	button
+		&.raw, &.close-raw
+			background msBlue
+			color white
+			box-shadow 1px 1px 1px msDarkBlue
+			text-shadow 1px 1px 1px msDarkBlue
+			border none
+			border-radius 2px
+			padding 3px 10px
+			cursor pointer
+			outline none
+		
+	pre.raw
+		display none
+		background #EEE
+		padding 20px
+		box-shadow 1px 1px 3px #CCC
+		font-size 0.8em
+		position relative
+		
+		button.close-raw
+			position absolute
+			right 20px
+			top 20px
+	
