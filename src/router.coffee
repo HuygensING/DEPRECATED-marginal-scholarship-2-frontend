@@ -2,13 +2,12 @@ Backbone = require 'backbone'
 $ = require 'jquery'
 _ = require 'underscore'
 
-Search = require './views/search'
 Codex = require './views/codex'
 
 header = require './views/header'
 
 pages =
-	search: null
+	search: require './views/search'
 	codices: {}
 	notFound: null
 
@@ -40,12 +39,13 @@ class MainRouter extends Backbone.Router
 	initialize: ->
 		# Mimic a views $el var to use as the root el.
 		@$el = $('body > .main')
+		@$el.append pages.search.el
 
-		@once 'route', (route) ->
-			if route isnt "home"
-				pages.search = new Search()
-				pages.search.$el.hide()
-				@$el.append pages.search.el
+		# @once 'route', (route) ->
+		# 	if route isnt "home"
+		# 		pages.search = new Search()
+		# 		pages.search.$el.hide()
+		# 		@$el.append pages.search.el
 
 		@on 'route', (route, options) ->
 			pagesClone = $.extend {}, pages, true
@@ -71,20 +71,17 @@ class MainRouter extends Backbone.Router
 		'niet-gevonden': 'notFound'
 		'codex/:id': 'codex'
 
-	"home": ->
-		unless pages.search?
-			pages.search = new Search()
-			@$el.append pages.search.el
-
+	home: ->
 		show pages.search
 
-	"codex": (id) ->
-		pages.codices[id] = new Codex id: id
-		$('body > .main > .codex').html pages.codices[id].el
+	codex: (id) ->
+		unless pages.codices.hasOwnProperty(id)
+			pages.codices[id] = new Codex id: id
+			$('body > .main > .codex').append pages.codices[id].el
 
 		show pages.codices[id]
 
-	"notFound": ->
+	notFound: ->
 		unless pages.notFound?
 			pages.notFound = new Backbone.View()
 			pages.notFound.$el.html "<div class=\"not-found\">

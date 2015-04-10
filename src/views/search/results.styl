@@ -2,13 +2,17 @@ thumbnailSize = 75px
 
 .faceted-search-placeholder.with-results
 	.results
-		padding-right 50px
+		padding 0 50px 0 40px
 		
 		header
 			color msDarkBlue
+			background-color #EEE
+			border none
 			
 			.pagination
 				text-align right
+				inline-block()
+				float right
 				
 			select, ul.hibb-pagination .active input
 				background msLighterBlue
@@ -23,8 +27,8 @@ thumbnailSize = 75px
 				li.result
 					padding 10px
 					margin-top 20px
-					box-shadow 1px 1px 3px #CCC
-					background msLighterBlue
+					box-shadow 1px 1px 3px #999
+					background white
 					
 					.img-container, .data
 						inline-block()

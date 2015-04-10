@@ -1,9 +1,9 @@
-- console.dir(codex.attributes)
-
 - var ids = [140, 141, 144, 145, 146, 147, 148, 149, 150, 201, 203]
 - var file = "COD" + ids[Math.floor(Math.random() * ids.length)] + ".jpg"
 - var src = facsimileUrl+file;
 - var identifiers = codex.get("identifiers").map(function(identifier) { return identifier.type + ": " + identifier.identifier});
+
+.pagination
 
 h2= codex.get('name')
 
@@ -14,18 +14,24 @@ ul.tabs
 		button Textual units
 			small
 				for dot in codex.get('textUnits')
-					&#8226;
+					span &#8226;
 	li.tab(data-tab="marginal-units")
 		button Marginal units
 			small
 				for dot in codex.get('marginUnits')
-					&#8226;
+					span &#8226;
 	li.tab(data-tab="raw")
 		button Raw
 
-
 .tab.metadata.active
 	ul.data
+		li 
+			label Created
+			span #{codex.get('creationDate')} by #{codex.get('creator')}
+		li 
+			label Changed
+			span #{codex.get('modificationDate')} by #{codex.get('modifier')}
+
 		if identifiers.join("; ").length > 0
 			li
 				label Identiefer(s)
@@ -34,26 +40,27 @@ ul.tabs
 		li
 			label Content Summary
 			span= codex.get('contentSummary')
-		//- li
-		//- 	label Marginal Activity Summary
-		//- 	span= codex.get('name')
-
+		li
+			label Marginal Activity Summary
+			span= codex.get('marginalsSummary')
 		li
 			label Date
 			span= codex.get('date')
-		//- li
-		//- 	label Remarks
-		//- 	span= codex.get('name')
+		li
+			label Remarks
+			span= codex.get('dateAndLocaleRemarks')
 		li
 			label Book Dimensions
-			span= codex.get('pageDimensionWidth') + " x " + codex.get('pageDimensionHeight') + " mm"
+			span= codex.get('pageDimension_width') + " x " + codex.get('pageDimension_height') + " mm"
 		li
 			label Number of Pages
 			span= codex.get('folia')
+		
 		if codex.get('quireStructure').length > 0
 			li
 				label Quire structure
 				span= codex.get('quireStructure')
+		
 		if codex.get('layoutRemarks').length > 0
 			li
 				label Remarks
@@ -66,9 +73,10 @@ ul.tabs
 		h3 Quantities Marginal Activity
 		- var mq = codex.get('marginalQuantities')[0]
 		ul
-			li Number of pages with marginalia = !{mq.firstpageswithmarginals}, out of !{mq.firstpagesconsidered} (!{Math.round(mq.firstpageswithmarginals/mq.firstpagesconsidered*100)}%)
-			li Number of blank pages: !{mq.totalblankpages}, out of !{codex.get('folia')} (!{Math.round(mq.totalblankpages/codex.get('folia')*100)}%)
-			li Most filled page: !{mq.mostfilledpagedesignation} (!{mq.mostfilledpagepctage}%)
+			li Number of pages with marginalia = #{mq.firstPagesWithMarginals}, out of #{mq.firstPagesConsidered} (#{Math.round(mq.firstPagesWithMarginals/mq.firstPagesConsidered*100)}%)
+			li Number of blank pages: #{mq.totalBlankPages}, out of #{codex.get('folia')} (#{Math.round(mq.totalBlankPages/codex.get('folia')*100)}%)
+			li Most filled page: #{mq.mostFilledPageDesignation} (#{mq.mostFilledPagePctage}%)
+	
 	if codex.get('provenances').length > 0
 		h3 Provenance(s)
 		ul.provenances
@@ -92,7 +100,10 @@ ul.tabs
 		h3 Layout(s)
 		ul.layouts
 			for layout in codex.get('pageLayouts')
-				li= layout.linesmin + " to " + layout.linesmax + " lines"
+				//- - console.log(layout)
+				li #{layout.linesMin} to #{layout.linesMax} lines of #{layout.lineHeight} mm height
+				li #{layout.foliaCount} pages: #{layout.pages}
+				li Text block size: #{layout.textWidthMin} - #{layout.textWidthMax} x #{layout.textHeightMin} - #{layout.textHeightMax}
 
 
 	if codex.get('scripts').length > 0
@@ -109,17 +120,17 @@ ul.tabs
 							span= script.characteristics
 						li
 							label Hand count
-							span= script.handscount
+							span= script.handsCount
 						li
 							label Scribe
-							span= script.scriberemarks
+							span= script.scribeRemarks
 
-	if codex.get('urls').length > 0
+	if codex.get('URLs').length > 0
 		h3 URL(s)
 		ul.urls
-			for url in codex.get('urls')
+			for url in codex.get('URLs')
 				li
-					a(href=url, data-bypass)= url
+					a(href=url, data-bypass, target="_blank")= url
 
 	if codex.get('bibliographies').length > 0
 		h3 Bibliographies
@@ -127,19 +138,15 @@ ul.tabs
 			for bibliopgraphy in codex.get('bibliographies')
 				li= bibliopgraphy
 
-	ul.metadata
-		li Created: 23 November 2012, 12:54 by Evina Steinova
-		li Last changed: 28 August 2013, 15:11
 
 .tab.textual-units
 	ol
 		for textUnit in codex.get('textUnits')
-			- console.log(textUnit)
 			li
 				ul
 					li
 						label Title in codex
-						span= textUnit.titleincodex
+						span= textUnit.titleincodex || "-"
 					li
 						label Title
 						span= textUnit.title || "-"
@@ -166,9 +173,59 @@ ul.tabs
 						span= textUnit.remarks || "-"
 
 .tab.marginal-units
-	ul
+	ol
 		for marginUnit, index in codex.get('marginUnits')
-			li= "Marginal unit " + (index + 1)
+			li
+				ul
+					li
+						label Identifier
+						span= marginUnit.identifier || "-"
+					li
+						label Typology
+						span= marginUnit.typology || "-"
+					li
+						label Typology: remarks
+						span= marginUnit.typologyRemarks || "-"
+					li
+						label Specific phenomena
+						if marginUnit.specificPhenomena.length > 0
+							ul.specific-phenomena
+								for sp in marginUnit.specificPhenomena
+									li
+										ul
+											li
+												label Quantification
+												span= sp.quantification || "-"
+											li
+												label Remarks
+												span= sp.remarks || "-"
+											li
+												label Type
+												span= sp.type || "-"
+
+						else
+							span -
+					li
+						label Localization
+						span= marginUnit.localization || "-"
+					li
+						label Relative date
+						span= marginUnit.relativeDate || "-"
+					li
+						label Hands
+						span= marginUnit.hands || "-"
+					li
+						label General observations
+						span= marginUnit.generalObservations || "-"
+					li
+						label Scripts
+						span= marginUnit.scripts || "-"
+					li
+						label Annotators
+						span= marginUnit.annotators || "-"
+					li
+						label Languages
+						span= marginUnit.languages || "-"
 
 .tab.raw
 	pre= JSON.stringify(codex.attributes, null, 4)

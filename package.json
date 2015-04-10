@@ -9,8 +9,8 @@
   },
   "scripts": {
     "start": "gulp",
-    "link": "npm link hibb-faceted-search",
-    "unlink": "npm unlink hibb-faceted-search && npm i",
+    "link": "npm link hibb-faceted-search hibb-pagination",
+    "unlink": "npm unlink hibb-faceted-search hibb-pagination && npm i",
     "prebuild": "npm run unlink && rm -rf build/production && mkdir -p build/production/css && mkdir build/production/js && mkdir build/production/svg && cp node_modules/hi-svg-icons/*.svg build/production/svg",
     "build": "npm run build:coffee && npm run build:jade && npm run build:css",
     "postbuild": "npm run link && http-server build/production -o",

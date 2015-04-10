@@ -1,10 +1,16 @@
 Backbone = require "backbone"
 
+Pagination = require 'hibb-pagination'
+
 tpl = require "./index.jade"
+
 
 codices = require "../../collections/codices"
 Codex = require "../../models/codex"
 config = require "../../models/config"
+
+searchView = require "../search"
+
 ###
 # @class
 # @namespace Views
@@ -16,12 +22,20 @@ class CodexView extends Backbone.View
 	# @param {Object} this.options
 	###
 	initialize: (@options) ->
-		@codex = new Codex @options
-		@codex.fetch
-			success: => 
-				@render()
+		@codex = codices.get(@options.id)
 
-		@render()
+		if @codex?
+			@render()
+		else
+			@codex = new Codex @options
+			@codex.fetch
+				success: =>
+					codices.add @codex
+					@render()
+
+		@listenTo searchView.facetedSearch, 'change:results', @_renderPagination
+
+		# @render()
 	
 	###
 	# @method
@@ -31,10 +45,42 @@ class CodexView extends Backbone.View
 			codex: @codex
 			facsimileUrl: config.get('facsimileUrl')
 
+		@_renderPagination()
+
 		@
+
+	_renderPagination: (resultModel) ->
+		return
+
+		unless resultModel?
+			resultModel = searchView.facetedSearch.currentResult()
+			unless resultModel?
+				@pagination.destroy() if @pagination?
+				return
+
+		filtered = resultModel.get('results').filter (r) =>
+			r["^codex"].split('/')[1] is @options.id
+		
+		if filtered.length > 0
+			index = resultModel.get('results').indexOf(filtered[0])
+
+			@pagination = new Pagination
+				resultsStart: resultModel.get('start') + index
+				resultsPerPage: 1
+				resultsTotal: resultModel.get('numFound')
+				step10: false
+
+			@pagination.on "change:pagenumber", (pageNumber) =>
+				Backbone.history.navigate resultModel.get('results')[pageNumber]["^codex"], trigger: true
+
+			@$('.pagination').html @pagination.el
+		else
+			@pagination.destroy() if @pagination?
+
 
 	events: ->
 		"click ul.tabs > li": "_handleTabClick"
+		"click aside img": "_handleFacsimileClick"
 
 	_handleTabClick: (ev) ->
 		@$('ul.tabs li').removeClass 'active'
@@ -42,5 +88,8 @@ class CodexView extends Backbone.View
 
 		@$("div.tab").removeClass 'active'
 		@$("div.tab.#{ev.currentTarget.getAttribute('data-tab')}").addClass 'active'
+
+	_handleFacsimileClick: (ev) ->
+		@$el.toggleClass 'small-facsimile'
 
 module.exports = CodexView

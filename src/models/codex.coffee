@@ -10,7 +10,7 @@ class Codex extends Backbone.Model
 		marginalsUnits: []
 		marginUnits: []
 		scripts: []
-		urls: []
+		URLs: []
 		bibliographies: []
 		pageLayouts: []
 		origins: []
@@ -20,6 +20,6 @@ class Codex extends Backbone.Model
 		quireStructure: ""
 	
 	url: ->
-		config.get('backendUrl') + "codex/#{@id}"
+		config.get('backendUrl') + "codex/#{@id}/expandlinks"
 
 module.exports = Codex

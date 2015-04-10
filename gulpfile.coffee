@@ -38,6 +38,7 @@ jade = require 'gulp-jade'
 
 cssFiles = [
 	'./node_modules/hibb-faceted-search/dist/main.css'
+	'./node_modules/hibb-pagination/dist/main.css'
 ]
 
 gulp.task 'copy-svg', ->

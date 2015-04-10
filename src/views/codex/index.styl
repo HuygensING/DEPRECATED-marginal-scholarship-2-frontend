@@ -1,14 +1,39 @@
 facsimileSize = 300px
 msGray = #666
 labelWidth = 160px
+leftWidth = 15%
+middleWidth = 50%
+rightWidth = 25%
+marginWidth = 2.5%
+marginLeft = leftWidth + (2 * marginWidth)
 
 body > .main > .codex
 	max-width 1400px
-	line-height 1.5em
+	line-height 2em
+	
+	& > div.small-facsimile
+		h2
+			width 70%
+			
+		aside
+			width 5%
+			
+		div.tab
+			width 70%
+			
+		.pagination
+			width 5%
+			line-height 1em
+			
+			.text
+				width 100%
+				text-align center
 	
 	h2
-		margin-left 20%
+		margin-left marginLeft
 		padding 1.5em 0
+		width middleWidth
+		color msDarkerBlue
 		
 	h3
 		padding 1em 0 0.5em 0
@@ -21,13 +46,20 @@ body > .main > .codex
 	button
 		font-size 1em
 		line-height 1.5em
+		
+	.pagination
+		width 15%
+		text-align right
+		position absolute
+		right marginWidth
+		margin-top 34px
 	
 	ul.tabs, aside
 		inline-block()
 				
 	ul.tabs
-		width 15%
-		margin 0 2.5%
+		width leftWidth
+		margin 0 marginWidth
 		
 		li.tab
 			margin-bottom 1em
@@ -40,29 +72,29 @@ body > .main > .codex
 				small
 					font-size 1.3em
 					float right
-				// small
-				// 	margin-left 4px
-				// 	font-size 0.75em
 				
 			&.active button
 				color white
+				
+	div.tab, aside, h2, .pagination
+		transition width 250ms
+		// transition line-height 250ms
 
 	// Set tagname (div) to distinguish from li.tab
 	div.tab
-		width 50%
+		width middleWidth
 		display none
+		background-color white
+		padding 20px
+		box-shadow 0 0 6px #999
+		border-radius 3px
 	
 		&.active
 			inline-block()
 			margin-bottom 100px
 			
-		&.metadata, &.textual-units, &.marginal-units, &.raw
-			background-color msLighterBlue
-			padding 20px
-			box-shadow 0 0 6px msDarkBlue
-			border-radius 3px
 
-		&.metadata, &.textual-units
+		&.metadata, &.textual-units, &.marginal-units
 			label, span
 				inline-block()
 				
@@ -73,22 +105,32 @@ body > .main > .codex
 			span
 				width 65%
 				
-		&.textual-units
+		&.textual-units, &.marginal-units
 			ol
 				list-style decimal
 				margin-left 20px
 			ul
 				margin-bottom 20px
+				
+		&.marginal-units
+			ul.specific-phenomena
+				// list-style square
+				margin 1em 0 1em 0
+				margin-left 60px
+				
+				ul
+					border 1px solid #DDD
+					padding 10px
 			
 		&.raw
 			overflow-x auto
 			font-size 0.75em
 		
 	aside
-		width 20%
-		margin 0 5%
+		width rightWidth
+		margin 0 marginWidth
 		
 		img
+			cursor pointer
 			max-width 100%
 			box-shadow 2px 2px 6px msGray
-			// max-height 100%

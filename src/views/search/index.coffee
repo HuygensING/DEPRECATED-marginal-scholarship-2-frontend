@@ -26,15 +26,13 @@ class Search extends Backbone.View
 	# @method
 	###
 	render: ->
-		fs = new FS
+		@facetedSearch = new FS
 			el: @el
 			baseUrl: config.get("backendUrl")
 			searchPath: "search"
 			results: true
 			showMetadata: false
 			textSearch: 'none'
-			# queryOptions:
-			# 	resultFields: ['date', 'marginalsSummary']
 			templates:
 				facets: facetsTpl
 				result: resultTpl
@@ -42,9 +40,9 @@ class Search extends Backbone.View
 				result:
 					facsimileUrl: config.get('facsimileUrl')
 
-		fs.search()
+		@facetedSearch.search()
 
-		@listenTo fs, 'result:click', (codex) ->
+		@listenTo @facetedSearch, 'result:click', (codex) ->
 			Backbone.history.navigate codex["^codex"], trigger: true
 
 		@
@@ -61,4 +59,4 @@ class Search extends Backbone.View
 
 
 
-module.exports = Search
+module.exports = new Search()
