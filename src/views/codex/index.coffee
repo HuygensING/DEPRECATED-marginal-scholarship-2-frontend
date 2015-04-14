@@ -4,7 +4,6 @@ Pagination = require 'hibb-pagination'
 
 tpl = require "./index.jade"
 
-
 codices = require "../../collections/codices"
 Codex = require "../../models/codex"
 config = require "../../models/config"
@@ -22,6 +21,7 @@ class CodexView extends Backbone.View
 	# @param {Object} this.options
 	###
 	initialize: (@options) ->
+		console.log @options
 		@codex = codices.get(@options.id)
 
 		if @codex?
@@ -33,7 +33,7 @@ class CodexView extends Backbone.View
 					codices.add @codex
 					@render()
 
-		@listenTo searchView.facetedSearch, 'change:results', @_renderPagination
+		# @listenTo searchView.facetedSearch, 'change:results', @_renderPagination
 
 		# @render()
 	
@@ -45,37 +45,42 @@ class CodexView extends Backbone.View
 			codex: @codex
 			facsimileUrl: config.get('facsimileUrl')
 
-		@_renderPagination()
+		# @_renderPagination()
 
 		@
 
-	_renderPagination: (resultModel) ->
-		return
-
-		unless resultModel?
-			resultModel = searchView.facetedSearch.currentResult()
-			unless resultModel?
-				@pagination.destroy() if @pagination?
-				return
-
-		filtered = resultModel.get('results').filter (r) =>
-			r["^codex"].split('/')[1] is @options.id
+	# _renderPagination: (resultModel) ->
+	# 	return
 		
-		if filtered.length > 0
-			index = resultModel.get('results').indexOf(filtered[0])
+	# 	unless resultModel?
+	# 		resultModel = searchView.facetedSearch.currentResult()
+	# 		unless resultModel?
+	# 			@pagination.destroy() if @pagination?
+	# 			return
 
-			@pagination = new Pagination
-				resultsStart: resultModel.get('start') + index
-				resultsPerPage: 1
-				resultsTotal: resultModel.get('numFound')
-				step10: false
+	# 	filtered = resultModel.get('results').filter (r) =>
+	# 		r["^codex"].split('/')[1] is @options.id
+	# 	console.log filtered
+	# 	if filtered.length > 0
+	# 		index = resultModel.get('results').indexOf(filtered[0])
 
-			@pagination.on "change:pagenumber", (pageNumber) =>
-				Backbone.history.navigate resultModel.get('results')[pageNumber]["^codex"], trigger: true
+	# 		@pagination = new Pagination
+	# 			resultsStart: resultModel.get('start') + index
+	# 			resultsPerPage: 1
+	# 			resultsTotal: resultModel.get('numFound')
+	# 			step10: false
+	# 			showPageNames: ["codex", "codices"]
 
-			@$('.pagination').html @pagination.el
-		else
-			@pagination.destroy() if @pagination?
+	# 		@pagination.on "change:pagenumber", (pageNumber) =>
+	# 			codexId = resultModel.get("ids")[pageNumber - 1]
+	# 			path = "codex/#{codexId}"
+
+	# 			Backbone.history.navigate path, trigger: true
+	# 			Backbone.trigger "remove-codex-view", @options.id, path
+
+	# 		@$('.pagination').html @pagination.el
+	# 	else
+	# 		@pagination.destroy() if @pagination?
 
 
 	events: ->
@@ -88,6 +93,10 @@ class CodexView extends Backbone.View
 
 		@$("div.tab").removeClass 'active'
 		@$("div.tab.#{ev.currentTarget.getAttribute('data-tab')}").addClass 'active'
+
+		tab = ev.currentTarget.getAttribute("data-tab")
+		tab = "" if tab is "metadata"
+		Backbone.history.navigate "codex/#{@options.id}/#{tab}"
 
 	_handleFacsimileClick: (ev) ->
 		@$el.toggleClass 'small-facsimile'

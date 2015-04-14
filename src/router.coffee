@@ -55,7 +55,7 @@ class MainRouter extends Backbone.Router
 
 		@listenTo Backbone, "remove-codex-view", @_removeCodexView
 
-	_removeCodexView: (id) ->
+	_removeCodexView: (id, redirectPath="") ->
 		pages.codices[id].remove()
 		delete pages.codices[id]
 		
@@ -64,19 +64,20 @@ class MainRouter extends Backbone.Router
 			delete pagesClone['notFound']
 			header.renderTabs pagesClone, "home"
 		else
-			@navigate "", trigger: true
+			@navigate redirectPath, trigger: true
 
 	routes:
 		'': 'home'
 		'niet-gevonden': 'notFound'
+		'codex/:id/:sub': 'codex'
 		'codex/:id': 'codex'
 
 	home: ->
 		show pages.search
 
-	codex: (id) ->
+	codex: (id, sub) ->
 		unless pages.codices.hasOwnProperty(id)
-			pages.codices[id] = new Codex id: id
+			pages.codices[id] = new Codex id: id, sub: sub
 			$('body > .main > .codex').append pages.codices[id].el
 
 		show pages.codices[id]

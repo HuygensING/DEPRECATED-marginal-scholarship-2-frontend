@@ -39,6 +39,7 @@ class Search extends Backbone.View
 			templateData:
 				result:
 					facsimileUrl: config.get('facsimileUrl')
+			showPageNames: ["page", "pages"]
 
 		@facetedSearch.search()
 
@@ -49,6 +50,7 @@ class Search extends Backbone.View
 
 	events: ->
 		"click ul.tabs > li": "_handleTabClick"
+		"click .reset": "_handleReset"
 
 	_handleTabClick: (ev) ->
 		@$('ul.tabs li').removeClass 'active'
@@ -56,6 +58,13 @@ class Search extends Backbone.View
 
 		@$("div.tab").removeClass 'active'
 		@$("div.tab.#{ev.currentTarget.getAttribute('data-tab')}").addClass 'active'
+
+		for viewName, view of @facetedSearch.facets.views
+			if viewName.substr(-6) is "_range"
+				view.postRender()
+
+	_handleReset: ->
+		@facetedSearch.reset()
 
 
 
