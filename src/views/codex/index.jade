@@ -1,3 +1,5 @@
+include ../../../node_modules/hi-svg-icons/search.jade
+
 - var ids = [140, 141, 144, 145, 146, 147, 148, 149, 150, 201, 203]
 - var file = "COD" + ids[Math.floor(Math.random() * ids.length)] + ".jpg"
 - var src = facsimileUrl+file;
@@ -5,6 +7,8 @@
 
 .pagination
 
+.search-icon-container
+	+search-icon
 h2= codex.get('name')
 
 ul.tabs
@@ -23,212 +27,215 @@ ul.tabs
 	li.tab(data-tab="raw")
 		button Raw
 
-.tab.metadata.active
-	ul.data
-		li 
-			label Created
-			span #{codex.get('creationDate')} by #{codex.get('creator')}
-		li 
-			label Changed
-			span #{codex.get('modificationDate')} by #{codex.get('modifier')}
+.tab-container
+	.tab.metadata.active
+		ul.data
+			li 
+				label Created
+				span #{codex.get('creationDate')} by #{codex.get('creator')}
+			li 
+				label Changed
+				span #{codex.get('modificationDate')} by #{codex.get('modifier')}
 
-		if identifiers.join("; ").length > 0
+			if identifiers.join("; ").length > 0
+				li
+					label Identiefer(s)
+					span= li= identifiers.join("; ")
+				
 			li
-				label Identiefer(s)
-				span= li= identifiers.join("; ")
-			
-		li
-			label Content Summary
-			span= codex.get('contentSummary')
-		li
-			label Marginal Activity Summary
-			span= codex.get('marginalsSummary')
-		li
-			label Date
-			span= codex.get('date')
-		li
-			label Remarks
-			span= codex.get('dateAndLocaleRemarks')
-		li
-			label Book Dimensions
-			span= codex.get('pageDimension_width') + " x " + codex.get('pageDimension_height') + " mm"
-		li
-			label Number of Pages
-			span= codex.get('folia')
-		
-		if codex.get('quireStructure').length > 0
+				label Content Summary
+				span= codex.get('contentSummary')
 			li
-				label Quire structure
-				span= codex.get('quireStructure')
-		
-		if codex.get('layoutRemarks').length > 0
+				label Marginal Activity Summary
+				span= codex.get('marginalsSummary')
+			li
+				label Date
+				span= codex.get('date')
 			li
 				label Remarks
-				span= codex.get('layoutRemarks')
-		//- li
-		//- 	label Persons
-		//- 	span= codex.get('name')
+				span= codex.get('dateAndLocaleRemarks')
+			li
+				label Book Dimensions
+				span= codex.get('pageDimension_width') + " x " + codex.get('pageDimension_height') + " mm"
+			li
+				label Number of Pages
+				span= codex.get('folia')
+			
+			if codex.get('quireStructure').length > 0
+				li
+					label Quire structure
+					span= codex.get('quireStructure')
+			
+			if codex.get('layoutRemarks').length > 0
+				li
+					label Remarks
+					span= codex.get('layoutRemarks')
+			//- li
+			//- 	label Persons
+			//- 	span= codex.get('name')
 
-	if codex.get('marginalQuantities').length > 0
-		h3 Quantities Marginal Activity
-		- var mq = codex.get('marginalQuantities')[0]
-		ul
-			li Number of pages with marginalia = #{mq.firstPagesWithMarginals}, out of #{mq.firstPagesConsidered} (#{Math.round(mq.firstPagesWithMarginals/mq.firstPagesConsidered*100)}%)
-			li Number of blank pages: #{mq.totalBlankPages}, out of #{codex.get('folia')} (#{Math.round(mq.totalBlankPages/codex.get('folia')*100)}%)
-			li Most filled page: #{mq.mostFilledPageDesignation} (#{mq.mostFilledPagePctage}%)
-	
-	if codex.get('provenances').length > 0
-		h3 Provenance(s)
-		ul.provenances
-			for provenance in codex.get('provenances')
-				li.provenance
+		if codex.get('marginalQuantities').length > 0
+			h3 Quantities Marginal Activity
+			- var mq = codex.get('marginalQuantities')[0]
+			ul
+				li Number of pages with marginalia = #{mq.firstPagesWithMarginals}, out of #{mq.firstPagesConsidered} (#{Math.round(mq.firstPagesWithMarginals/mq.firstPagesConsidered*100)}%)
+				li Number of blank pages: #{mq.totalBlankPages}, out of #{codex.get('folia')} (#{Math.round(mq.totalBlankPages/codex.get('folia')*100)}%)
+				li Most filled page: #{mq.mostFilledPageDesignation} (#{mq.mostFilledPagePctage}%)
+		
+		if codex.get('provenances').length > 0
+			h3 Provenance(s)
+			ul.provenances
+				for provenance in codex.get('provenances')
+					li.provenance
+						ul
+							li
+								label Name
+								span= provenance.remarks
+							li
+								label Date
+								span= provenance.date
+
+		if codex.get('origins').length > 0
+			h3 Origin(s)
+			ul.origins
+				for origin in codex.get('origins')
+					li= origin.remarks
+
+		if codex.get('pageLayouts').length > 0
+			h3 Layout(s)
+			ul.layouts
+				for layout in codex.get('pageLayouts')
+					//- - console.log(layout)
+					li #{layout.linesMin} to #{layout.linesMax} lines of #{layout.lineHeight} mm height
+					li #{layout.foliaCount} pages: #{layout.pages}
+					li Text block size: #{layout.textWidthMin} - #{layout.textWidthMax} x #{layout.textHeightMin} - #{layout.textHeightMax}
+
+
+		if codex.get('scripts').length > 0
+			h3 Script(s)
+			ul.scripts
+				for script in codex.get('scripts')
+					li
+						ul.script
+							li
+								label Type
+								span= script.types
+							li
+								label Characteristics
+								span= script.characteristics
+							li
+								label Hand count
+								span= script.handsCount
+							li
+								label Scribe
+								span= script.scribeRemarks
+
+		if codex.get('URLs').length > 0
+			h3 URL(s)
+			ul.urls
+				for url in codex.get('URLs')
+					li
+						a(href=url, data-bypass, target="_blank")= url
+
+		if codex.get('bibliographies').length > 0
+			h3 Bibliographies
+			ul.bibliographies
+				for bibliopgraphy in codex.get('bibliographies')
+					li= bibliopgraphy
+
+
+	.tab.textual-units
+		ol
+			for textUnit in codex.get('textUnits')
+				- console.log(textUnit)
+				li
 					ul
 						li
-							label Name
-							span= provenance.remarks
+							label Title in codex
+							span= textUnit.titleincodex || "-"
 						li
-							label Date
-							span= provenance.date
+							label Title
+							span= textUnit.text.title || "-"
+						li
+							label Author(s)
+							- var authors = textUnit.text.authors.map(function (author) { return author.person.name; }).join(", ");
+							span= authors || "-"
+						li
+							label Incipit
+							span= textUnit.incipit || "-"
+						li
+							label Explicit
+							span= textUnit.explicit || "-"
+						li
+							label Period
+							span= textUnit.text.period || "-"
+						li
+							label State of preservation
+							span= textUnit.stateOfPreservation || "-"
+						li
+							label Folia range
+							span= textUnit.pages || "-"
+						li
+							label Remarks
+							span= textUnit.remarks || "-"
 
-	if codex.get('origins').length > 0
-		h3 Origin(s)
-		ul.origins
-			for origin in codex.get('origins')
-				li= origin.remarks
-
-	if codex.get('pageLayouts').length > 0
-		h3 Layout(s)
-		ul.layouts
-			for layout in codex.get('pageLayouts')
-				//- - console.log(layout)
-				li #{layout.linesMin} to #{layout.linesMax} lines of #{layout.lineHeight} mm height
-				li #{layout.foliaCount} pages: #{layout.pages}
-				li Text block size: #{layout.textWidthMin} - #{layout.textWidthMax} x #{layout.textHeightMin} - #{layout.textHeightMax}
-
-
-	if codex.get('scripts').length > 0
-		h3 Script(s)
-		ul.scripts
-			for script in codex.get('scripts')
+	.tab.marginal-units
+		ol
+			for marginUnit, index in codex.get('marginUnits')
 				li
-					ul.script
+					ul
 						li
-							label Type
-							span= script.types
+							label Identifier
+							span= marginUnit.identifier || "-"
 						li
-							label Characteristics
-							span= script.characteristics
+							label Typology
+							span= marginUnit.typology || "-"
 						li
-							label Hand count
-							span= script.handsCount
+							label Typology: remarks
+							span= marginUnit.typologyRemarks || "-"
 						li
-							label Scribe
-							span= script.scribeRemarks
+							label Specific phenomena
+							if marginUnit.specificPhenomena.length > 0
+								ul.specific-phenomena
+									for sp in marginUnit.specificPhenomena
+										li
+											ul
+												li
+													label Quantification
+													span= sp.quantification || "-"
+												li
+													label Remarks
+													span= sp.remarks || "-"
+												li
+													label Type
+													span= sp.type || "-"
 
-	if codex.get('URLs').length > 0
-		h3 URL(s)
-		ul.urls
-			for url in codex.get('URLs')
-				li
-					a(href=url, data-bypass, target="_blank")= url
+							else
+								span -
+						li
+							label Localization
+							span= marginUnit.localization || "-"
+						li
+							label Relative date
+							span= marginUnit.relativeDate || "-"
+						li
+							label Hands
+							span= marginUnit.hands || "-"
+						li
+							label General observations
+							span= marginUnit.generalObservations || "-"
+						li
+							label Scripts
+							span= marginUnit.scripts || "-"
+						li
+							label Annotators
+							span= marginUnit.annotators || "-"
+						li
+							label Languages
+							span= marginUnit.languages || "-"
 
-	if codex.get('bibliographies').length > 0
-		h3 Bibliographies
-		ul.bibliographies
-			for bibliopgraphy in codex.get('bibliographies')
-				li= bibliopgraphy
-
-
-.tab.textual-units
-	ol
-		for textUnit in codex.get('textUnits')
-			li
-				ul
-					li
-						label Title in codex
-						span= textUnit.titleincodex || "-"
-					li
-						label Title
-						span= textUnit.text.title || "-"
-					li
-						label Author
-						span= textUnit.author || "-"
-					li
-						label Incipit
-						span= textUnit.incipit || "-"
-					li
-						label Explicit
-						span= textUnit.explicit || "-"
-					li
-						label Period
-						span= textUnit.period || "-"
-					li
-						label State of preservation
-						span= textUnit.stateofpreservation || "-"
-					li
-						label Folia range
-						span= textUnit.pages || "-"
-					li
-						label Remarks
-						span= textUnit.remarks || "-"
-
-.tab.marginal-units
-	ol
-		for marginUnit, index in codex.get('marginUnits')
-			li
-				ul
-					li
-						label Identifier
-						span= marginUnit.identifier || "-"
-					li
-						label Typology
-						span= marginUnit.typology || "-"
-					li
-						label Typology: remarks
-						span= marginUnit.typologyRemarks || "-"
-					li
-						label Specific phenomena
-						if marginUnit.specificPhenomena.length > 0
-							ul.specific-phenomena
-								for sp in marginUnit.specificPhenomena
-									li
-										ul
-											li
-												label Quantification
-												span= sp.quantification || "-"
-											li
-												label Remarks
-												span= sp.remarks || "-"
-											li
-												label Type
-												span= sp.type || "-"
-
-						else
-							span -
-					li
-						label Localization
-						span= marginUnit.localization || "-"
-					li
-						label Relative date
-						span= marginUnit.relativeDate || "-"
-					li
-						label Hands
-						span= marginUnit.hands || "-"
-					li
-						label General observations
-						span= marginUnit.generalObservations || "-"
-					li
-						label Scripts
-						span= marginUnit.scripts || "-"
-					li
-						label Annotators
-						span= marginUnit.annotators || "-"
-					li
-						label Languages
-						span= marginUnit.languages || "-"
-
-.tab.raw
-	pre= JSON.stringify(codex.attributes, null, 4)
+	.tab.raw
+		pre= JSON.stringify(codex.attributes, null, 4)
 
 aside
 	img(src=src)

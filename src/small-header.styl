@@ -1,0 +1,59 @@
+body > .main > .codex
+	.search-icon-container
+		heigth 0
+		position relative
+		
+		svg.search
+			fill white
+			position absolute
+			top 0
+			left 0
+			width 100%
+			height 100%
+			-webkit-filter: drop-shadow(1px 1px 1px msDarkBlue)
+			cursor pointer
+
+body.small-header > .main > .codex
+	.small-facsimile
+		h2
+			width 100%
+			
+	.search-icon-container
+		height 12px
+		width 12px
+		position fixed
+		top 10px
+		left 2.5%
+		z-index 2
+
+	h2
+		position fixed
+		top -14px
+		font-size 12px
+		width 100%
+		background-color msBlue
+		margin-left 0
+		padding-left 20%
+		padding-bottom 0
+		z-index 1
+		color white
+		text-shadow 1px 1px 1px msDarkBlue
+		transition-duration 250ms
+		transition-property color, font-size, background-color
+		box-shadow 0 1px 3px msDarkBlue
+		
+	ul.tabs, aside
+		position fixed
+		top 75px
+		
+	aside
+		right 2.5%
+		margin 0
+		
+	.tab-container
+		// top 2000px
+		// 	position absolute
+		// top 0
+		margin-top 92px
+		position absolute
+		left 20%

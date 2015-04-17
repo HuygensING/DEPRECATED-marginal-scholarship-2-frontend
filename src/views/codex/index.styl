@@ -18,7 +18,7 @@ body > .main > .codex
 		aside
 			width 5%
 			
-		div.tab
+		.tab-container
 			width 70%
 			
 		.pagination
@@ -79,56 +79,65 @@ body > .main > .codex
 			&.active button
 				color white
 				
-	div.tab, aside, h2, .pagination
+	.tab-container, aside, .pagination
 		transition width 250ms
+		
+	h2
+		transition initial
 		// transition line-height 250ms
 
 	// Set tagname (div) to distinguish from li.tab
-	div.tab
+	.tab-container
+		inline-block()
 		width middleWidth
-		display none
 		background-color white
 		padding 20px
 		box-shadow 0 0 6px #999
 		border-radius 3px
-	
-		&.active
-			inline-block()
-			margin-bottom 100px
-			
+		margin-bottom 100px
 
-		&.metadata, &.textual-units, &.marginal-units
-			label, span
-				inline-block()
-				
-			label
-				color msGray
-				width 35%
-				
-			span
-				width 65%
-				
-		&.textual-units, &.marginal-units
-			ol
-				list-style decimal
-				margin-left 20px
-			ul
-				margin-bottom 20px
-				
-		&.marginal-units
-			ul.specific-phenomena
-				// list-style square
-				margin 1em 0 1em 0
-				margin-left 60px
-				
-				ul
-					border 1px solid #DDD
-					padding 10px
+		div.tab
+			display none
 			
-		&.raw
-			overflow-x auto
-			font-size 0.75em
-		
+			&.active
+				display block
+				
+			&.metadata, &.textual-units, &.marginal-units
+				label, span
+					inline-block()
+					
+				label
+					color msGray
+					width 35%
+					
+				span
+					width 65%
+					
+			&.textual-units, &.marginal-units
+				ol
+					list-style decimal
+					margin-left 20px
+				ul
+					margin-bottom 20px
+			
+			&.textual-units
+				ul.authors
+					inline-block()
+					
+			&.marginal-units
+				ul.specific-phenomena
+					// list-style square
+					margin 1em 0 1em 0
+					margin-left 60px
+					
+					ul
+						border 1px solid #DDD
+						padding 10px
+				
+			&.raw
+				overflow-x auto
+				font-size 0.75em
+			
 	aside
 		width rightWidth
 		margin 0 marginWidth

@@ -21,7 +21,6 @@ class CodexView extends Backbone.View
 	# @param {Object} this.options
 	###
 	initialize: (@options) ->
-		console.log @options
 		@codex = codices.get(@options.id)
 
 		if @codex?
@@ -86,6 +85,9 @@ class CodexView extends Backbone.View
 	events: ->
 		"click ul.tabs > li": "_handleTabClick"
 		"click aside img": "_handleFacsimileClick"
+		"click svg.search": ->
+			document.body.scrollTop = 0
+			Backbone.history.navigate "", trigger: true
 
 	_handleTabClick: (ev) ->
 		@$('ul.tabs li').removeClass 'active'
