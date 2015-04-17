@@ -1,6 +1,6 @@
 Backbone = require "backbone"
 
-Pagination = require 'hibb-pagination'
+# Pagination = require 'hibb-pagination'
 
 tpl = require "./index.jade"
 
