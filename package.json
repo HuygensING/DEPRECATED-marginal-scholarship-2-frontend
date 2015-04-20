@@ -13,6 +13,7 @@
     "unlink": "npm unlink hibb-faceted-search hibb-pagination hi-svg-icons && npm i",
     "prebuild": "npm run unlink && rm -rf build/production && mkdir -p build/production/css && mkdir build/production/js",
     "build": "npm run build:coffee && npm run build:jade && npm run build:css",
+    "autobuild": "npm run build:coffee && npm run build:jade && npm run build:css",
     "postbuild": "npm run link",
     "build:jade": "jade --out build/production/ src/index.jade",
     "build:css:main": "stylus --compress --out build/production/css/main.css src/index.styl",
