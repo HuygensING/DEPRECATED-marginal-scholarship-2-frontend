@@ -39,13 +39,14 @@ jade = require 'gulp-jade'
 cssFiles = [
 	'./node_modules/hibb-faceted-search/dist/main.css'
 	'./node_modules/hibb-pagination/dist/main.css'
+	'./node_modules/hibb-modal/dist/main.css'
 ]
 
 gulp.task 'copy-svg', ->
 	gulp.src('./node_modules/hi-svg-icons/*.svg')
 		.pipe(gulp.dest('./build/development/svg'))
 
-gulp.task 'server', ['copy-svg', 'watch', 'watchify'], ->
+gulp.task 'server', ['concatCss', 'stylus', 'copy-svg', 'watch', 'watchify'], ->
 	browserSync
 		server:
 			baseDir: './build/development'
