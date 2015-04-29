@@ -37,6 +37,13 @@ body > .main > .codex
 		padding 1.5em 0
 		width middleWidth
 		color msDarkerBlue
+	
+	svg.edit
+		width 20px
+		// height 16px
+		fill msBlue
+		cursor pointer
+		margin-left 12px
 		
 	h3
 		padding 1em 0 0.5em 0
@@ -85,6 +92,9 @@ body > .main > .codex
 	h2
 		transition initial
 		// transition line-height 250ms
+			
+	h3, h4
+		margin-top 20px
 
 	// Set tagname (div) to distinguish from li.tab
 	.tab-container
@@ -112,6 +122,22 @@ body > .main > .codex
 					
 				span
 					width 65%
+					
+			ul.provenances, ul.layouts
+				& > li
+					border 1px solid #CCC
+					// margin-left 20px
+					padding 10px
+					
+					& + li
+						margin-top 10px
+					
+			ul.locality
+				li
+					inline-block()
+					
+					& + li:before
+						content: ", "
 					
 			&.textual-units, &.marginal-units
 				ol

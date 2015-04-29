@@ -1,0 +1,17 @@
+if (collection.length)
+	ul.collection
+		each model in collection.models
+			li.model(data-cid=model.cid)
+				ul.medium.formpart
+					li
+						label Type
+						.type-placeholder.placeholder
+					li
+						label Quantification
+						.quantification-placeholder.placeholder
+					li
+						label Remarks
+						input(name="remarks", value=model.get('remarks'), data-view-id=viewId)
+				button.remove(title="Remove annotation type") x
+
+button.addform Add type

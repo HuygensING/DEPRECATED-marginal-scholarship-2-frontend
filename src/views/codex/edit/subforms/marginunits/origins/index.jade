@@ -1,0 +1,27 @@
+if (collection.length)
+	ul.collection
+		each model in collection.models
+			li.model(data-cid=model.cid)
+				ul.small.formpart
+					li
+						label Locality
+						.locality-placeholder.placeholder
+					//- li
+					//- 	label Place
+					
+					//- 	ul.formpart
+					//- 		li
+					//- 			label(for="") Region
+					//- 			.place_region-placeholder.placeholder
+					//- 		li
+					//- 			label(for="") Place
+					//- 			.place_place-placeholder.placeholder
+					//- 		li
+					//- 			label(for="") Scriptorium
+					//- 			input(name="place.scriptorium", value=model.get('place').scriptorium, data-view-id=viewId)
+					li
+						label(for="") Certain
+						input(data-view-id=viewId, name="certain", type="checkbox", checked=model.get('certain'))
+				button.remove(title="Remove origin") x
+
+button.addform Add origin

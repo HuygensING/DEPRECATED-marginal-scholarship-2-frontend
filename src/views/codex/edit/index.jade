@@ -1,0 +1,221 @@
+ul.horizontal.tab.menu
+	li.active(data-tab="codex") Codex
+	li(data-tab="text") Text
+	li(data-tab="margin") Margin
+
+div.active(data-tab="codex")
+	ul(data-cid=model.cid)
+		li 
+			label Codex
+			.locations-placeholder.placeholder
+		li 
+			label Identifier
+			.identifiers-placeholder.placeholder
+		li
+			- var id = generateID();
+			label(for=id) Thumbnail
+			textarea(id=id, name="thumbnailInfo", data-view-id=viewId)=model.get('thumbnailInfo')
+		li
+			- id = generateID();
+			label(for=id) Examined
+			select(id=id, name="examinationLevel", data-view-id=viewId)
+				option(selected=(model.get('examinationLevel') === "Catalogue only")) Catalogue only
+				option(selected=(model.get('examinationLevel') === "Digital only")) Digital only
+				option(selected=(model.get('examinationLevel') === "In person")) In person
+		li 
+			label Interesting for
+			.interestingFor-placeholder.placeholder
+		li 
+			- id = generateID();
+			label(for=id) Private remarks
+			textarea(id=id, name="userRemarks", data-view-id=viewId)= model.get('userRemarks')[email]
+
+	ul(data-cid=model.cid)
+		li 
+			- id = generateID()
+			label(for=id) Content summary
+			textarea(id=id, name="contentSummary", data-view-id=viewId)= model.get('contentSummary')
+		li 
+			- id = generateID()
+			label(for=id) 
+				| Marginal activity<br>
+				| summary
+			textarea(id=id, name="marginalsSummary", data-view-id=viewId)= model.get('marginalsSummary')
+		li
+			- id = generateID()
+			label(for=id) Number of pages
+			input(id=id, name="folia", data-view-id=viewId, value=model.get('folia'))
+		li.quantitiesmarginalactivity
+			label Quantities marginal#[br]activity
+
+			table
+				tr
+					td(colspan="3")
+						- id = generateID()
+						label(for=id) Number of pages with marginalia:
+					td
+						input.small.inline(id=id, name="marginalQuantities.firstPagesWithMarginals", data-view-id=viewId, value=model.get('marginalQuantities').firstPagesWithMarginals)
+					td
+						- id = generateID()
+						label(for=id) out of (the first)
+					td
+						input.small.inline(id=id, name="marginalQuantities.firstPagesConsidered", data-view-id=viewId, value=model.get('marginalQuantities').firstPagesConsidered)
+					td pages
+					td.margincount (no margin count available!)
+				tr
+					td
+						- id = generateID()
+						label(for=id) Most filled page: 
+					td
+						input.small.inline(id=id, name="marginalQuantities.mostFilledPagePctage", data-view-id=viewId, value=model.get('marginalQuantities').mostFilledPagePctage)
+					td
+						label %
+						span &nbsp;
+						- id = generateID()
+						label(for=id) filled:
+					td(colspan="5")
+						input.inline(id=id, name="marginalQuantities.mostFilledPageDesignation", data-view-id=viewId, value=model.get('marginalQuantities').mostFilledPageDesignation)
+				tr
+					td
+						- id = generateID()
+						label(for=id) Blank pages:
+					td
+						input.small.inline(id=id, name="marginalQuantities.totalBlankPages", data-view-id=viewId, value=model.get('marginalQuantities').totalBlankPages)
+					td.pagecount(colspan="6") (no page count available!)
+
+	ul(data-cid=model.cid)
+		li 
+			label Date
+			
+			ul.small.formpart
+				li
+					- id = generateID()
+					label(for=id) Date
+					input(id=id, name="date", data-view-id=viewId, value=model.get('date'))
+					button.dateinfo ?
+				li
+					- id = generateID()
+					label(for=id) Source
+					input(id=id, name="date_source", data-view-id=viewId, value=model.get('date_source'))
+		li
+			label Origin
+
+			ul.small.formpart
+				li
+					label Locality
+					.origin-placeholder.placeholder
+
+					//- ul.formpart
+					//- 	li
+					//- 		- id = generateID()
+					//- 		label(for=id) Region
+					//- 		.origin_place_region-placeholder.placeholder
+					//- 	li
+					//- 		- id = generateID()
+					//- 		label(for=id) Place
+					//- 		.origin_place_place-placeholder.placeholder
+					//- 	li
+					//- 		- id = generateID()
+					//- 		label(for=id) Scriptorium
+					//- 		input(id=id, name="origin.place.scriptorium", data-view-id=viewId, value=model.get('origin').place.scriptorium)
+				//- li
+				//- 	- id = generateID()
+				//- 	label(for=id) Remarks
+				//- 	input.large(id=id, name="origin.remarks", data-view-id=viewId, value=model.get('origin').remarks)
+				//- li
+				//- 	- id = generateID()
+				//- 	label(for=id) Certain
+				//- 	input(id=id, name="origin.certain", type="checkbox", data-view-id=viewId, value=model.get('origin').certain, checked=model.get('origin').certain)
+		li 
+			label Provenance
+			.provenances-placeholder.placeholder
+		li 
+			- id = generateID()
+			label(for=id) Remarks date &amp; loc
+			textarea(id=id, name="dateAndLocaleRemarks", data-view-id=viewId)= model.get('dateAndLocaleRemarks')
+
+	ul(data-cid=model.cid)
+		li 
+			label Page dimensions
+
+			ul.small.formpart
+				li.pagedimensions
+					label Width
+					span.x x
+					label height
+					span.is =
+					input.small(id=id, name="pageDimension_width", data-view-id=viewId, value=model.get("pageDimension_width"))
+					span mm
+					span.x x
+					input.small(id=id, name="pageDimension_height", data-view-id=viewId, value=model.get("pageDimension_height"))
+					span mm
+		li 
+			- id = generateID()
+			label(for=id) Quire structure
+			input(id=id, name="quireStructure", data-view-id=viewId, value=model.get('quireStructure'))
+		li 
+			label Layout
+			.pageLayouts-placeholder.placeholder
+		li 
+			- id = generateID()
+			label(for=id) Layout remarks
+			textarea(id=id, name="layoutRemarks", data-view-id=viewId)= model.get('layoutRemarks')
+
+	ul(data-cid=model.cid)
+		li 
+			label Script
+			.script-placeholder.placeholder
+	
+	ul(data-cid=model.cid)
+		li 
+			label Other persons
+			.persons-placeholder.placeholder
+
+	ul(data-cid=model.cid)
+		li 
+			label Bibliography
+			.bibliographies-placeholder.placeholder
+		li 
+			label URLs
+			.URLs-placeholder.placeholder
+
+div(data-tab="text")
+	ul(data-cid=model.cid)
+		li 
+			.textUnits-placeholder.placeholder
+
+div(data-tab="margin")
+	ul(data-cid=model.cid)
+		li 
+			.marginUnits-placeholder.placeholder
+
+
+#dateinfo
+	h3 Date information
+	p Use the following formats:
+	ul
+		li 
+			label 1234
+			span a specific year
+		li 
+			label 1142/1145
+			span a year range
+		li 
+			label 31-02-1142 <br> 1142-02-31
+			span a specific date<br>a specific date
+		li
+			label 123? <br> 12?? <br> 1???
+			span any year in the 1230s<br>any year in the 1200s<br>any year in the 1000s
+		li 
+			label 1142?<br>1142-02?<br>1142-02-31?
+			span uncertain year<br>uncertain month<br>uncertain date
+		li 
+			label 1142~<br>1142-02~<br>1142-02-31~
+			span approximate year<br>approximate month<br>approximate date
+	
+	p for BC/BCE years, prepend "-" to the year: -0002-02-31
+
+#saveclosedelete
+	button.delete Delete
+	button.cancel Cancel
+	button.save Saved

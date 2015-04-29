@@ -1,4 +1,5 @@
 Backbone = require 'backbone'
+_ = require 'underscore'
 FS = require 'hibb-faceted-search'
 
 config = require '../../models/config'

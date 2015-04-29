@@ -1,0 +1,53 @@
+if (collection.length)
+	ul.collection
+		each model in collection.models
+			li.model(data-cid=model.cid)
+				ul.formpart
+					li
+						label Identifier
+						input(data-view-id=viewId, name="identifier", value=model.get('identifier'))
+					li
+						label Folia range
+						input(data-view-id=viewId, name="pages", value=model.get('pages'))
+					li
+						label Date
+						input(data-view-id=viewId, name="date", value=model.get('date'))
+					li
+						label Relative date
+						input(data-view-id=viewId, name="relativeDate", value=model.get('relativeDate'))
+					li
+						label Origin
+						.origins-placeholder.placeholder
+					li
+						label Language
+						.languages-placeholder.placeholder
+					li
+						label Script
+						.scriptTypes-placeholder.placeholder
+						textarea.remark(data-view-id=viewId, name="scriptsRemarks", placeholder="Remarks")= model.get('scriptsRemarks')
+					li
+						label Annotator
+						.annotators-placeholder.placeholder
+					li
+						label Annotation type
+						.marginTypes-placeholder.placeholder
+					li
+						label Typology remarks
+						textarea(data-view-id=viewId, name="typologyRemarks")= model.get('typologyRemarks')
+					li
+						label Specific phenomena
+						.specificPhenomena-placeholder.placeholder
+					li
+						label Functional aspects
+						textarea(data-view-id=viewId, name="functionalAspects")= model.get('functionalAspects')
+					li
+						label General observations
+						textarea(data-view-id=viewId, name="generalObservations")= model.get('generalObservations')
+					li
+						label Bibliography
+						.bibliographies-placeholder.placeholder
+						//- input(data-view-id=viewId, name="bibliographies", value=model.get('bibliographies'))
+
+				button.remove(title="Remove marginal") x
+
+button.addform Add margin unit

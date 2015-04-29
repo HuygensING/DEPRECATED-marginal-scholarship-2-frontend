@@ -3,12 +3,14 @@ $ = require 'jquery'
 _ = require 'underscore'
 
 Codex = require './views/codex'
+EditCodex = require './views/codex/edit'
 
 header = require './views/header'
 
 pages =
 	search: require './views/search'
 	codices: {}
+	editcodices: {}
 	notFound: null
 
 prevPage = null
@@ -41,12 +43,6 @@ class MainRouter extends Backbone.Router
 		@$el = $('body > .main')
 		@$el.append pages.search.el
 
-		# @once 'route', (route) ->
-		# 	if route isnt "home"
-		# 		pages.search = new Search()
-		# 		pages.search.$el.hide()
-		# 		@$el.append pages.search.el
-
 		@on 'route', (route, options) ->
 			pagesClone = $.extend {}, pages, true
 			delete pagesClone['notFound']
@@ -69,11 +65,20 @@ class MainRouter extends Backbone.Router
 	routes:
 		'': 'home'
 		'niet-gevonden': 'notFound'
+		'codex/:id/edit/:sub': 'editcodex'
+		'codex/:id/edit': 'editcodex'
 		'codex/:id/:sub': 'codex'
 		'codex/:id': 'codex'
 
 	home: ->
 		show pages.search
+
+	editcodex: (id, sub) ->
+		unless pages.editcodices.hasOwnProperty(id)
+			pages.editcodices[id] = new EditCodex id: id, sub: sub
+			$('body > .main > .editcodex').append pages.editcodices[id].el
+
+		show pages.editcodices[id]
 
 	codex: (id, sub) ->
 		unless pages.codices.hasOwnProperty(id)

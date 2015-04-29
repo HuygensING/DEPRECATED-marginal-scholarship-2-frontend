@@ -1,0 +1,14 @@
+if (collection.length)
+	ul.collection
+		each model in collection.models
+			li.model(data-cid=model.cid)
+				ul.small.formpart
+					li
+						label(for="") Type
+						.type-placeholder.placeholder
+					li
+						label(for="") Identifier
+						input(name="identifier", value=model.get('identifier'), data-view-id=viewId)
+				button.remove(title="Remove identifier") x
+
+button.addform Add identifier

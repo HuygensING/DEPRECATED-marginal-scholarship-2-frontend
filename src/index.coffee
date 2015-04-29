@@ -4,6 +4,7 @@ Backbone.$ = $
 
 mainRouter = require './router'
 
+data = require './models/data'
 header = require './views/header'
 
 $ ->

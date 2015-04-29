@@ -48,46 +48,14 @@ class CodexView extends Backbone.View
 
 		@
 
-	# _renderPagination: (resultModel) ->
-	# 	return
-		
-	# 	unless resultModel?
-	# 		resultModel = searchView.facetedSearch.currentResult()
-	# 		unless resultModel?
-	# 			@pagination.destroy() if @pagination?
-	# 			return
-
-	# 	filtered = resultModel.get('results').filter (r) =>
-	# 		r["^codex"].split('/')[1] is @options.id
-	# 	console.log filtered
-	# 	if filtered.length > 0
-	# 		index = resultModel.get('results').indexOf(filtered[0])
-
-	# 		@pagination = new Pagination
-	# 			resultsStart: resultModel.get('start') + index
-	# 			resultsPerPage: 1
-	# 			resultsTotal: resultModel.get('numFound')
-	# 			step10: false
-	# 			showPageNames: ["codex", "codices"]
-
-	# 		@pagination.on "change:pagenumber", (pageNumber) =>
-	# 			codexId = resultModel.get("ids")[pageNumber - 1]
-	# 			path = "codex/#{codexId}"
-
-	# 			Backbone.history.navigate path, trigger: true
-	# 			Backbone.trigger "remove-codex-view", @options.id, path
-
-	# 		@$('.pagination').html @pagination.el
-	# 	else
-	# 		@pagination.destroy() if @pagination?
-
-
 	events: ->
 		"click ul.tabs > li": "_handleTabClick"
 		"click aside img": "_handleFacsimileClick"
 		"click svg.search": ->
 			document.body.scrollTop = 0
 			Backbone.history.navigate "", trigger: true
+		"click svg.edit": ->
+			Backbone.history.navigate "/codex/#{@options.id}/edit", trigger: true
 
 	_handleTabClick: (ev) ->
 		@$('ul.tabs li').removeClass 'active'

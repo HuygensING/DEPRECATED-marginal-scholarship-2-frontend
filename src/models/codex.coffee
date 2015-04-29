@@ -7,7 +7,7 @@ class Codex extends Backbone.Model
 	defaults: ->
 		identifiers: []
 		textUnits: []
-		marginalsUnits: []
+		# marginalsUnits: []
 		marginUnits: []
 		scripts: []
 		URLs: []
@@ -21,5 +21,8 @@ class Codex extends Backbone.Model
 	
 	url: ->
 		config.get('backendUrl') + "codex/#{@id}/expandlinks"
+
+	getUserEmail: ->
+		console.error "NOT IMPLEMENTED"
 
 module.exports = Codex

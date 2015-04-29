@@ -1,0 +1,18 @@
+if (collection.length)
+	ul.collection
+		each model in collection.models
+			li.model(data-cid=model.cid)
+				ul.small.formpart
+					li
+						label(for="") Institute
+						.institute-placeholder.placeholder
+					li
+						label(for="") Shelfmark
+						input(name="shelfmark", value=model.get('shelfmark'), data-view-id=viewId)
+					li
+						label(for="") Folia range
+						input(name="pages", value=model.get('pages'), data-view-id=viewId)
+				
+				button.remove(title="Remove location") x
+
+button.addform Add codex
