@@ -1,0 +1,10 @@
+ul.alphabet
+	li.all Show all
+	for letter in letters
+		li= letter
+
+ul.persons
+	for person in persons
+		li(data-id=person.get("id"))= person.get("title")
+
+.form-container

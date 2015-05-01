@@ -1,12 +1,27 @@
 BaseModel = require './base'
+config = require "./config"
 
 class Person extends BaseModel
 
-	parse: (attrs) ->
-		myAttrs =
-			id: attrs.id.replace("/persons/", "")
-			title: attrs.label
+	idAttribute: "pid"
 
-		myAttrs
+	url: ->
+		"#{config.get("fullPersonUrl")}/#{@id}"
+
+	defaults: ->
+		name: ""
+		activityDate: ""
+		birthDate: ""
+		deathDate: ""
+
+	parse: (attrs, options) ->
+		# If parsing for the collection ...
+		if options.collection
+			return {
+				id: attrs.id.replace("/persons/", "")
+				title: attrs.label
+			}
+
+		attrs
 
 module.exports = Person

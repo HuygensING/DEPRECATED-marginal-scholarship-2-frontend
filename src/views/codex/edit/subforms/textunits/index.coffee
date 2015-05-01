@@ -30,9 +30,9 @@ class TextUnits extends Views.MultiForm
 			data: data.get("texts")
 			settings:
 				inputClass: 'large'
-				editable: true
-				mutable: true
-				defaultAdd: false
+				# editable: true
+				# mutable: true
+				# defaultAdd: false
 		stateOfPreservation: 
 			data: data.get("facetData").preservationState
 			settings:

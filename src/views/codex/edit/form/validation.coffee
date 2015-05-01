@@ -1,3 +1,4 @@
+Backbone = require 'backbone'
 _ = require 'underscore'
 $ = require 'jquery'
 
@@ -7,7 +8,7 @@ flattenObject = (obj, into, prefix) ->
 
 	for own k, v of obj
 		if _.isObject(v) and not _.isArray(v) and not _.isFunction(v) and not (v instanceof Backbone.Model) and not (v instanceof Backbone.Collection)
-			@flattenObject v, into, prefix + k + '.'
+			flattenObject v, into, prefix + k + '.'
 		else
 			into[prefix+k] = v
 
@@ -119,7 +120,8 @@ module.exports =
 				@$("[name=\"#{error.attr}\"]").after div
 
 	validatorCheckErrors: (model, options) ->
-		model = if @model? then @model else @getModel(ev)
+		# console.log model, options
+		# model = if @model? then @model else @getModel(ev)
 
 		@$('button[name="submit"]').removeClass('disabled')
 		

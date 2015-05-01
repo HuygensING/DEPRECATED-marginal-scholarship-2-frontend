@@ -126,16 +126,13 @@ ul.tabs
 							li Text block size: #{layout.textWidthMin} - #{layout.textWidthMax} x #{layout.textHeightMin} - #{layout.textHeightMax}
 
 
-		if codex.get('scripts').length > 0
-			h3 Script(s)
-			ul.scripts
-				for script in codex.get('scripts')
-					li
-						ul.script
-							+labelValue("Type", script.types)
-							+labelValue("Characteristics", script.characteristics)
-							+labelValue("Hand count", script.handsCount)
-							+labelValue("Scribe", script.scribeRemarks)
+		h3 Script
+		- var script = codex.get('script');
+		ul.script
+			+labelValue("Type", script.types)
+			+labelValue("Characteristics", script.characteristics)
+			+labelValue("Hand count", script.handsCount)
+			+labelValue("Scribe", script.scribeRemarks)
 
 		if codex.get('URLs').length > 0
 			h3 URL(s)

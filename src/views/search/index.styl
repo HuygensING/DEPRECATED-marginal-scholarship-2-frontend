@@ -33,7 +33,7 @@
 		.facets
 			position relative
 			
-			.reset, .reset2, .reset3
+			.reset, .collapse
 				background #DDD
 				color #CCC
 				position absolute
@@ -51,19 +51,23 @@
 				&:hover
 					width 24px
 					left -44px
+					
+					span
+						opacity 1
 				
 				span
 					opacity 0
+					transition all 250ms
 					
-			.reset2
+					svg
+						width 12px
+						height 12px
+						fill msDarkBlue
+					
+			.collapse
 				top 28px
 				background-color #CCC
 				color #BBB
-					
-			.reset3
-				top 56px
-				background-color #BBB
-				color #AAA
 			
 			ul.tabs
 				list-style none

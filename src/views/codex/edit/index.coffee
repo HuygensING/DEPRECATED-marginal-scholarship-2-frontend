@@ -21,6 +21,8 @@ Views =
 		URLs: require './form/editablelist'
 		origin: require './form/locality'
 
+PersonsView = require "./persons"
+
 generateID = (length) ->
 		length = if length? and length > 0 then (length-1) else 7
 
@@ -89,7 +91,7 @@ class EditCodexView extends Views.Form
 	# ### Initialize
 	initialize: (@options) ->
 		@Model = Codex
-		@modelAttributes = id: @options.id
+		@modelAttributes = pid: @options.pid
 		
 		@tpl = tpl
 		@subforms = Views.SubForms
@@ -105,7 +107,9 @@ class EditCodexView extends Views.Form
 		@tplData.email = @model.getUserEmail()
 		
 		@listenTo @model, 'change', (model, options) =>
+			console.log "Main model changed: ", model, options
 			localStorage.setItem model.id, JSON.stringify model.toJSON() if model.id?
+			console.log 'activacting'
 			@activateSaveButton()
 
 
@@ -117,6 +121,15 @@ class EditCodexView extends Views.Form
 
 		@updatePagecount()
 		@updateMargincount()
+
+		@_renderPersons()
+		@_renderTexts()
+
+	_renderTexts: ->
+
+	_renderPersons: ->
+		persons = new PersonsView()
+		@$("div[data-tab=\"persons\"]").html persons.el
 
 	# ### Events
 	events: -> _.extend super, 
@@ -161,6 +174,9 @@ class EditCodexView extends Views.Form
 		@el.querySelector('td.margincount').innerHTML = count if _.isFinite(percentage)
 
 	saveCodex: (ev) ->
+		ev.preventDefault()
+		ev.stopPropagation()
+
 		jqXHR = @model.save [], dataType: 'text'
 		jqXHR.done (data, textStatus, xhr) =>
 			if @model.isNew()
@@ -181,8 +197,12 @@ class EditCodexView extends Views.Form
 			@trigger 'saved'
 
 	cancelCodex: (ev) ->
+		console.log 'here'
+		ev.preventDefault()
+		ev.stopPropagation()
+
 		localStorage.clear()
-		location.reload()
+		Backbone.history.navigate "/codex/#{@options.pid}", trigger: true
 
 	deleteCodex: (ev) ->
 		if window.confirm 'You are about to delete Codex: '+@model.id
@@ -244,30 +264,30 @@ class EditCodexView extends Views.Form
 
 			modal.messageAndFade 'success', "Saved changes to codex #{@model.id}.", 2000
 
-	fillForm: ->
-		@$('input').each (index, input) =>
+	# fillForm: ->
+	# 	@$('input').each (index, input) =>
 
-			if $(input).attr('type') is 'checkbox'
-				checked = if Math.random() < 0.5 then true else false
-				$(input).prop 'checked', checked
-			else
-				$(input).val generateID(4)
+	# 		if $(input).attr('type') is 'checkbox'
+	# 			checked = if Math.random() < 0.5 then true else false
+	# 			$(input).prop 'checked', checked
+	# 		else
+	# 			$(input).val generateID(4)
 				
-			$(input).trigger 'change'
+	# 		$(input).trigger 'change'
 
-		@$('textarea').each (index, textarea) =>
-			$(textarea).val generateID(12)
-			$(textarea).trigger 'change'
+	# 	@$('textarea').each (index, textarea) =>
+	# 		$(textarea).val generateID(12)
+	# 		$(textarea).trigger 'change'
 
-		@$('select').each (index, select) =>
-			index = Math.floor(Math.random()*select.options.length)
-			option = select.options[index]
-			$(select).val option.value
+	# 	@$('select').each (index, select) =>
+	# 		index = Math.floor(Math.random()*select.options.length)
+	# 		option = select.options[index]
+	# 		$(select).val option.value
 
-			$(select).trigger 'change'
+	# 		$(select).trigger 'change'
 
-		@$('.invalid').each (index, invalid) =>
-			$(invalid).val 3
-			$(invalid).trigger 'change'
+	# 	@$('.invalid').each (index, invalid) =>
+	# 		$(invalid).val 3
+	# 		$(invalid).trigger 'change'
 
 module.exports = EditCodexView

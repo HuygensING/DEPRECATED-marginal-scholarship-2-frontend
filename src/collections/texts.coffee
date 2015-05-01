@@ -1,19 +1,19 @@
 Backbone = require 'backbone'
 _ = require "underscore"
 
-Person = require '../models/person'
+Text = require '../models/text'
 
 dropdownOptions = require "../views/codex/edit/form/dropdown/options"
 
-class Persons extends Backbone.Collection
+class Texts extends Backbone.Collection
 	
-	model: Person
+	model: Text
 
 	initialize: ->
 		_.extend @, dropdownOptions
 		@dropdownOptionsInitialize()
 
-	comparator: (person) ->
-		person.get 'name'
+	comparator: (model) ->
+		model.get 'title'
 
-module.exports = new Persons()
+module.exports = Texts

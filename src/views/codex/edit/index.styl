@@ -4,15 +4,7 @@ myred = lighten(red, 60%)
 .editcodex
 	margin 40px
 	font-size 0.9em
-	
-	button
-		font-size 0.9em
-		
-		&.dateinfo
-			font-family Helvetica, Arial, Sans-Serif
-			text-shadow none
-			font-weight bold
-	
+
 	#dateinfo, #layoutinfo
 		position absolute
 		display	none
@@ -38,17 +30,21 @@ myred = lighten(red, 60%)
 			display inline-block
 			vertical-align top
 
-	button.dateinfo, button.layoutinfo
-		width 18px
-		height 18px
-		padding 0
-		margin 0 0 0 3px
-		border 1px solid #BBB
-		color #444
-		background-color #EEE
-		border-radius 10px
+	button
 		font-size 0.9em
-		// display inline
+		
+		&.dateinfo, &.layoutinfo
+			width 18px
+			height 18px
+			padding 0
+			margin 0 0 0 3px
+			border 1px solid #BBB
+			color #444
+			background-color #EEE
+			border-radius 10px
+			font-family Helvetica, Arial, Sans-Serif
+			text-shadow none
+			font-weight bold
 			
 
 	.autosuggest, .combolist, .editablelist
@@ -146,12 +142,6 @@ myred = lighten(red, 60%)
 				span(class="is")
 					margin 0 8px
 
-			li.layout
-				div.new
-					label
-						width 120px
-
-
 	.invalid
 		border 1px solid #E00000
 		box-shadow 0px 0px 5px rgba(255, 0, 0, 0.5)
@@ -177,12 +167,17 @@ myred = lighten(red, 60%)
 				width auto
 
 	.pagelayouts
-		.canvas-placeholder
+		h4
+			inline-block()
+		
+		li.canvas-placeholder
 			position relative
 			
 			canvas
 				position absolute
-				margin-left 20px
+				right 0
+				// margin-left 20px
+				// top 0
 			
 	// #pagelayouts
 	// 	h4

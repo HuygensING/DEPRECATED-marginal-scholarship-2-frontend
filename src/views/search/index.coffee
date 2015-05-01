@@ -52,6 +52,7 @@ class Search extends Backbone.View
 	events: ->
 		"click ul.tabs > li": "_handleTabClick"
 		"click .reset": "_handleReset"
+		"click .collapse": "_handleCollapse"
 
 	_handleTabClick: (ev) ->
 		@$('ul.tabs li').removeClass 'active'
@@ -67,6 +68,7 @@ class Search extends Backbone.View
 	_handleReset: ->
 		@facetedSearch.reset()
 
-
+	_handleCollapse: (ev) ->
+		@facetedSearch.facets.toggle ev
 
 module.exports = new Search()

@@ -75,14 +75,14 @@ class MainRouter extends Backbone.Router
 
 	editcodex: (id, sub) ->
 		unless pages.editcodices.hasOwnProperty(id)
-			pages.editcodices[id] = new EditCodex id: id, sub: sub
+			pages.editcodices[id] = new EditCodex pid: id, sub: sub
 			$('body > .main > .editcodex').append pages.editcodices[id].el
 
 		show pages.editcodices[id]
 
 	codex: (id, sub) ->
 		unless pages.codices.hasOwnProperty(id)
-			pages.codices[id] = new Codex id: id, sub: sub
+			pages.codices[id] = new Codex pid: id, sub: sub
 			$('body > .main > .codex').append pages.codices[id].el
 
 		show pages.codices[id]

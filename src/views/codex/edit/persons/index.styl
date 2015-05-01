@@ -1,0 +1,57 @@
+div[data-tab="persons"]
+	ul
+		list-style none
+		margin 0
+		padding 0
+		margin-top 20px
+		
+		li
+			cursor pointer
+		
+	ul.alphabet
+		li
+			inline-block()
+			margin-left 1em
+			color gray
+			text-transform uppercase
+			
+			&.all
+				text-transform initial
+				margin 0
+			
+	ul.persons
+		width 45%
+		
+		li
+			line-height 24px
+			
+	.form-container, ul.persons
+		inline-block()
+		
+	.form-container
+		ul.form
+			li
+				line-height 30px
+				
+				&.buttons
+					button[name="cancel"]
+						background none
+						box-shadow none
+						text-shadow none
+						color gray
+						margin 0
+						padding 0
+
+					span
+						margin 0 10px
+				
+				label, input
+					inline-block()
+
+				label
+					width 120px
+					color gray
+					
+				input
+					width 240px
+					height 20px

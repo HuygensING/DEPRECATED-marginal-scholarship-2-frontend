@@ -21,7 +21,7 @@ class CodexView extends Backbone.View
 	# @param {Object} this.options
 	###
 	initialize: (@options) ->
-		@codex = codices.get(@options.id)
+		@codex = codices.get(@options.pid)
 
 		if @codex?
 			@render()
@@ -31,10 +31,9 @@ class CodexView extends Backbone.View
 				success: =>
 					codices.add @codex
 					@render()
-
-		# @listenTo searchView.facetedSearch, 'change:results', @_renderPagination
-
-		# @render()
+				error: =>
+					console.error @options.pid, arguments
+					throw new Error "Unable to fetch codex #{@options.pid}"
 	
 	###
 	# @method
@@ -43,8 +42,6 @@ class CodexView extends Backbone.View
 		@$el.html tpl 
 			codex: @codex
 			facsimileUrl: config.get('facsimileUrl')
-
-		# @_renderPagination()
 
 		@
 
@@ -55,7 +52,7 @@ class CodexView extends Backbone.View
 			document.body.scrollTop = 0
 			Backbone.history.navigate "", trigger: true
 		"click svg.edit": ->
-			Backbone.history.navigate "/codex/#{@options.id}/edit", trigger: true
+			Backbone.history.navigate "/codex/#{@options.pid}/edit", trigger: true
 
 	_handleTabClick: (ev) ->
 		@$('ul.tabs li').removeClass 'active'
@@ -66,7 +63,7 @@ class CodexView extends Backbone.View
 
 		tab = ev.currentTarget.getAttribute("data-tab")
 		tab = "" if tab is "metadata"
-		Backbone.history.navigate "codex/#{@options.id}/#{tab}"
+		Backbone.history.navigate "codex/#{@options.pid}/#{tab}"
 
 	_handleFacsimileClick: (ev) ->
 		@$el.toggleClass 'small-facsimile'

@@ -3,6 +3,13 @@ ul.horizontal.tab.menu
 	li(data-tab="text") Text
 	li(data-tab="margin") Margin
 
+ul.horizontal.tab.menu2
+	li(data-tab="persons") Persons
+	li(data-tab="texts") Texts
+
+div(data-tab="persons")
+div(data-tab="texts")
+
 div.active(data-tab="codex")
 	ul(data-cid=model.cid)
 		li 
@@ -152,7 +159,7 @@ div.active(data-tab="codex")
 		li 
 			- id = generateID()
 			label(for=id) Quire structure
-			input(id=id, name="quireStructure", data-view-id=viewId, value=model.get('quireStructure'))
+			input.large(id=id, name="quireStructure", data-view-id=viewId, value=model.get('quireStructure'))
 		li 
 			label Layout
 			.pageLayouts-placeholder.placeholder
@@ -175,7 +182,7 @@ div.active(data-tab="codex")
 		li 
 			label Bibliography
 			.bibliographies-placeholder.placeholder
-		li 
+		li
 			label URLs
 			.URLs-placeholder.placeholder
 

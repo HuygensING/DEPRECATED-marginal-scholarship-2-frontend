@@ -3,34 +3,35 @@ if (collection.length)
 		each model in collection.models
 			li.model(data-cid=model.cid)
 				ul.medium.formpart
+					li
+						h4 General
 					li.layout
-						div
-							h4 General
-							label Textblock width
-							span.x x
-							label textblock height
-							span.is =
-							input.small(data-view-id=viewId, name="textWidthMin", value=model.get('textWidthMin'), placeholder="min")
-							span -
-							input.small(data-view-id=viewId, name="textWidthMax", value=model.get('textWidthMax'), placeholder="max")
-							span.x x
-							input.small(data-view-id=viewId, name="textHeightMin", value=model.get('textHeightMin'), placeholder="min")
-							span -
-							input.small(data-view-id=viewId, name="textHeightMax", value=model.get('textHeightMax'), placeholder="max")
-							span.generallayoutratio
-
-						div.new(style="width: 320px")
-							h4.detailed Detailed
-							button.layoutinfo ?
-							.canvas-placeholder
-								label Horizontal layout
-								input(data-view-id=viewId, name="horizontalLayout", value=model.get('horizontalLayout'))
-								canvas.layout
-							label Vertical layout
-							input(data-view-id=viewId, name="verticalLayout", value=model.get('verticalLayout'))
-							br
-							label &nbsp;
-							span.space
+						label Textblock width
+						span.x x
+						label textblock height
+						span.is =
+						input.small(data-view-id=viewId, name="textWidthMin", value=model.get('textWidthMin'), placeholder="min")
+						span -
+						input.small(data-view-id=viewId, name="textWidthMax", value=model.get('textWidthMax'), placeholder="max")
+						span.x x
+						input.small(data-view-id=viewId, name="textHeightMin", value=model.get('textHeightMin'), placeholder="min")
+						span -
+						input.small(data-view-id=viewId, name="textHeightMax", value=model.get('textHeightMax'), placeholder="max")
+						span.generallayoutratio
+					li &nbsp;
+					li.canvas-placeholder
+						h4.detailed Detailed
+						button.layoutinfo ?
+						canvas.layout
+					li
+						label Horizontal layout
+						input(data-view-id=viewId, name="horizontalLayout", value=model.get('horizontalLayout'))
+					li
+						label Vertical layout
+						input(data-view-id=viewId, name="verticalLayout", value=model.get('verticalLayout'))
+					li
+						label &nbsp;
+						span.space
 					li &nbsp;
 					li
 						label Lines

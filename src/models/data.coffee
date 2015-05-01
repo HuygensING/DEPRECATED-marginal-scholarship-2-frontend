@@ -2,7 +2,8 @@ Backbone = require 'backbone'
 $ = require 'jquery'
 
 searchView = require "../views/search"
-Persons = require "../collections/persons"
+persons = require "../collections/persons"
+Texts = require "../collections/texts"
 
 config = require './config'
 
@@ -57,12 +58,10 @@ class Data extends Backbone.Model
 
 			@set facetData: facetData
 
-		$.getJSON config.get("personsUrl"), (data) =>
-			console.log new Persons(data, parse: true)
-			@set persons: new Persons(data, parse: true)
+		@fetchPersons()
 
 		$.getJSON config.get("textsUrl"), (data) =>
-			@set texts: new Backbone.Collection(data)
+			@set texts: new Texts(data, parse: true)
 
 		$.getJSON config.get("localitiesUrl"), (data) =>
 			@set localities: new Backbone.Collection(data)
@@ -70,5 +69,10 @@ class Data extends Backbone.Model
 	isLoadingFinished: ->
 		Object.keys(@attributes).reduce (prev, next) =>
 			prev && @get(next)?
+
+	fetchPersons: ->
+		$.getJSON config.get("personsUrl"), (data) =>
+			persons.reset(data, parse: true)
+			@set persons: persons
 
 module.exports = new Data()
