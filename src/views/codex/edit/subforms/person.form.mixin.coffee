@@ -25,7 +25,6 @@ module.exports =
 
 		# When the modal is submitted, the text is saved to server and triggers a 'saved' event
 		personForm.once 'saved', (personModel) =>
-			# console.log 'edit save'
 			# Update the @data.persons collection with the new person 
 			personSimple = @data.persons.get personID
 			personSimple.set 'title', personModel.get 'name'

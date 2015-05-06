@@ -1,3 +1,4 @@
+Backbone = require "backbone"
 _ = require 'underscore'
 
 config = require '../../../models/config'
@@ -22,6 +23,7 @@ Views =
 		origin: require './form/locality'
 
 PersonsView = require "./persons"
+TextsView = require "./texts"
 
 generateID = (length) ->
 		length = if length? and length > 0 then (length-1) else 7
@@ -61,6 +63,8 @@ compareJSON = (current, changed) ->
 	changes
 
 tpl = require './index.jade'
+
+subPages = ["codex", "text", "margin", "persons", "texts"]
 
 # ## Codex
 # * TODO change Views.Form into mixin
@@ -125,14 +129,26 @@ class EditCodexView extends Views.Form
 		@_renderPersons()
 		@_renderTexts()
 
+		@_goToSub()
+
+	_goToSub: ->
+		if subPages.indexOf(@options.sub) > -1
+			@tabClicked @options.sub
+
+
 	_renderTexts: ->
+		texts = new TextsView()
+		@$("div[data-tab=\"texts\"]").html texts.el
 
 	_renderPersons: ->
 		persons = new PersonsView()
 		@$("div[data-tab=\"persons\"]").html persons.el
 
 	# ### Events
-	events: -> _.extend super, 
+	events: -> _.extend super,
+		'click button.save': (ev) ->
+			ev.preventDefault()
+			ev.stopPropagation()
 		'click button.save.active': 'saveCodex'
 		'click button.cancel': 'cancelCodex'
 		'click button.delete': 'deleteCodex'
@@ -150,11 +166,16 @@ class EditCodexView extends Views.Form
 
 
 	tabClicked: (ev) ->
-		ev.stopPropagation()
+		if ev.hasOwnProperty("currentTarget")
+			ev.stopPropagation()
+			tabName = ev.currentTarget.getAttribute 'data-tab'
+		else
+			tabName = ev
+
+		Backbone.history.navigate "/codex/#{@options.pid}/edit/#{tabName}"
 
 		@$('[data-tab]').removeClass 'active'
 
-		tabName = ev.currentTarget.getAttribute 'data-tab'
 		@$('[data-tab="'+tabName+'"]').addClass 'active'
 
 	updatePagecount: ->
@@ -197,7 +218,6 @@ class EditCodexView extends Views.Form
 			@trigger 'saved'
 
 	cancelCodex: (ev) ->
-		console.log 'here'
 		ev.preventDefault()
 		ev.stopPropagation()
 

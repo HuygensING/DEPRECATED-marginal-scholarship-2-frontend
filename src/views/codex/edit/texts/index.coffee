@@ -2,10 +2,10 @@ Backbone = require 'backbone'
 _ = require 'underscore'
 
 data = require "../../../../models/data"
-Person = require "../../../../models/person"
-persons = require "../../../../collections/persons"
+Text = require "../../../../models/text"
+texts = require "../../../../collections/texts"
 
-Form = require "../form"
+TextForm = require "./form"
 
 tpl = require './index.jade'
 formTpl = require './form.jade'
@@ -17,31 +17,27 @@ class PersonsView extends Backbone.View
 
 	# ### Initialize
 	initialize: (@options) ->
-		titles = data.get("persons").map((model) -> model.get("title"))
+		titles = data.get("texts").map((model) -> model.get("title"))
 		@_letters = @_generateAlphabet(titles)
 
-		# @_persons = data.get("persons").models
+		# @_persons = data.get("texts").models
 		@_currentChar = null
 
-		@listenTo persons, "reset", @render
+		@listenTo texts, "reset", @render
 
 		@render()
 
-	render: (persons) ->
-
-		# console.log @_persons.filter((p) -> 
-		# 	p.get("title").indexOf("Nicetas") > -1)[0].get("title")
-
+	render: (texts) ->
 		@$el.html tpl
 			letters: @_letters
-			persons: @_filter()
+			texts: @_filter()
 
 		@
 
 	events: ->
 		"click ul.alphabet > li": "_handleFilter"
 		"click ul.alphabet > li.all": "_handleFilterAll"
-		"click ul.persons > li": "_handlePerson"
+		"click ul.texts > li": "_handlePerson"
 
 	_handleFilter: (ev) ->
 		@_currentChar = ev.currentTarget.innerHTML
@@ -53,27 +49,27 @@ class PersonsView extends Backbone.View
 
 	_filter: ->
 		if @_currentChar?
-			filteredPersons = data.get("persons").filter (person) =>
-				person.get("title").toUpperCase().charAt(0) is @_currentChar
+			filteredPersons = data.get("texts").filter (text) =>
+				text.get("title").toUpperCase().charAt(0) is @_currentChar
 		else
-			filteredPersons = data.get("persons").models
+			filteredPersons = data.get("texts").models
 
 		filteredPersons
 
 	_handlePerson: (ev) ->
-		active = @el.querySelector("ul.persons li.active")
+		active = @el.querySelector("ul.texts li.active")
 		activeId = active?.getAttribute("data-id")
 
 		id = ev.currentTarget.getAttribute("data-id")
 
 		return if activeId is id
 
-		person = new Person pid: id
-		person.fetch
+		text = new Text pid: id
+		text.fetch
 			success: =>
-				@_renderForm ev.currentTarget, person
+				@_renderForm ev.currentTarget, text
 			error: ->
-				console.error "Fetching Person #{id} failed"
+				console.log 'neah'
 
 	_renderForm: do ->
 		form = null
@@ -81,12 +77,11 @@ class PersonsView extends Backbone.View
 		(target, model) ->
 			destroy = =>
 				form.destroy() 
-				@$("ul.persons li.active").removeClass "active"
+				@$("ul.texts li.active").removeClass "active"
 
 			destroy() if form?
 
-			form = new Form
-				tpl: formTpl
+			form = new TextForm
 				model: model
 
 			form.on 'save:success', (person) =>

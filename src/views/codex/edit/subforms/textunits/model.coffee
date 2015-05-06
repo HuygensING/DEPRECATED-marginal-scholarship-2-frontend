@@ -14,7 +14,16 @@ class TextUnit extends Form
 
 	set: (attrs, options) ->
 		[attrs, options] = @setter attrs, options, 'text', (val) ->
-			if val.hasOwnProperty 'id' then id: val.id, type: 'text' else {}
+			if val.hasOwnProperty("pid")
+				val = 
+					id: val.pid
+					type: 'text'
+			else if val.hasOwnProperty("id") 
+				val = 
+					id: val.id
+					type: 'text'
+
+			val
 
 		[attrs, options] = @setter attrs, options, 'stateOfPreservation', (val) ->
 			if val.hasOwnProperty 'id' then val.title else val

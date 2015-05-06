@@ -1,3 +1,5 @@
+_ = require "underscore"
+
 Form = require "../../../../../models/form"
 
 class MarginUnit extends Form
@@ -24,7 +26,7 @@ class MarginUnit extends Form
 		[attrs, options] = @setter attrs, options, 'languages', (val) ->
 			if val.hasOwnProperty 'selected' then _.pluck(val.selected, 'title') else val
 
-		[attrs, options] = @setter attrs, options, 'scripts', (val) ->
+		[attrs, options] = @setter attrs, options, 'scriptTypes', (val) ->
 			if val.hasOwnProperty 'selected' then _.pluck(val.selected, 'title') else val
 
 		super

@@ -57,11 +57,7 @@ class ComboList extends Backbone.View
 
 	# ### Render
 	postDropdownRender: ->
-		# console.log 'before'
 		@filtered_options.reset @collection.reject (model) => @selected.get(model.id)?
-		# console.log 'after'
-		# 'myval'
-	# ### Events
 
 	events: -> _.extend @dropdownEvents(), 
 		'click li.selected span': 'removeSelected'
@@ -106,7 +102,7 @@ class ComboList extends Backbone.View
 		# Else it was a click event on li.list. Model is retrieved from @collection with <li data-id="13">
 		else
 			model = @collection.get ev.currentTarget.getAttribute 'data-id'
-		
+
 		@selected.add model
 
 	triggerChange: (options) -> 
@@ -119,6 +115,9 @@ class ComboList extends Backbone.View
 			removed: options.removed
 
 	# Turns an array of string ['la', 'li'] into an array of options [{id: 'la', title: 'la'}, {id: 'li', title: 'li'}] (model data for Backbone.Collectionn)
-	strArray2optionArray: (strArray) -> _.map strArray, (item) -> id: item, title: item
+	strArray2optionArray: (strArray) ->
+		_.map strArray, (item) ->
+			id: item
+			title: item
 
 module.exports = ComboList

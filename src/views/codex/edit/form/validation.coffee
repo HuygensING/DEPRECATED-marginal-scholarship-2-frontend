@@ -120,9 +120,6 @@ module.exports =
 				@$("[name=\"#{error.attr}\"]").after div
 
 	validatorCheckErrors: (model, options) ->
-		# console.log model, options
-		# model = if @model? then @model else @getModel(ev)
-
 		@$('button[name="submit"]').removeClass('disabled')
 		
 		for attr, value of model.changedAttributes()

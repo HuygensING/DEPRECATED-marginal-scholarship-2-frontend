@@ -5,6 +5,7 @@ ul.alphabet
 
 ul.persons
 	for person in persons
-		li(data-id=person.get("id"))= person.get("title")
+		li(data-id=person.id)
+			label= person.get("title")
 
-.form-container
+//- .form-container

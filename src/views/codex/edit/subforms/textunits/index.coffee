@@ -30,6 +30,8 @@ class TextUnits extends Views.MultiForm
 			data: data.get("texts")
 			settings:
 				inputClass: 'large'
+				getModel: (val, coll) ->
+					coll.get val.id
 				# editable: true
 				# mutable: true
 				# defaultAdd: false

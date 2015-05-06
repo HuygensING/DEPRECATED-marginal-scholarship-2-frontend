@@ -1,0 +1,90 @@
+div[data-tab="persons"], div[data-tab="texts"]
+	ul
+		list-style none
+		margin 0
+		padding 0
+		// margin-top 20px
+		
+		li
+			cursor pointer
+		
+	ul.alphabet
+		margin 20px 0 0 6px
+		
+		li
+			inline-block()
+			margin-left 1em
+			color gray
+			text-transform uppercase
+			
+			&.all
+				text-transform initial
+				margin 0
+			
+	ul.persons, ul.texts
+		margin-top 20px
+		width 50%
+		
+		& > li
+			line-height 24px
+			position relative
+			
+			& > label
+				cursor pointer
+				padding-left 6px
+				display inline-block
+				
+			&:hover
+				background msLighterBlue
+				
+			&.active, &.active form
+				background #EEE
+				box-shadow 1px 1px 1px #CCC
+				
+			// .success-message
+			// 	display inline
+			// 	padding-left 10px
+			// 	font-style italic
+			// 	color green
+				
+			form
+				position absolute
+				top 0
+				left 100%
+				width 415px
+				
+				ul.form
+					// margin 10px 0 0 0
+					padding 20px
+
+					li
+						// margin-bottom 10px
+						
+						&.buttons
+							margin-top 20px
+							
+							button[name="cancel"]
+								background none
+								box-shadow none
+								text-shadow none
+								color gray
+								margin 0
+								padding 0
+
+							span
+								margin 0 10px
+						
+						label, input
+							inline-block()
+
+						label
+							width 120px
+							color gray
+							padding-left 6px
+							
+						input
+							width 240px
+							height 25px
+							background white
+							border 1px solid #DDD
+							vertical-align middle

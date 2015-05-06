@@ -42,7 +42,6 @@ class Interestingfor extends Backbone.View
 
 	triggerChange: -> 
 		value = JSON.parse JSON.stringify @value # Remove reference
-		# console.log value
 		@trigger 'change', value
 
 module.exports = Interestingfor

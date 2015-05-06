@@ -30,10 +30,14 @@ class Codex extends Backbone.Model
 	sync: (method, model, options) ->
 		if method is 'read'
 			options.url = model.url() + "/expandlinks"
-		# else if method is 'update'
-		# 	options.url = model.url()
-		# 	model = model.clone()
-		# 	model.unset 'id'
+		else if method is 'update'
+			model = model.clone()
+
+			model.set "textUnits", model.get("textUnits").map (textUnit) ->
+				textUnit.text =
+					pid: textUnit.text.id
+
+				textUnit
 
 		super
 

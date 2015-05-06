@@ -1,1 +1,19 @@
-span LOCALITY
+ul
+	li.regions
+		label Regions
+		select
+			option &nbsp;
+			for region in regions
+				option(value=region)= region
+	li.places
+		label Places
+		select
+			option &nbsp;
+			for place in places
+				option(value=place)= place
+	li.scriptoria
+		label Scriptoria
+		select
+			option &nbsp;
+			for scriptorium in scriptoria
+				option(value=scriptorium)= scriptorium

@@ -18,7 +18,7 @@ class Person extends BaseModel
 		# If parsing for the collection ...
 		if options.collection
 			return {
-				id: attrs.id.replace("/persons/", "")
+				pid: attrs.id.replace("/persons/", "")
 				title: attrs.label
 			}
 

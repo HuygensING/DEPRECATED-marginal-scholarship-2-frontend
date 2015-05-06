@@ -1,57 +1,86 @@
-div[data-tab="persons"]
-	ul
-		list-style none
-		margin 0
-		padding 0
-		margin-top 20px
+// div[data-tab="persons"]
+// 	ul
+// 		list-style none
+// 		margin 0
+// 		padding 0
+// 		margin-top 20px
 		
-		li
-			cursor pointer
+// 		li
+// 			cursor pointer
 		
-	ul.alphabet
-		li
-			inline-block()
-			margin-left 1em
-			color gray
-			text-transform uppercase
+// 	ul.alphabet
+// 		li
+// 			inline-block()
+// 			margin-left 1em
+// 			color gray
+// 			text-transform uppercase
 			
-			&.all
-				text-transform initial
-				margin 0
+// 			&.all
+// 				text-transform initial
+// 				margin 0
 			
-	ul.persons
-		width 45%
+// 	ul.persons
+// 		width 40%
 		
-		li
-			line-height 24px
+// 		& > li
+// 			line-height 24px
+// 			position relative
 			
-	.form-container, ul.persons
-		inline-block()
-		
-	.form-container
-		ul.form
-			li
-				line-height 30px
+// 			& > label
+// 				cursor pointer
+// 				padding-left 6px
 				
-				&.buttons
-					button[name="cancel"]
-						background none
-						box-shadow none
-						text-shadow none
-						color gray
-						margin 0
-						padding 0
-
-					span
-						margin 0 10px
+// 			&:hover
+// 				background msLighterBlue
+			
+// 			&.active
+// 				line-height 40px
 				
-				label, input
-					inline-block()
+// 			&.active, &.active form
+// 				background #EEE
+// 				box-shadow 1px 1px 1px #CCC
+				
+// 			.success-message
+// 				display inline
+// 				padding-left 10px
+// 				font-style italic
+// 				color green
+				
+// 			form
+// 				position absolute
+// 				top 0
+// 				left 100%
+// 				width 415px
+				
+// 				ul.form
+// 					margin 10px 0 0 0
+// 					padding 20px
 
-				label
-					width 120px
-					color gray
-					
-				input
-					width 240px
-					height 20px
+// 					li
+// 						// margin-bottom 10px
+						
+// 						&.buttons
+// 							button[name="cancel"]
+// 								background none
+// 								box-shadow none
+// 								text-shadow none
+// 								color gray
+// 								margin 0
+// 								padding 0
+
+// 							span
+// 								margin 0 10px
+						
+// 						label, input
+// 							inline-block()
+
+// 						label
+// 							width 120px
+// 							color gray
+// 							padding-left 6px
+							
+// 						input
+// 							width 240px
+// 							height 24px
+// 							background white
+// 							border 1px solid #DDD

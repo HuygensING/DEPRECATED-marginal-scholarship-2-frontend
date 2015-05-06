@@ -1,0 +1,20 @@
+- var id = "z4vc8tyu";
+
+ul.form(data-model-id=model.cid, data-cid=model.cid)
+	li
+		label(for=id) Title
+		input(id=id, type="text", value=model.get("title"), name="title")
+	li
+		label Authors
+		.authors-placeholder.placeholder
+	li
+		label Period
+		.period-placeholder.placeholder
+	li
+		label Content Type
+		.contentTypes-placeholder.placeholder
+	li.buttons
+		label &nbsp;
+		button(name="submit") Save
+		span or
+		button(name="cancel") Cancel

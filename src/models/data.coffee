@@ -1,9 +1,10 @@
 Backbone = require 'backbone'
 $ = require 'jquery'
+_ = require "underscore"
 
 searchView = require "../views/search"
 persons = require "../collections/persons"
-Texts = require "../collections/texts"
+texts = require "../collections/texts"
 
 config = require './config'
 
@@ -60,11 +61,9 @@ class Data extends Backbone.Model
 
 		@fetchPersons()
 
-		$.getJSON config.get("textsUrl"), (data) =>
-			@set texts: new Texts(data, parse: true)
+		@fetchTexts()
 
-		$.getJSON config.get("localitiesUrl"), (data) =>
-			@set localities: new Backbone.Collection(data)
+		@fetchLocalities()
 
 	isLoadingFinished: ->
 		Object.keys(@attributes).reduce (prev, next) =>
@@ -74,5 +73,34 @@ class Data extends Backbone.Model
 		$.getJSON config.get("personsUrl"), (data) =>
 			persons.reset(data, parse: true)
 			@set persons: persons
+
+	fetchTexts: ->
+		$.getJSON config.get("textsUrl"), (data) =>
+			texts.reset(data, parse: true)
+			@set texts: texts
+
+	fetchLocalities: ->
+		$.getJSON config.get("localitiesUrl"), (data) =>
+			regions = []
+			places = []
+			scriptoria = []
+
+			for region in data.regions
+				regions.push region.name
+
+				for place in region.places
+					places.push place.name
+
+					for scriptorium in place.scriptoria
+						scriptoria.push scriptorium.name
+
+			data =
+				data: data.regions
+				regions: _.sortBy regions, _.identity
+				places: _.sortBy places, _.identity
+				scriptoria: _.sortBy scriptoria, _.identity
+
+			@set localities: data
+
 
 module.exports = new Data()

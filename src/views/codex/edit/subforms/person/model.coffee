@@ -31,7 +31,8 @@ class Person extends Form
 					xhr.done (data, textStatus, jqXHR) =>
 						@trigger 'sync'
 						options.success data
-			jqXHR.fail (response) => console.log 'fail', response
+			jqXHR.fail (response) =>
+				console.error 'fail', response
 		else
 			super
 

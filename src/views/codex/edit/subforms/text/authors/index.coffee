@@ -38,6 +38,7 @@ class TextAuthors extends Views.MultiForm
 	events: -> _.extend super, 
 		'click .person-placeholder button.edit': 'editPerson'
 
-	customAdd: (value, collection) -> @addPerson collection
+	customAdd: (value, collection) ->
+		@addPerson collection
 
 module.exports = TextAuthors
