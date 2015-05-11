@@ -31,8 +31,6 @@ class MarginalsAnnotators extends Views.MultiForm
 		person: 
 			data: data.get("persons")
 			settings:
-				editable: true
-				mutable: true
 				defaultAdd: false
 
 	events: -> _.extend super, 

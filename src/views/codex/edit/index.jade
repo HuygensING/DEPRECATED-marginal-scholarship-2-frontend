@@ -11,17 +11,17 @@ div(data-tab="persons")
 div(data-tab="texts")
 
 div.active(data-tab="codex")
-	ul(data-cid=model.cid)
+	ul(data-cid=model.cid, data-model-id=model.cid)
 		li 
 			label Codex
 			.locations-placeholder.placeholder
 		li 
 			label Identifier
 			.identifiers-placeholder.placeholder
-		li
-			- var id = generateID();
-			label(for=id) Thumbnail
-			textarea(id=id, name="thumbnailInfo", data-view-id=viewId)=model.get('thumbnailInfo')
+		//- li
+		//- 	- var id = generateID();
+		//- 	label(for=id) Thumbnail
+		//- 	textarea(id=id, name="thumbnailInfo", data-view-id=viewId)=model.get('thumbnailInfo')
 		li
 			- id = generateID();
 			label(for=id) Examined

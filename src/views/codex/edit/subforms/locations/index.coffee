@@ -21,7 +21,8 @@ class Locations extends MultiForm
 		institute: 
 			data: data.get("facetData").locations
 			settings:
-				getModel: (val, coll) -> coll.get val
+				getModel: (val, coll) ->
+					coll.get val
 				mutable: true
 				inputClass: 'large'
 

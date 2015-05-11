@@ -1,7 +1,7 @@
 if (collection.length)
 	ul.collection
 		each model in collection.models
-			li.model(data-cid=model.cid)
+			li.model(data-cid=model.cid, data-model-id=model.cid)
 				ul.small.formpart
 					li
 						label(for="") Institute

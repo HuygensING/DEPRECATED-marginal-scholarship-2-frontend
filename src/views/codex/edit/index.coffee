@@ -207,7 +207,7 @@ class EditCodexView extends Views.Form
 				@publish 'navigate', 'codex/'+@model.id
 
 			# Update the revision number.
-			@model.updateRev()
+			# @model.updateRev()
 
 			# The model is saved to the server so unsaved attributes in localStorage can be removed.
 			localStorage.removeItem @model.id

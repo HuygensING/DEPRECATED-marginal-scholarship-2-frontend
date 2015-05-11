@@ -15,19 +15,14 @@ class Identifiers extends MultiForm
 		@Model = Model
 		@subforms = SubForms
 
-		
-		# asyncdata (data) =>
-		# 	@options.tplData = data
-
-		# 	@subformConfig =
-
 		super
 
 	_formConfig: (data) ->
 		type: 
 			data: ["(empty)", "Bergmann", "Bischoff", "CLA", "KIH"] #tmp
 			settings:
-				getModel: (val, coll) -> coll.get val
+				getModel: (val, coll) ->
+					coll.get val
 				mutable: true
 
 module.exports = Identifiers

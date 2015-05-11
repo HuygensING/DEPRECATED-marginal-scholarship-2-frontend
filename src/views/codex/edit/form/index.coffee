@@ -55,18 +55,12 @@ class Form extends Backbone.View
 
 	# @Model is used by Form to instanciate @model and by MultiForm as the model for @collection. If no @Model is given, use Backbone.Model.
 	initialize: (@options={}) ->
-		# super
-
 		_.extend @, validation
 
 		@subviews = []
 
 		@options.tplData ?= {}
 		@options.saveOnSubmit ?= true
-		# @options.value = if @options.codexId? then _id: @options.codexId else {}
-
-		# @subformConfig ?= @options.subformConfig
-		# @subformConfig ?= {}
 
 		@Model ?= @options.Model
 		@Model ?= Backbone.Model
@@ -74,25 +68,18 @@ class Form extends Backbone.View
 		@tpl ?= @options.tpl
 		throw new Error 'Unknow template!' unless @tpl?
 
-		if data.isLoadingFinished()
-			@_postInit()
-		else
-			@listenToOnce data, "loading:finished", =>
-				@_postInit()
-
-	_postInit: ->
 		@tplData = $.extend {}, data, @options.tplData
 		@subformConfig = @_formConfig data
 
 		# Listener to trigger the render once the models (Form: @model, MultiForm: @collection) are loaded. If @model isnt isNew(),
 		# data is fetched from the server. We could call @render from @createModels, but for readability sake, we call @render from
 		# a centralized place.
-		@on 'createModels:finished', @render, @
+		@on 'createModels:finished', =>
+			@render()
+			@validatorInit()
+			@addListeners()
+			
 		@createModels()
-
-		@validatorInit()
-		
-		@addListeners()
 
 	###
 	# NOOP
@@ -117,7 +104,7 @@ class Form extends Backbone.View
 		@$el.html rtpl
 
 		# @el.setAttribute 'data-view-cid', @cid
-
+		# console.log @model
 		@subforms ?= {}
 		@addSubform attr, View for own attr, View of @subforms
 
@@ -139,12 +126,17 @@ class Form extends Backbone.View
 	events: ->
 		evs = {}
 
-		if @model?
-			evs["keyup [data-model-id='#{@model.cid}'] textarea"] = "inputChanged"
-			evs["keyup [data-model-id='#{@model.cid}'] input"] = "inputChanged"
-			evs["change [data-model-id='#{@model.cid}'] input[type=\"checkbox\"]"] = "inputChanged"
-			evs["change [data-model-id='#{@model.cid}'] select"] = "inputChanged"
-			evs["keydown [data-model-id='#{@model.cid}'] textarea"] = "textareaKeyup"
+		add = (model) ->
+			evs["keyup [data-cid='#{model.cid}'] textarea"] = "inputChanged"
+			evs["keyup [data-cid='#{model.cid}'] input"] = "inputChanged"
+			evs["change [data-cid='#{model.cid}'] input[type=\"checkbox\"]"] = "inputChanged"
+			evs["change [data-cid='#{model.cid}'] select"] = "inputChanged"
+			evs["keydown [data-cid='#{model.cid}'] textarea"] = "textareaKeyup"
+
+		add(@model) if @model?
+
+		if @collection?
+			add(model) for model in @collection.models
 
 		evs["click input[type=\"submit\"]"] = "submit"
 		evs["click button[name=\"submit\"]"] = "submit"
@@ -156,11 +148,12 @@ class Form extends Backbone.View
 	# A listener on the models change event (collection change in case of MultiForm) calls @triggerChange.
 	inputChanged: (ev) ->
 		# Removed stopPropagation because the events would not get to parent view
-		# ev.stopPropagation()
+		ev.stopPropagation()
 
 		model = if @model? then @model else @getModel(ev)
 
 		value = if ev.currentTarget.type is 'checkbox' then ev.currentTarget.checked else ev.currentTarget.value
+
 		model.set ev.currentTarget.name, value if ev.currentTarget.name isnt ''
 
 	textareaKeyup: (ev) ->
@@ -206,11 +199,9 @@ class Form extends Backbone.View
 		ev.preventDefault()
 		@trigger 'cancel'
 
-
-	# ### METHODS
-
 	# noop
-	customAdd: -> console.error 'Form.customAdd is not implemented!'
+	customAdd: ->
+		console.error 'Form.customAdd is not implemented!'
 
 	# Reset the form to original state
 	# * TODO: this only works on new models, not on editting a model
@@ -232,7 +223,7 @@ class Form extends Backbone.View
 
 		@delegateEvents()
 
-		@el.querySelector('[data-model-id]').setAttribute 'data-model-id', @model.cid
+		@el.querySelector('[data-cid]').setAttribute 'data-cid', @model.cid
 
 		# Empty the form elements
 		@el.reset()
@@ -261,7 +252,8 @@ class Form extends Backbone.View
 
 	# Listen to changes on the model. MultiForm overrides this method.
 	addListeners: ->
-		@listenTo @model, 'change', => @triggerChange()
+		@listenTo @model, 'change', =>
+			@triggerChange()
 		@listenTo @model, 'invalid', (model, errors, options) =>
 			if @options.validationAttributes?
 				found = false
@@ -282,18 +274,18 @@ class Form extends Backbone.View
 		@renderSubform attr, View, @model
 
 	# Renders, attaches and listens to a subform (also an instance of Form or MultiForm)
-	renderSubform: (attr, View, model) =>
+	renderSubform: (attr, SubView, model) =>
 		# If the attr is a flattened attr (ie: origin.region.place), flatten the model and retrieve the value.
 		# If not, just get the value from the model the regular way.
 		value = if attr.indexOf('.') > -1 then flattenObject(model.attributes)[attr] else model.get attr
 		console.error "Subform value for `#{attr}` is undefined!", @model unless value?
 
 		# TODO Remove as subviews
-		view = new View
+		subView = new SubView
 			value: value
 			config: @subformConfig[attr]
 
-		@subviews.push view
+		@subviews.push subView
 
 		# A className cannot contain dots, so replace dots with underscores
 		htmlSafeAttr = attr.split('.').join('_')
@@ -309,19 +301,20 @@ class Form extends Backbone.View
 				el = closest placeholder, '[data-cid]'
 				# If the data-cid matches the model.cid and the placeholder is still empty, append the view.
 				if el.getAttribute('data-cid') is model.cid and placeholder.innerHTML is ''
-					placeholder.appendChild view.el
+					placeholder.appendChild subView.el
 		else
 			# If just one placeholder is found, append the view to it.
-			placeholders[0].appendChild view.el
+			placeholders[0].appendChild subView.el
 
-		@listenTo view, 'change', (data) => model.set attr, data
-		@listenTo view, 'customAdd', @customAdd
+		@listenTo subView, 'change', (data) =>
+			model.set attr, data
+		@listenTo subView, 'customAdd', @customAdd
 
 		# Multiform has multiple instances of the same form elements. Those form elements can have a config.data (Backbone.Collection)
 		# attribute which populates (for example) an autosuggest. The config.data is cloned, otherwise the elements would update eachother.
 		# Therefor we need a central reference to the collection: @subformConfig[attr].data. If one of the elements changes the data,
 		# @subformConfig[attr].data will be updated, so all the elements get the same data on rerender.
-		@listenTo view, 'change:data', (models) =>
+		@listenTo subView, 'change:data', (models) =>
 			@subformConfig[attr].data = @subformConfig[attr].data.reset models
 
 	destroy: ->

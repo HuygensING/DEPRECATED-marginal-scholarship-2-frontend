@@ -21,6 +21,9 @@ class Text extends BaseModel
 		[attrs, options] = @setter attrs, options, 'authors', (val) ->
 			if val.hasOwnProperty("selected") then val.selected else val
 
+		[attrs, options] = @setter attrs, options, 'contentTypes', (val) ->
+			if val.hasOwnProperty("selected") then val.selected.map((s) -> s.id) else val
+
 		super
 
 	parse: (attrs, options) ->
@@ -44,8 +47,6 @@ class Text extends BaseModel
 
 			if model.get("period").hasOwnProperty("title")
 				model.set "period", model.get("period").title
-
-		# 	console.log model, @
 
 		super
 

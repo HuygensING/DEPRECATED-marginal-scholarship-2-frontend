@@ -43,7 +43,8 @@ class Data extends Backbone.Model
 
 	initialize: ->
 		@once 'change:facetData change:persons change:texts', =>
-			@trigger "loading:finished" if @isLoadingFinished()
+			@done() if @isLoadingFinished()
+			# @trigger "loading:finished" if @isLoadingFinished()
 
 		@listenToOnce searchView.facetedSearch, "change:results", (searchResult) =>
 			facetData = {}
