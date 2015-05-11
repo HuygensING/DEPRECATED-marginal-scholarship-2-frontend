@@ -17,7 +17,7 @@
     "postbuild": "npm run link",
     "build:jade": "jade --out build/production/ src/index.jade",
     "build:css:main": "stylus --compress --out build/production/css/main.css src/index.styl",
-    "build:css:libs": "cat ./node_modules/hibb-faceted-search/dist/main.min.css ./node_modules/hibb-modal/dist/main.min.css > build/production/css/libs.css",
+    "build:css:libs": "cat ./node_modules/hibb-faceted-search/dist/main.min.css ./node_modules/hibb-modal/dist/main.css > build/production/css/libs.css",
     "build:css": "npm run build:css:main && npm run build:css:libs",
     "build:coffee": "NODE_ENV=production browserify src/index.coffee --transform coffeeify --extension=\".coffee\" --transform jadeify --extension=\".jade\" --require ./node_modules/backbone/backbone:backbone --require ./node_modules/jquery/dist/jquery:jquery --require ./node_modules/underscore/underscore:underscore | uglifyjs --screw-ie8 --verbose --stats > build/production/js/main.js",
     "server": "http-server build/production -o"
