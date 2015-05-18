@@ -43,8 +43,8 @@ class Data extends Backbone.Model
 
 	initialize: ->
 		@once 'change:facetData change:persons change:texts', =>
-			@done() if @isLoadingFinished()
-			# @trigger "loading:finished" if @isLoadingFinished()
+			if @_isLoadingFinished()
+				@done()
 
 		@listenToOnce searchView.facetedSearch, "change:results", (searchResult) =>
 			facetData = {}
@@ -60,27 +60,34 @@ class Data extends Backbone.Model
 
 			@set facetData: facetData
 
-		@fetchPersons()
+	fetch: ->
+		@_fetchPersons()
+		@_fetchTexts()
+		@_fetchLocalities()
 
-		@fetchTexts()
-
-		@fetchLocalities()
-
-	isLoadingFinished: ->
-		Object.keys(@attributes).reduce (prev, next) =>
+	###
+	# Returns true if all data has been loaded. Loading is finished when all attributes
+	# have values.
+	#
+	# @returns {Boolean}
+	###
+	_isLoadingFinished: ->
+		reducer = (prev, next) =>
 			prev && @get(next)?
 
-	fetchPersons: ->
+		Object.keys(@attributes).reduce reducer, true
+
+	_fetchPersons: ->
 		$.getJSON config.get("personsUrl"), (data) =>
 			persons.reset(data, parse: true)
 			@set persons: persons
 
-	fetchTexts: ->
+	_fetchTexts: ->
 		$.getJSON config.get("textsUrl"), (data) =>
 			texts.reset(data, parse: true)
 			@set texts: texts
 
-	fetchLocalities: ->
+	_fetchLocalities: ->
 		$.getJSON config.get("localitiesUrl"), (data) =>
 			regions = []
 			places = []

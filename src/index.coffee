@@ -26,3 +26,5 @@ $ ->
 				e.preventDefault()
 
 				Backbone.history.navigate href, 'trigger': true
+
+	data.fetch()
