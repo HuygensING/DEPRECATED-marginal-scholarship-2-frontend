@@ -43,6 +43,9 @@ class CodexView extends Backbone.View
 			codex: @codex
 			facsimileUrl: config.get('facsimileUrl')
 
+		if @options.sub?
+			@_changeTab @options.sub
+
 		@
 
 	events: ->
@@ -55,13 +58,15 @@ class CodexView extends Backbone.View
 			Backbone.history.navigate "/codex/#{@options.pid}/edit", trigger: true
 
 	_handleTabClick: (ev) ->
-		@$('ul.tabs li').removeClass 'active'
-		@$(ev.currentTarget).addClass 'active'
-
-		@$("div.tab").removeClass 'active'
-		@$("div.tab.#{ev.currentTarget.getAttribute('data-tab')}").addClass 'active'
-
 		tab = ev.currentTarget.getAttribute("data-tab")
+		@_changeTab tab
+
+	_changeTab: (tab) ->
+		@$('ul.tabs li').removeClass 'active'
+		@$('ul.tabs li.tab[data-tab="'+tab+'"]').addClass 'active'
+		@$("div.tab").removeClass 'active'
+		@$("div.tab.#{tab}").addClass 'active'
+
 		tab = "" if tab is "metadata"
 		Backbone.history.navigate "codex/#{@options.pid}/#{tab}"
 

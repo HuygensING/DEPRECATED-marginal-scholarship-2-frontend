@@ -45,9 +45,33 @@ body > .main > .codex
 		cursor pointer
 		margin-left 12px
 		
-	h3
-		padding 1em 0 0.5em 0
+	h2
+		transition initial
+		// transition line-height 250ms
+			
+	h3, h4
+		margin-top 20px
 		
+	h3
+		padding 1em 0 0 0
+		margin-bottom 0.5em
+		border-bottom 1px solid #CCC
+		font-weight normal
+		font-size 1em
+		
+		div
+			inline-block()
+			min-width 32%
+			color #444
+			background #EEE
+			padding 0 8px
+			border-top-left-radius 6px
+			border-top-right-radius 6px
+	
+	h4
+		font-weight normal
+		padding-left 8px
+
 	ul, ol
 		list-style none
 		margin 0
@@ -88,13 +112,6 @@ body > .main > .codex
 				
 	.tab-container, aside, .pagination
 		transition width 250ms
-		
-	h2
-		transition initial
-		// transition line-height 250ms
-			
-	h3, h4
-		margin-top 20px
 
 	// Set tagname (div) to distinguish from li.tab
 	.tab-container
@@ -119,6 +136,7 @@ body > .main > .codex
 				label
 					color msGray
 					width 35%
+					padding-left 8px
 					
 				span
 					width 65%
@@ -127,10 +145,19 @@ body > .main > .codex
 				& > li
 					border 1px solid #CCC
 					// margin-left 20px
-					padding 10px
+					padding 8px
+					
+					label
+						padding 0
 					
 					& + li
 						margin-top 10px
+						
+			ul.layouts, ul.quantative-analysis
+				color msGray
+				
+			ul.urls, ul.bibliographies, ul.quantative-analysis
+				padding-left 8px
 					
 			ul.locality
 				li
@@ -151,7 +178,7 @@ body > .main > .codex
 					inline-block()
 					
 			&.marginal-units
-				ul.specific-phenomena
+				ul.specific-phenomena, ul.type, ul.annotators, ul.origin
 					// list-style square
 					margin 1em 0 1em 0
 					margin-left 60px

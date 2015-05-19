@@ -41,9 +41,11 @@ class MainRouter extends Backbone.Router
 	initialize: ->
 		# Mimic a views $el var to use as the root el.
 		@$el = $('body > .main')
+
 		@$el.append pages.search.el
 
 		@on 'route', (route, options) ->
+			console.log route, options
 			pagesClone = $.extend {}, pages, true
 			delete pagesClone['notFound']
 

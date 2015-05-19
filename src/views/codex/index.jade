@@ -1,3 +1,5 @@
+//- TODO check margin unit ==> annotators
+
 include ../../../node_modules/hi-svg-icons/search.jade
 include ../../../node_modules/hi-svg-icons/edit.jade
 
@@ -69,16 +71,16 @@ ul.tabs
 				span #{codex.get('modificationDate')} by #{codex.get('modifier')}
 
 			+labelValue("Identifier(s)", identifiers.join("; "))
-			+labelValue("Content Summary", codex.get('contentSummary'))
-			+labelValue("Marginal Activity Summary", codex.get('marginalsSummary'))
+			+labelValue("Interesting for", codex.get("interestingFor").join(", "))
 			+labelValue("Date", codex.get("date"))
-			+labelValue("Remarks", codex.get('dateAndLocaleRemarks'))
+			+labelValue("Date and locale remarks", codex.get('dateAndLocaleRemarks'))
 			
 			//- li
 			//- 	label Persons
 			//- 	span= codex.get('name')
 		
-		h3 Localisation
+		h3 
+			div Localisation
 
 		h4 Origin
 		ul.origin
@@ -99,34 +101,31 @@ ul.tabs
 							+labelValue("Date Info", provenance.dateInfo)
 							+labelValue("Certain", provenance.certain)
 
-		h3 Physical appearance
+		h3
+			div Physical appearance
 		ul.data
 			- var pageDimensions = codex.get('pageDimension_height') + " x " + codex.get('pageDimension_width') + " mm";
 			+labelValue("Page Dimensions", pageDimensions)
 			+labelValue("Number of Pages", codex.get("folia"))
 			+labelValue("Quire Structure", codex.get('quireStructure'))
-			+labelValue("Layout Remarks", codex.get('layoutRemarks'))
 
-		if codex.get('marginalQuantities').length > 0
-			h4 Quantative Analysis
-			- var mq = codex.get('marginalQuantities')[0]
-			ul
-				li Number of pages with marginalia = #{Math.round(mq.firstPagesWithMarginals/mq.firstPagesConsidered*100)}% (#{mq.firstPagesWithMarginals} out of first #{mq.firstPagesConsidered})
-				li Number of blank pages: #{Math.round(mq.totalBlankPages/codex.get('folia')*100)}% (#{mq.totalBlankPages} out of #{codex.get('folia')})
-				li Most filled page: #{mq.mostFilledPagePctage}% (#{mq.mostFilledPageDesignation})
-
-		if codex.get('pageLayouts').length > 0
+		if codex.get('pageLayouts').length > 0 || codex.get('layoutRemarks').length > 0
 			h4 Layout(s)
-			ul.layouts
-				for layout in codex.get('pageLayouts')
-					li
-						ul
-							li #{layout.linesMin} to #{layout.linesMax} lines of #{layout.lineHeight} mm height
-							li #{layout.foliaCount} pages: #{layout.pages}
-							li Text block size: #{layout.textWidthMin} - #{layout.textWidthMax} x #{layout.textHeightMin} - #{layout.textHeightMax}
+			if codex.get('layoutRemarks').length > 0
+				ul.data
+					+labelValue("Remarks", codex.get('layoutRemarks'))
+			if codex.get('pageLayouts').length > 0	
+				ul.layouts
+					for layout in codex.get('pageLayouts')
+						li
+							ul
+								li #{layout.linesMin} to #{layout.linesMax} lines of #{layout.lineHeight} mm height
+								li #{layout.foliaCount} pages: #{layout.pages}
+								li Text block size: #{layout.textWidthMin} - #{layout.textWidthMax} x #{layout.textHeightMin} - #{layout.textHeightMax}
 
 
-		h3 Script
+		h3 
+			div Script
 		- var script = codex.get('script');
 		ul.script
 			+labelValue("Type", script.types)
@@ -134,18 +133,36 @@ ul.tabs
 			+labelValue("Hand count", script.handsCount)
 			+labelValue("Scribe", script.scribeRemarks)
 
+		h3
+			div Summaries
+		ul.data
+			+labelValue("Content Summary", codex.get('contentSummary'))
+			+labelValue("Marginal Activity Summary", codex.get('marginalsSummary'))
+
+
+		if codex.get('marginalQuantities').length > 0
+			h3
+				div Quantative Analysis
+			- var mq = codex.get('marginalQuantities')[0]
+			ul.quantative-analysis
+				li Annotated pages (in first part of ms): #{Math.round(mq.firstPagesWithMarginals/mq.firstPagesConsidered*100)}% (#{mq.firstPagesWithMarginals} out of first #{mq.firstPagesConsidered})
+				li Non-annotated pages (in whole ms): #{Math.round(mq.totalBlankPages/codex.get('folia')*100)}% (#{mq.totalBlankPages} out of #{codex.get('folia')})
+				li Most filled margin with annotations: #{mq.mostFilledPagePctage}% (#{mq.mostFilledPageDesignation})
+
+		if codex.get('bibliographies').length > 0
+			h3
+				div Bibliographies
+			ul.bibliographies
+				for bibliopgraphy in codex.get('bibliographies')
+					li= bibliopgraphy
+
 		if codex.get('URLs').length > 0
-			h3 URL(s)
+			h3 
+				div URL(s)
 			ul.urls
 				for url in codex.get('URLs')
 					li
 						a(href=url, data-bypass, target="_blank")= url
-
-		if codex.get('bibliographies').length > 0
-			h3 Bibliographies
-			ul.bibliographies
-				for bibliopgraphy in codex.get('bibliographies')
-					li= bibliopgraphy
 
 
 	.tab.textual-units
@@ -162,6 +179,7 @@ ul.tabs
 						+labelValueOrDash("Page range", textUnit.pages)
 						+labelValueOrDash("Author(s)", authors)
 						+labelValueOrDash("Period", textUnit.text.period)
+						+labelValueOrDash("Language", textUnit.text.language)
 						+labelValueOrDash("Genre", textUnit.remarks)
 						+labelValueOrDash("State of preservation", textUnit.stateOfPreservation)
 
@@ -170,9 +188,53 @@ ul.tabs
 			for marginUnit, index in codex.get('marginUnits')
 				li
 					ul
-						+labelValueOrDash("Identifier", marginUnit.identifier)
-						+labelValueOrDash("Typology", marginUnit.typology)
-						+labelValueOrDash("Typology", marginUnit.typologyRemarks)
+						+labelValueOrDash("Date", marginUnit.date)
+						+labelValueOrDash("Relative date", marginUnit.relativeDate)
+						+labelValueOrDash("Languages", marginUnit.languages)
+						+labelValueOrDash("Scripts", marginUnit.scripts)
+						+labelValueOrDash("Hands", marginUnit.hands)
+						li
+							label Annotators
+							if marginUnit.annotators.length > 0
+								ul.origin
+									for annotator in marginUnit.annotators
+										li
+											ul
+												+labelValueOrDash("Name", annotator.name)
+												+labelValueOrDash("Role", annotator.role)
+												+labelValueOrDash("Birthdate", annotator.birthDate)
+												+labelValueOrDash("Deathdate", annotator.deathDate)
+							else
+								span -
+
+						+labelValueOrDash("Script types", marginUnit.scriptTypes.join(", "))
+						+labelValueOrDash("Script remarks", marginUnit.scriptRemarks)
+						li
+							label Origin
+							if marginUnit.origins.length > 0
+								ul.origin
+									for origin in marginUnit.origins
+										li
+											ul
+												- var locality = origin.locality.region + ", " + origin.locality.place + ", " + origin.locality.scriptorium;
+												+labelValueOrDash("Locality", locality)
+												+labelValueOrDash("Remarks", origin.remarks)
+												+labelValueOrDash("Certain", origin.certain)
+							else
+								span -
+						li
+							label Type
+							if marginUnit.marginTypes.length > 0
+								ul.type
+									for mt in marginUnit.marginTypes
+										li
+											ul
+												+labelValueOrDash("Type", mt.type)
+												+labelValueOrDash("Quantification", mt.quantification)
+												+labelValueOrDash("Remarks", mt.remarks)
+							else
+								span -
+						+labelValueOrDash("Script type remarks", marginUnit.typologyRemarks)
 						li
 							label Specific phenomena
 							if marginUnit.specificPhenomena.length > 0
@@ -180,18 +242,11 @@ ul.tabs
 									for sp in marginUnit.specificPhenomena
 										li
 											ul
+												+labelValueOrDash("Type", sp.type)
 												+labelValueOrDash("Quantification", sp.quantification)
 												+labelValueOrDash("Remarks", sp.remarks)
-												+labelValueOrDash("Type", sp.type)
 							else
 								span -
-						+labelValueOrDash("Localization", marginUnit.localization)
-						+labelValueOrDash("Relative", marginUnit.relativeDate)
-						+labelValueOrDash("Hands", marginUnit.hands)
-						+labelValueOrDash("General", marginUnit.generalObservations)
-						+labelValueOrDash("Scripts", marginUnit.scripts)
-						+labelValueOrDash("Annotators", marginUnit.annotators)
-						+labelValueOrDash("Languages", marginUnit.languages)
 
 	.tab.raw
 		pre= JSON.stringify(codex.attributes, null, 4)
