@@ -18,6 +18,7 @@ class Locations extends MultiForm
 		super
 
 	_formConfig: (data) ->
+		console.log data.get("facetData")
 		institute: 
 			data: data.get("facetData").locations
 			settings:

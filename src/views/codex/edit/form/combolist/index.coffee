@@ -21,9 +21,6 @@ class ComboList extends Backbone.View
 	# ### Initialize
 
 	initialize: (@options) ->
-
-		super
-
 		@options.config ?= {}
 		@settings = @options.config.settings ? {}
 		@settings.confirmRemove ?= false
@@ -59,10 +56,15 @@ class ComboList extends Backbone.View
 	postDropdownRender: ->
 		@filtered_options.reset @collection.reject (model) => @selected.get(model.id)?
 
-	events: -> _.extend @dropdownEvents(), 
-		'click li.selected span': 'removeSelected'
-		'click button.add': 'createModel'
-		'keyup input': 'toggleAddButton'
+	events: ->
+		# HACK
+		_.extend @, dropdown
+		# /HACK
+		
+		_.extend @dropdownEvents(), 
+			'click li.selected span': 'removeSelected'
+			'click button.add': 'createModel'
+			'keyup input': 'toggleAddButton'
 
 	toggleAddButton: (ev) ->
 		return unless @settings.mutable

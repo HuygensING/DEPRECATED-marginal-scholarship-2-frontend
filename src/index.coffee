@@ -7,10 +7,10 @@ mainRouter = require './router'
 data = require './models/data'
 header = require './views/header'
 
-$ ->	
-	Backbone.history.start pushState: true
-	
+$ ->
 	data.done = ->
+		Backbone.history.start pushState: true
+
 		window.addEventListener 'scroll', (ev) ->
 			if window.scrollY > 100
 				document.body.classList.add 'small-header'

@@ -68,7 +68,11 @@ class Search extends Backbone.View
 	_handleReset: ->
 		@facetedSearch.reset()
 
-	_handleCollapse: (ev) ->
-		@facetedSearch.facets.toggle ev
+	_handleCollapse: do ->
+		down = false
+		
+		(ev) ->
+			@facetedSearch.facets.slideFacets down
+			down = not down
 
 module.exports = new Search()

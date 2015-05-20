@@ -24,9 +24,9 @@ class AutoSuggest extends Backbone.View
 	# ### Initialize
 
 	initialize: (@options) ->
-		super
-
 		_.extend @, dropdown
+
+		# console.log dropdown
 
 		@dropdownInitialize()
 
@@ -47,9 +47,14 @@ class AutoSuggest extends Backbone.View
 
 	# ### Events
 
-	events: -> _.extend @dropdownEvents(),
-		'click button.add': 'addOption'
-		'click button.edit': -> @trigger 'edit', @selected.toJSON()
+	events: ->
+		# HACK
+		_.extend @, dropdown
+		# /HACK
+
+		_.extend @dropdownEvents(),
+			'click button.add': 'addOption'
+			'click button.edit': -> @trigger 'edit', @selected.toJSON()
 
 	addOption: (ev) ->
 		@$('button.add').removeClass 'visible' if @settings.defaultAdd
