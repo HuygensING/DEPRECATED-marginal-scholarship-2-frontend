@@ -34,7 +34,6 @@ class Codex extends Backbone.Model
 			model = model.clone()
 
 			model.set "textUnits", model.get("textUnits").map (textUnit) ->
-				console.log textUnit.text
 				textUnit["^text"] = "/texts/#{textUnit.text.pid}"
 				delete textUnit.text
 
@@ -56,7 +55,49 @@ class Codex extends Backbone.Model
 
 				userRemark
 
+			model.set "provenances", model.get("provenances").map (provenance) =>
+				loc = provenance.locality
+
+				provenance["^locality"] = [
+					@_slug(loc.region)
+					@_slug(loc.place)
+					@_slug(loc.scriptorium)
+				].join("-")
+				
+				delete provenance.locality
+
+				provenance
+
+			model.set "marginUnits", model.get("marginUnits").map (marginUnit) =>
+				@_replaceLocality(origin) for origin in marginUnit.origins
+				@_replacePerson(annotator) for annotator in marginUnit.annotators
+
+				marginUnit
+
 		super
+
+	_replaceUser: (obj) ->
+		obj["^user"] = "/users/#{obj.user.id}"
+		delete obj.user
+
+		obj
+
+	_replacePerson: (obj) ->
+		obj["^person"] = "/persons/#{obj.person.pid}"
+		delete obj.person
+
+		obj
+
+	_replaceLocality: (obj) ->
+		obj["^locality"] = [
+			@_slug(obj.locality.region)
+			@_slug(obj.locality.place)
+			@_slug(obj.locality.scriptorium)
+		].join("-")
+		
+		delete obj.locality
+
+		obj
 
 	_slug: (value) ->
 		value = value.toLowerCase()
