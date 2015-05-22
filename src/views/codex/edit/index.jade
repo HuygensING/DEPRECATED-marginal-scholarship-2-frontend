@@ -35,7 +35,7 @@ div.active(data-tab="codex")
 		li 
 			- id = generateID();
 			label(for=id) Private remarks
-			textarea(id=id, name="userRemarks", data-view-id=viewId)= model.get('userRemarks')[email]
+			textarea(id=id, name="userRemarks", data-view-id=viewId)= model.get('userRemarks')
 
 	ul(data-cid=model.cid)
 		li 

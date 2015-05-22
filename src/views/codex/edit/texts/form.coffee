@@ -33,15 +33,15 @@ class EditTextView extends Form
 				mutable: true
 		authors:
 			data: data.get("persons")
-			# settings:
-			# 	defaultAdd: false
+			settings:
+				defaultAdd: false
 			# 	getModel: (val, coll) ->
 			# 		console.log val, coll
 			# 		coll.get val
 			# 	mutable: true
 
-	# customAdd: (value, collection) ->
-	# 	console.log arguments
+	customAdd: (value, collection) ->
+		console.log arguments
 
 	# # ### Render
 	# postRender: ->

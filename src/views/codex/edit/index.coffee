@@ -111,9 +111,8 @@ class EditCodexView extends Views.Form
 		@tplData.email = @model.getUserEmail()
 		
 		@listenTo @model, 'change', (model, options) =>
-			console.log "Main model changed: ", model, options
+			console.log "CHANGED", model
 			localStorage.setItem model.id, JSON.stringify model.toJSON() if model.id?
-			console.log 'activacting'
 			@activateSaveButton()
 
 

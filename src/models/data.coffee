@@ -5,6 +5,7 @@ _ = require "underscore"
 searchView = require "../views/search"
 persons = require "../collections/persons"
 texts = require "../collections/texts"
+users = require "../collections/users"
 
 config = require './config'
 
@@ -40,6 +41,7 @@ class Data extends Backbone.Model
 		persons: null
 		texts: null
 		localities: null
+		users: null
 
 	initialize: ->
 		@listenToOnce searchView.facetedSearch, "change:results", (searchResult) =>
@@ -60,10 +62,12 @@ class Data extends Backbone.Model
 		jqXHRPersons = $.getJSON config.get("personsUrl")
 		jqXHRTexts = $.getJSON config.get("textsUrl")
 		jqXHRLocalities = $.getJSON config.get("localitiesUrl")
+		jqXHRUsers = $.getJSON config.get("usersUrl")
 
-		$.when(jqXHRPersons, jqXHRTexts, jqXHRLocalities).done (personsArgs, textsArgs, localitiesArgs) =>
+		$.when(jqXHRPersons, jqXHRTexts, jqXHRLocalities, jqXHRUsers).done (personsArgs, textsArgs, localitiesArgs, usersArgs) =>
 			persons.reset(personsArgs[0], parse: true)
 			texts.reset(textsArgs[0], parse: true)
+			users.reset(usersArgs[0])
 
 			@set
 				persons: persons

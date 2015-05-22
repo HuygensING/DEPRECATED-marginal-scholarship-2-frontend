@@ -99,7 +99,8 @@ class AutoSuggest extends Backbone.View
 	# ### Public Methods
 
 	# Fires change event, passing {id: 12, title: 'sometitle'} as data
-	triggerChange: -> @trigger 'change', @selected.toJSON()
+	triggerChange: ->
+		@trigger 'change', @selected.toJSON()
 
 	postDropdownFilter: (models) ->
 		if @settings.mutable

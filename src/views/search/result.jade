@@ -1,7 +1,7 @@
-//- - var id = data.codexId.split("/")[1]
-//- - console.log(data)
-- var ids = [140, 141, 144, 145, 146, 147, 148, 149, 150, 201, 203]
-- var file = "thumbnail_COD" + ids[Math.floor(Math.random() * ids.length)] + ".jpg"
+//- - var ids = [140, 141, 144, 145, 146, 147, 148, 149, 150, 201, 203]
+//- - var file = "thumbnail_COD" + ids[Math.floor(Math.random() * ids.length)] + ".jpg"
+
+- var file = "thumbnail_" + data["^codex"].substr(6) + ".jpg"
 - var src = facsimileUrl+file;
 
 .img-container

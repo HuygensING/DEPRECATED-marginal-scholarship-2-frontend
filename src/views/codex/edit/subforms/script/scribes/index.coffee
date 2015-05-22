@@ -29,10 +29,10 @@ class ScriptScribes extends Views.MultiForm
 	_formConfig: (data) ->
 		person: 
 			data: data.get("persons")
-			settings:
-				editable: true
-				mutable: true
-				defaultAdd: false
+			# settings:
+			# 	editable: true
+			# 	mutable: true
+			# 	defaultAdd: false
 
 	events: -> _.extend super, 
 		'click button.edit': 'editPerson'
@@ -40,7 +40,7 @@ class ScriptScribes extends Views.MultiForm
 	# When the default add is overwritten, a 'customAdd' event is triggered
 	# when the user clicks button.add. The event passes the filled in value
 	# and the collection.
-	customAdd: (value, collection) ->
-		@addPerson collection
+	# customAdd: (value, collection) ->
+	# 	@addPerson collection
 
 module.exports = ScriptScribes

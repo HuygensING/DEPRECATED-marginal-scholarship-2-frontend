@@ -13,7 +13,7 @@ Backbone = require 'backbone'
 _ = require 'underscore'
 $ = require 'jquery'
 
-validation = require './validation'
+# validation = require './validation'
 
 data = require '../../../../models/data'
 
@@ -55,7 +55,7 @@ class Form extends Backbone.View
 
 	# @Model is used by Form to instanciate @model and by MultiForm as the model for @collection. If no @Model is given, use Backbone.Model.
 	initialize: (@options={}) ->
-		_.extend @, validation
+		# _.extend @, validation
 
 		@subviews = []
 
@@ -76,7 +76,7 @@ class Form extends Backbone.View
 		# a centralized place.
 		@on 'createModels:finished', =>
 			@render()
-			@validatorInit()
+			# @validatorInit()
 			@addListeners()
 			
 		@createModels()
@@ -165,7 +165,7 @@ class Form extends Backbone.View
 		# this data is not available anymore.
 		changedAttributes = @model.changedAttributes()
 		@model.save [],
-			validate: validate
+			validate: false
 			success: (model, response, options) =>
 				# After save we trigger the save:success so the instantiated Form view can capture it and take action.
 				@trigger 'save:success', model, response, options, changedAttributes
@@ -188,11 +188,11 @@ class Form extends Backbone.View
 				@saveModel()
 			else
 				# Manually check for invalids
-				invalids = @model.validate @model.attributes
-				if invalids?
-					@model.trigger 'invalid', @model, invalids
-				else
-					@trigger 'submit', @model
+				# invalids = @model.validate @model.attributes
+				# if invalids?
+				# 	@model.trigger 'invalid', @model, invalids
+				# else
+				@trigger 'submit', @model
 
 
 	cancel: (ev) ->
@@ -218,7 +218,7 @@ class Form extends Backbone.View
 		@model.clear silent: true
 		@model.set @model.defaults()
 
-		@validatorInit()
+		# @validatorInit()
 		@addListeners()
 
 		@delegateEvents()
@@ -307,6 +307,7 @@ class Form extends Backbone.View
 			placeholders[0].appendChild subView.el
 
 		@listenTo subView, 'change', (data) =>
+			console.log attr, data
 			model.set attr, data
 		@listenTo subView, 'customAdd', @customAdd
 
