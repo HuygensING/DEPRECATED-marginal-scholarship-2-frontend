@@ -307,8 +307,8 @@ class Form extends Backbone.View
 			placeholders[0].appendChild subView.el
 
 		@listenTo subView, 'change', (data) =>
-			console.log attr, data
 			model.set attr, data
+			
 		@listenTo subView, 'customAdd', @customAdd
 
 		# Multiform has multiple instances of the same form elements. Those form elements can have a config.data (Backbone.Collection)
