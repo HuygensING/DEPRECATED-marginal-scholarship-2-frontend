@@ -42,10 +42,6 @@ class Data extends Backbone.Model
 		localities: null
 
 	initialize: ->
-		@once 'change:facetData change:persons change:texts', =>
-			if @_isLoadingFinished()
-				@done()
-
 		@listenToOnce searchView.facetedSearch, "change:results", (searchResult) =>
 			facetData = {}
 			for facet in searchResult.get('facets')
@@ -60,55 +56,40 @@ class Data extends Backbone.Model
 
 			@set facetData: facetData
 
-	fetch: ->
-		@_fetchPersons()
-		@_fetchTexts()
-		@_fetchLocalities()
+	fetch: (done) ->
+		jqXHRPersons = $.getJSON config.get("personsUrl")
+		jqXHRTexts = $.getJSON config.get("textsUrl")
+		jqXHRLocalities = $.getJSON config.get("localitiesUrl")
 
-	###
-	# Returns true if all data has been loaded. Loading is finished when all attributes
-	# have values.
-	#
-	# @returns {Boolean}
-	###
-	_isLoadingFinished: ->
-		reducer = (prev, next) =>
-			prev && @get(next)?
+		$.when(jqXHRPersons, jqXHRTexts, jqXHRLocalities).done (personsArgs, textsArgs, localitiesArgs) =>
+			persons.reset(personsArgs[0], parse: true)
+			texts.reset(textsArgs[0], parse: true)
 
-		Object.keys(@attributes).reduce reducer, true
+			@set
+				persons: persons
+				texts: texts
+				localities: @_handleLocalities(localitiesArgs[0])
 
-	_fetchPersons: ->
-		$.getJSON config.get("personsUrl"), (data) =>
-			persons.reset(data, parse: true)
-			@set persons: persons
+			done()
 
-	_fetchTexts: ->
-		$.getJSON config.get("textsUrl"), (data) =>
-			texts.reset(data, parse: true)
-			@set texts: texts
+	_handleLocalities: (data) ->
+		regions = []
+		places = []
+		scriptoria = []
 
-	_fetchLocalities: ->
-		$.getJSON config.get("localitiesUrl"), (data) =>
-			regions = []
-			places = []
-			scriptoria = []
+		for region in data.regions
+			regions.push region.name
 
-			for region in data.regions
-				regions.push region.name
+			for place in region.places
+				places.push place.name
 
-				for place in region.places
-					places.push place.name
+				for scriptorium in place.scriptoria
+					scriptoria.push scriptorium.name
 
-					for scriptorium in place.scriptoria
-						scriptoria.push scriptorium.name
-
-			data =
-				data: data.regions
-				regions: _.sortBy regions, _.identity
-				places: _.sortBy places, _.identity
-				scriptoria: _.sortBy scriptoria, _.identity
-
-			@set localities: data
-
+		# Return an object with the data.
+		data: data.regions
+		regions: _.sortBy regions, _.identity
+		places: _.sortBy places, _.identity
+		scriptoria: _.sortBy scriptoria, _.identity
 
 module.exports = new Data()

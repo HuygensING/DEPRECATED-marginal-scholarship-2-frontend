@@ -8,7 +8,7 @@ data = require './models/data'
 header = require './views/header'
 
 $ ->
-	data.done = ->
+	data.fetch ->
 		Backbone.history.start pushState: true
 
 		window.addEventListener 'scroll', (ev) ->
@@ -26,5 +26,3 @@ $ ->
 				e.preventDefault()
 
 				Backbone.history.navigate href, 'trigger': true
-
-	data.fetch()
