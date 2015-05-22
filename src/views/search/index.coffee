@@ -44,6 +44,18 @@ class Search extends Backbone.View
 
 		@facetedSearch.search()
 
+		@listenTo @facetedSearch, "results:render:finished", =>
+			searchResult = @facetedSearch.searchResults.getCurrent()
+
+			urls = searchResult.get("results").map (result) ->
+				config.get('facsimileUrl') + "thumbnail_" + result["^codex"].substr(6) + ".jpg"
+		
+			Array.prototype.slice.call(@facetedSearch.el.querySelectorAll("li.result .img-container img")).map (img, index) ->
+				img.onerror = ->
+					img.src = "http://placehold.it/75x75"
+				
+				img.src = urls[index]
+
 		@listenTo @facetedSearch, 'result:click', (codex) ->
 			Backbone.history.navigate codex["^codex"], trigger: true
 

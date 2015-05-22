@@ -41,7 +41,14 @@ class CodexView extends Backbone.View
 	render: ->
 		@$el.html tpl 
 			codex: @codex
-			facsimileUrl: config.get('facsimileUrl')
+
+		file = @codex.id + ".jpg";
+		src = config.get('facsimileUrl')+file;
+
+		img = @el.querySelector("aside img")
+		img.onerror = ->
+			img.src = "http://placehold.it/100&text=."
+		img.src = config.get('facsimileUrl') + @codex.id + ".jpg"
 
 		if @options.sub?
 			@_changeTab @options.sub

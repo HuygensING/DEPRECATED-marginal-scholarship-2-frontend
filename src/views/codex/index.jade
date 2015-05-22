@@ -32,8 +32,8 @@ mixin labelValueOrDash(label, value)
 //- - console.log(codex.id)
 //- - var ids = [140, 141, 144, 145, 146, 147, 148, 149, 150, 201, 203]
 //- - var file = "COD" + ids[Math.floor(Math.random() * ids.length)] + ".jpg"
-- var file = codex.id + ".jpg";
-- var src = facsimileUrl+file;
+//- - var file = codex.id + ".jpg";
+//- - var src = facsimileUrl+file;
 - var identifiers = codex.get("identifiers").map(function(identifier) { return identifier.type + ": " + identifier.identifier});
 
 .pagination
@@ -253,4 +253,4 @@ ul.tabs
 		pre= JSON.stringify(codex.attributes, null, 4)
 
 aside
-	img(src=src)
+	img
