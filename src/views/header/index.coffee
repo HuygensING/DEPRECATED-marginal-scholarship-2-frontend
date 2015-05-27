@@ -1,4 +1,5 @@
 Backbone = require 'backbone'
+LoginComponent = require 'hibb-login'
 
 tpl = require './index.jade'
 
@@ -21,7 +22,8 @@ class Header extends Backbone.View
 	# @method
 	###
 	render: ->
-		@$el.html tpl()
+		@$el.html tpl
+			user: LoginComponent.getUser()
 
 		@
 
@@ -33,5 +35,31 @@ class Header extends Backbone.View
 			route: route
 			options: options
 		@$('.tabs').html @tabs.el
+
+	events: ->
+		"click button": "_handleLogin"
+
+	###
+	# @method
+	###
+	_handleLogin: do ->
+		loginView = null
+
+		->
+			loginView.destroy() if loginView?
+	
+			loginView = LoginComponent.getLoginView
+				modal: true
+				title: 'Inloggen'
+				success: =>
+					@render()
+
+			# @listenTo loginView, 'modal:cancel', @_goBack
+			# @listenTo loginView, 'request-access-complete', @_goBack
+
+	# 	if LoginComponent.getUser().isLoggedIn()
+	# 		LoginComponent.getLoginView().destroy()
+	# 		@render()
+	# 	else
 
 module.exports = new Header()

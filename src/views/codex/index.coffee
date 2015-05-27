@@ -1,5 +1,5 @@
 Backbone = require "backbone"
-
+LoginComponent = require 'hibb-login'
 # Pagination = require 'hibb-pagination'
 
 tpl = require "./index.jade"
@@ -41,6 +41,7 @@ class CodexView extends Backbone.View
 	render: ->
 		@$el.html tpl 
 			codex: @codex
+			user: LoginComponent.getUser()
 
 		file = @codex.id + ".jpg";
 		src = config.get('facsimileUrl')+file;

@@ -102,8 +102,6 @@ class EditCodexView extends Views.Form
 
 		super
 
-	# ### Render
-
 	preRender: ->
 		@loadUnsaved()
 

@@ -53,8 +53,8 @@ class Data extends Backbone.Model
 						options.name
 
 					facetData[displayName] = optionList
-				else
-					console.warn "Not found in facetMap: ", facet.name
+				# else
+				# 	console.warn "Not found in facetMap: ", facet.name
 
 			@set facetData: facetData
 

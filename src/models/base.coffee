@@ -1,5 +1,7 @@
 Backbone = require 'backbone'
 
+LoginComponent = require "hibb-login"
+
 class Base extends Backbone.Model
 
 	###
@@ -22,5 +24,15 @@ class Base extends Backbone.Model
 			options = alterValue options
 
 		[attrs, options]
+
+	sync: (method, model, options) ->
+		if method is "update"
+			options.beforeSend = (xhr) ->
+				if LoginComponent.getUser().isLoggedIn()
+					xhr.setRequestHeader 'Authorization', LoginComponent.getUser().getToken()
+				
+				xhr.setRequestHeader 'Accept', "application/json"
+
+		super
 
 module.exports = Base

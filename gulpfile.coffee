@@ -36,11 +36,10 @@ jade = require 'gulp-jade'
 # pkg = require './package.json'
 # cfg = require './config.json'
 
-cssFiles = [
-	'./node_modules/hibb-faceted-search/dist/main.css'
-	'./node_modules/hibb-pagination/dist/main.css'
-	'./node_modules/hibb-modal/dist/main.css'
-]
+hibbModules = ["hibb-faceted-search", "hibb-pagination", "hibb-modal", "hibb-login"]
+
+cssFiles = hibbModules.map (hibbModule) ->
+	"./node_modules/#{hibbModule}/dist/main.css"
 
 gulp.task 'copy-svg', ->
 	gulp.src('./node_modules/hi-svg-icons/*.svg')

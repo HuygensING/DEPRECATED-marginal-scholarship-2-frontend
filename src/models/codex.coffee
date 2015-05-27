@@ -1,4 +1,5 @@
 Backbone = require "backbone"
+LoginComponent = require "hibb-login"
 
 config = require "./config"
 
@@ -28,6 +29,12 @@ class Codex extends Backbone.Model
 		console.error "NOT IMPLEMENTED"
 
 	sync: (method, model, options) ->
+		options.beforeSend = (xhr) ->
+			if LoginComponent.getUser().isLoggedIn()
+				xhr.setRequestHeader 'Authorization', LoginComponent.getUser().getToken()
+			
+			xhr.setRequestHeader 'Accept', "application/json"
+
 		if method is 'read'
 			options.url = model.url() + "/expandlinks"
 		else if method is 'update'

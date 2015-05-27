@@ -8,6 +8,7 @@ class Config extends Backbone.Model
 		personsUrl: backendUrl + "lists/person"
 		fullPersonUrl: backendUrl + "persons"
 		usersUrl: backendUrl + "users"
+		meUrl: backendUrl + "current_session/user"
 		textsUrl: backendUrl + "lists/text"
 		fullTextUrl: backendUrl + "texts"
 		localitiesUrl: backendUrl + "localityhierarchy"

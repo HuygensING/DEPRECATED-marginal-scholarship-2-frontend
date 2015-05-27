@@ -23,7 +23,7 @@ class PersonsView extends Backbone.View
 		# @_persons = data.get("persons").models
 		@_currentChar = null
 
-		@listenTo persons, "reset", @render
+		# @listenTo persons, "reset", @render
 
 		@render()
 
@@ -91,7 +91,12 @@ class PersonsView extends Backbone.View
 
 			form.on 'save:success', (person) =>
 				destroy()
-				data.fetchPersons()
+
+				persons.get(person.id).set person.attributes
+				persons.get(person.id).set
+					title: person.get("name")
+
+				@render()
 
 			form.on 'cancel', => 
 				destroy()

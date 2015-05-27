@@ -36,7 +36,6 @@ class MultiForm extends Form
 	addListeners: ->
 		# One of the models attributes has changed:
 		@listenTo @collection, 'change', =>
-			console.log arguments
 			@triggerChange()
 
 		# The user has clicked button.addform:

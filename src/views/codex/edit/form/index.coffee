@@ -78,6 +78,8 @@ class Form extends Backbone.View
 			@render()
 			# @validatorInit()
 			@addListeners()
+
+			@delegateEvents()
 			
 		@createModels()
 
@@ -254,14 +256,15 @@ class Form extends Backbone.View
 	addListeners: ->
 		@listenTo @model, 'change', =>
 			@triggerChange()
-		@listenTo @model, 'invalid', (model, errors, options) =>
-			if @options.validationAttributes?
-				found = false
-				for error in errors
-					found = true if @options.validationAttributes.indexOf(error.name) > -1
-				unless found
-					@$('button[name="submit"]').addClass 'loader'
-					@saveModel false
+
+		# @listenTo @model, 'invalid', (model, errors, options) =>
+		# 	if @options.validationAttributes?
+		# 		found = false
+		# 		for error in errors
+		# 			found = true if @options.validationAttributes.indexOf(error.name) > -1
+		# 		unless found
+		# 			@$('button[name="submit"]').addClass 'loader'
+		# 			@saveModel false
 			
 	
 	# Fires change event. Data passed depends on an available @model (Form)	or @collection (MultiForm)

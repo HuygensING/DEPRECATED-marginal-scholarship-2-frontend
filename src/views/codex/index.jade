@@ -29,11 +29,6 @@ mixin labelValueOrDash(label, value)
 		label= label
 		span= value || "-"
 
-//- - console.log(codex.id)
-//- - var ids = [140, 141, 144, 145, 146, 147, 148, 149, 150, 201, 203]
-//- - var file = "COD" + ids[Math.floor(Math.random() * ids.length)] + ".jpg"
-//- - var file = codex.id + ".jpg";
-//- - var src = facsimileUrl+file;
 - var identifiers = codex.get("identifiers").map(function(identifier) { return identifier.type + ": " + identifier.identifier});
 
 .pagination
@@ -41,9 +36,9 @@ mixin labelValueOrDash(label, value)
 .search-icon-container
 	+search-icon
 
-
 h2= codex.get('name')
-	+edit-icon
+	if user.isLoggedIn()
+		+edit-icon
 
 ul.tabs
 	li.tab(data-tab="metadata").active 

@@ -45,7 +45,6 @@ class MainRouter extends Backbone.Router
 		@$el.append pages.search.el
 
 		@on 'route', (route, options) ->
-			console.log route, options
 			pagesClone = $.extend {}, pages, true
 			delete pagesClone['notFound']
 
@@ -83,8 +82,14 @@ class MainRouter extends Backbone.Router
 		show pages.editcodices[id]
 
 	codex: (id, sub) ->
+		# Don't navigate to a page when returning from the login sequence.
+		if sub? and sub.substr(0, 5) is "hsid="
+			return
+
 		unless pages.codices.hasOwnProperty(id)
-			pages.codices[id] = new Codex pid: id, sub: sub
+			pages.codices[id] = new Codex
+				pid: id
+				sub: sub
 			$('body > .main > .codex').append pages.codices[id].el
 
 		show pages.codices[id]

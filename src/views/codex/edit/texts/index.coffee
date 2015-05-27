@@ -1,5 +1,8 @@
 Backbone = require 'backbone'
 _ = require 'underscore'
+$ = require 'jquery'
+
+config = require "../../../../models/config"
 
 data = require "../../../../models/data"
 Text = require "../../../../models/text"
@@ -13,7 +16,7 @@ formTpl = require './form.jade'
 
 # ## Codex
 # * TODO change Views.Form into mixin
-class PersonsView extends Backbone.View
+class TextsView extends Backbone.View
 
 	# ### Initialize
 	initialize: (@options) ->
@@ -84,9 +87,15 @@ class PersonsView extends Backbone.View
 			form = new TextForm
 				model: model
 
-			form.on 'save:success', (person) =>
+			form.on 'save:success', (text) =>
 				destroy()
-				data.fetchPersons()
+
+				jqXHRTexts = $.getJSON config.get("textsUrl"), (data) ->
+					texts.reset(data, parse: true)
+
+				console.log text
+				console.log texts.get(text.id)
+				# data.fetchPersons()
 
 			form.on 'cancel', => 
 				destroy()
@@ -107,4 +116,4 @@ class PersonsView extends Backbone.View
 
 			prev
 
-module.exports = PersonsView
+module.exports = TextsView
