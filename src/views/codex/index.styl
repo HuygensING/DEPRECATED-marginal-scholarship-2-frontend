@@ -33,6 +33,7 @@ body > .main > .codex
 				text-align center
 	
 	h2
+		font-size 1.5em
 		margin-left marginLeft
 		padding 1.5em 0
 		width middleWidth
@@ -81,6 +82,9 @@ body > .main > .codex
 		font-size 1em
 		line-height 1.5em
 		
+	div.summary
+		padding-left 8px
+		
 	.pagination
 		width rightWidth
 		text-align right
@@ -109,6 +113,23 @@ body > .main > .codex
 				
 			&.active button
 				color white
+				
+		li.metadata
+			font-size 0.8em
+			color #666
+			line-height 1.5em
+			
+			span
+				display block
+			
+			li.identifiers
+				margin-top 3em
+				
+			li.created, li.changed
+				color #AAA
+				
+			li.created
+				margin 2em 0
 				
 	aside
 		float right
@@ -160,15 +181,34 @@ body > .main > .codex
 			ul.layouts, ul.quantative-analysis
 				color msGray
 				
+			ul.layouts
+				position relative
+				
+				canvas
+					position absolute
+					top 8px
+					right 8px
+				
 			ul.urls, ul.bibliographies, ul.quantative-analysis
 				padding-left 8px
 					
+			ul.urls > li
+				overflow-x auto
+
 			ul.locality
+				inline-block()
+				
 				li
 					inline-block()
 					
 					& + li:before
 						content: ", "
+						
+			span.certainty
+				width auto
+				color #888
+				inline-block()
+				margin-left 0.3em
 					
 			&.textual-units, &.marginal-units
 				ol

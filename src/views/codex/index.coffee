@@ -10,6 +10,12 @@ config = require "../../models/config"
 
 searchView = require "../search"
 
+calcAspectRatio = (originalWidth, originalHeight, boxWidth, boxHeight) ->
+	widthRatio = boxWidth / originalWidth
+	heightRatio = boxHeight / originalHeight
+
+	Math.min widthRatio, heightRatio
+
 ###
 # @class
 # @namespace Views
@@ -54,7 +60,58 @@ class CodexView extends Backbone.View
 		if @options.sub?
 			@_changeTab @options.sub
 
+		for layout, index in @codex.get("pageLayouts")
+			canvas = @el.querySelector("ul.layouts > li:nth-child(#{index + 1}) li.canvas canvas")
+			ver = [layout.marginTop].concat(layout.blockHeights).concat(layout.marginBottom)
+			hor = [layout.marginLeft].concat(layout.columnWidths).concat(layout.marginRight)
+			@renderLayoutCanvas canvas, hor, ver
+
 		@
+
+	renderLayoutCanvas: (canvas, hor, ver) ->
+		# canvas = @el.querySelector('ul.layouts > li:nth-child('+(index + 1)+")")
+		# console.log index, canvas
+		# # console.log canvas, hor, ver, index
+		ctx = canvas.getContext '2d'
+
+		totalWidth = hor.reduce (p, c) -> p + c
+		totalHeight = ver.reduce (p, c) -> p + c
+
+		aspectRatio = calcAspectRatio totalWidth, totalHeight, 100, 100
+
+
+		canvasWidth = totalWidth*aspectRatio
+		canvasHeight = totalHeight*aspectRatio
+
+		canvas.width = canvasWidth
+		canvas.height = canvasHeight
+
+		ctx.clearRect 0, 0, canvasWidth, canvasHeight
+
+		ctx.fillStyle = "rgb(200,200,200)"
+		ctx.fillRect 0, 0, canvasWidth, canvasHeight
+
+		# Draw horizontal areas
+		filled = false
+		left = 0
+		hor.map (columnWidth) ->
+			if filled
+				ctx.fillStyle = "rgb(120,120,120)"
+				ctx.fillRect left*aspectRatio, 0, columnWidth*aspectRatio, canvasHeight
+
+			filled = !filled
+			left += columnWidth
+
+		# Draw vertical areas
+		empty = true
+		top = 0
+		ver.map (rowHeight) ->
+			if empty
+				ctx.fillStyle = "rgb(200,200,200)"
+				ctx.fillRect 0, top*aspectRatio, canvasWidth, rowHeight*aspectRatio
+
+			empty = !empty
+			top += rowHeight
 
 	events: ->
 		"click ul.tabs > li": "_handleTabClick"

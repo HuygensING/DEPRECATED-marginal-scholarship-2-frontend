@@ -12,11 +12,14 @@ mixin locality(region, place, scriptorium)
 		if region != "(empty)"
 			li.region(title="region")= region
 
-mixin labelLocality(locality)
+mixin labelLocality(locality, certain)
 	li
 		label Locality
 		span
 			+locality(locality.region, locality.place, locality.scriptorium)
+	
+			if certain
+				span.certainty(title="Uncertain") ?
 
 mixin labelValue(label, value)
 	if value
@@ -55,19 +58,19 @@ ul.tabs
 					span &#8226;
 	li.tab(data-tab="raw")
 		button Raw Data
+	li.metadata
+		ul.metadata
+			li.identifiers= identifiers.join("; ")
+			li.created
+				label Created by #{codex.get('creator')}
+				span #{codex.get('creationDate')} 
+			li.changed
+				label Changed by #{codex.get('modifier')}:
+				span #{codex.get('modificationDate')} 
 
 .tab-container
 	.tab.metadata.active
 		ul.data
-			li 
-				label Created
-				span #{codex.get('creationDate')} by #{codex.get('creator')}
-			li 
-				label Changed
-				span #{codex.get('modificationDate')} by #{codex.get('modifier')}
-
-			+labelValue("Identifier(s)", identifiers.join("; "))
-			+labelValue("Interesting for", codex.get("interestingFor").join(", "))
 			+labelValue("Date", codex.get("date"))
 			+labelValue("Date and locale remarks", codex.get('dateAndLocaleRemarks'))
 			
@@ -81,9 +84,8 @@ ul.tabs
 		h4 Origin
 		ul.origin
 			ul
-				+labelLocality(codex.get("origin").locality)
+				+labelLocality(codex.get("origin").locality, codex.get("origin").certain)
 				+labelValue("Remarks", codex.get("origin").remarks)
-				+labelValue("Certain", codex.get("origin").certain)
 
 		if codex.get('provenances').length > 0
 			h4 Provenance(s)
@@ -91,11 +93,10 @@ ul.tabs
 				for provenance in codex.get('provenances')
 					li.provenance
 						ul
-							+labelLocality(provenance.locality)
+							+labelLocality(provenance.locality, provenance.certain)
 							+labelValue("Remarks", provenance.remarks)
 							+labelValue("Date", provenance.date)
 							+labelValue("Date Info", provenance.dateInfo)
-							+labelValue("Certain", provenance.certain)
 
 		h3
 			div Physical appearance
@@ -117,15 +118,35 @@ ul.tabs
 						- var ratioHeightMax = Math.round((layout.textHeightMax / codex.get('pageDimension_height')) * 100)
 						- var ratioWidthMin = Math.round((layout.textWidthMin / codex.get("pageDimension_width")) * 100)
 						- var ratioWidthMax = Math.round((layout.textWidthMax / codex.get("pageDimension_width")) * 100)
-						//- - var ratioHeight = (ratioHeightMin !== ratioHeightMax) ? ratioHeightMin +"% - "+ratioHeightMax}+"%" : ratioHeightMin+"%"
-						- var ratioHeight = (ratioHeightMin !== ratioHeightMax) ? (ratioHeightMin + "-" + ratioHeightMax + "%") : ratioHeightMin+"%"
-						- var ratioWidth = (ratioWidthMin !== ratioWidthMax) ? (ratioWidthMin + "-" + ratioWidthMax + "%") : ratioWidthMin+"%"
+						- var ratioHeight = (ratioHeightMin !== ratioHeightMax && ratioHeightMax !== 0) ? (ratioHeightMin + "-" + ratioHeightMax + "%") : ratioHeightMin+"%"
+						- var ratioWidth = (ratioWidthMin !== ratioWidthMax && ratioWidthMax !== 0) ? (ratioWidthMin + "-" + ratioWidthMax + "%") : ratioWidthMin+"%"
+						
+						- var lines = (layout.linesMax > 0 && layout.linesMin !== layout.linesMax) ? layout.linesMin + " to " + layout.linesMax : layout.linesMin;
+						- lines = lines + " lines";
+						- lines = (layout.lineHeight > 0) ? lines + " of " + layout.lineHeight + " mm height" : lines
+
+						- var blockSizeHeight = (layout.textHeightMax > 0 && layout.textHeightMin !== layout.textHeightMax) ? layout.textHeightMin + " - " + layout.textHeightMax : layout.textHeightMin
+						- var blockSizeWidth = (layout.textWidthMax > 0 && layout.textWidthMin !== layout.textWidthMax) ? layout.textWidthMin + " - " + layout.textWidthMax : layout.textWidthMin
+						- var blockSize = blockSizeHeight + " x " + blockSizeWidth
+
+						- var marginRatioHeightMin = 100 - ratioHeightMin
+						- var marginRatioHeightMax = (ratioHeightMax > 0) ? 100 - ratioHeightMax : 0
+						- var marginRatioWidthMin = 100 - ratioWidthMin
+						- var marginRatioWidthMax = (ratioWidthMax > 0) ? 100 - ratioWidthMax: 0
+						- var marginRatioHeight = (marginRatioHeightMin !== marginRatioHeightMax && marginRatioHeightMax !== 0) ? (marginRatioHeightMin + "-" + marginRatioHeightMax + "%") : marginRatioHeightMin+"%"
+						- var marginRatioWidth = (marginRatioWidthMin !== marginRatioWidthMax && marginRatioWidthMax !== 0) ? (marginRatioWidthMin + "-" + marginRatioWidthMax + "%") : marginRatioWidthMin+"%"
+						
+
 						li
 							ul
-								li #{layout.linesMin} to #{layout.linesMax} lines of #{layout.lineHeight} mm height
-								li #{layout.foliaCount} pages: #{layout.pages}
-								li Text block size: #{layout.textHeightMin} - #{layout.textHeightMax} x #{layout.textWidthMin} - #{layout.textWidthMax}
+								li= lines
+								if layout.foliaCount > 0
+									li #{layout.foliaCount} pages: #{layout.pages}
+								li Text block size: #{blockSize}
 								li Text block ratio: #{ratioHeight} x #{ratioWidth}
+								li Margin ratio: #{marginRatioHeight} x #{marginRatioWidth}
+								li.canvas
+									canvas
 
 
 		h3 
@@ -138,10 +159,12 @@ ul.tabs
 			+labelValue("Scribe", script.scribeRemarks)
 
 		h3
-			div Summaries
-		ul.data
-			+labelValue("Content Summary", codex.get('contentSummary'))
-			+labelValue("Marginal Activity Summary", codex.get('marginalsSummary'))
+			div Content description
+		div.summary= codex.get('contentSummary')
+
+		h3
+			div Marginal Activity Summary
+		div.summary= codex.get('marginalsSummary')
 
 
 		if codex.get('marginalQuantities').length > 0
@@ -155,7 +178,7 @@ ul.tabs
 
 		if codex.get('bibliographies').length > 0
 			h3
-				div Bibliographies
+				div Bibliography
 			ul.bibliographies
 				for bibliopgraphy in codex.get('bibliographies')
 					li= bibliopgraphy
@@ -227,7 +250,7 @@ ul.tabs
 							else
 								span -
 						li
-							label Type
+							label Annotation type
 							if marginUnit.marginTypes.length > 0
 								ul.type
 									for mt in marginUnit.marginTypes
@@ -238,7 +261,7 @@ ul.tabs
 												+labelValueOrDash("Remarks", mt.remarks)
 							else
 								span -
-						+labelValueOrDash("Script type remarks", marginUnit.typologyRemarks)
+						+labelValueOrDash("Annotation type remarks", marginUnit.typologyRemarks)
 						li
 							label Specific phenomena
 							if marginUnit.specificPhenomena.length > 0
@@ -251,6 +274,12 @@ ul.tabs
 												+labelValueOrDash("Remarks", sp.remarks)
 							else
 								span -
+						+labelValueOrDash("General remarks on function and form", marginUnit.generalObservations)
+						if marginUnit.bibliographies.length > 0
+							label Bibliography
+							ul.bibliographies
+								for bibliopgraphy in marginUnit.bibliographies
+									li= bibliopgraphy
 
 	.tab.raw
 		pre= JSON.stringify(codex.attributes, null, 4)

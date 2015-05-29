@@ -81,6 +81,9 @@ class Codex extends Backbone.Model
 
 				marginUnit
 
+			model.set "patrons", model.get("patrons").map (patron) =>
+				@_replacePerson(patron)
+
 		super
 
 	_replaceUser: (obj) ->
