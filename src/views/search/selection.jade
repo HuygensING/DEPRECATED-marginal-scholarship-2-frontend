@@ -1,0 +1,10 @@
+ul.selection-criteria
+	for facetValue in facetValues
+		li.criterium
+			span.facet-name= facetNameMap[facetValue.name]
+			if facetValue.hasOwnProperty("lowerLimit")
+				span.range= (facetValue.lowerLimit+"").slice(0, -4) + " - " + (facetValue.upperLimit+"").slice(0, -4)
+			else
+				ul
+					for value in facetValue.values
+						li.facet-value= value
