@@ -1,3 +1,5 @@
+# TODO render header if user is unauthorized?
+
 Backbone = require 'backbone'
 $ = require 'jquery'
 Backbone.$ = $
@@ -28,7 +30,9 @@ $ ->
 	data.fetch ->
 		Backbone.history.start pushState: true
 
-		LoginComponent.getUser().authorize()
+		user = LoginComponent.getUser()
+		user.on "data-fetched unauthorized", -> header.renderLoginButton()
+		user.authorize()
 
 		window.addEventListener 'scroll', (ev) ->
 			if window.scrollY > 100

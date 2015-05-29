@@ -66,10 +66,10 @@ class MainRouter extends Backbone.Router
 	routes:
 		'': 'home'
 		'niet-gevonden': 'notFound'
-		'codex/:id/edit/:sub': 'editcodex'
-		'codex/:id/edit': 'editcodex'
-		'codex/:id/:sub': 'codex'
-		'codex/:id': 'codex'
+		'codex/:id/edit/:sub(/)': 'editcodex'
+		'codex/:id/edit(/)': 'editcodex'
+		'codex/:id/:sub(/)': 'codex'
+		'codex/:id(/)': 'codex'
 
 	home: ->
 		show pages.search

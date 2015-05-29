@@ -93,10 +93,6 @@ class TextsView extends Backbone.View
 				jqXHRTexts = $.getJSON config.get("textsUrl"), (data) ->
 					texts.reset(data, parse: true)
 
-				console.log text
-				console.log texts.get(text.id)
-				# data.fetchPersons()
-
 			form.on 'cancel', => 
 				destroy()
 

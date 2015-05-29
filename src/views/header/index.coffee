@@ -2,6 +2,7 @@ Backbone = require 'backbone'
 LoginComponent = require 'hibb-login'
 
 tpl = require './index.jade'
+loginTpl = require './login.jade'
 
 Tabs = require './tabs'
 
@@ -22,10 +23,15 @@ class Header extends Backbone.View
 	# @method
 	###
 	render: ->
-		@$el.html tpl
-			user: LoginComponent.getUser()
+		@$el.html tpl()
+
+		@renderLoginButton()
 
 		@
+
+	renderLoginButton: ->
+		@$(".login").html loginTpl
+			user: LoginComponent.getUser()
 
 	renderTabs: (pages, route, options) ->
 		@tabs.remove() if @tabs?

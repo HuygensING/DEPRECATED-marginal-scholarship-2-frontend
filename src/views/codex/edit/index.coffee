@@ -5,6 +5,8 @@ config = require '../../../models/config'
 
 Codex = require '../../../models/codex'
 
+LoginComponent = require "hibb-login"
+
 Views = 
 	Modal: require 'hibb-modal'
 	Form: require './form'
@@ -100,6 +102,12 @@ class EditCodexView extends Views.Form
 		@tpl = tpl
 		@subforms = Views.SubForms
 
+		user = LoginComponent.getUser()
+		user.on "unauthorized", ->
+			loginView = LoginComponent.getLoginView
+				modal: true
+				title: 'Login'
+		
 		super
 
 	preRender: ->

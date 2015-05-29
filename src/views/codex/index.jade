@@ -110,14 +110,22 @@ ul.tabs
 			if codex.get('layoutRemarks').length > 0
 				ul.data
 					+labelValue("Remarks", codex.get('layoutRemarks'))
-			if codex.get('pageLayouts').length > 0	
+			if codex.get('pageLayouts').length > 0
 				ul.layouts
 					for layout in codex.get('pageLayouts')
+						- var ratioHeightMin = Math.round((layout.textHeightMin / codex.get('pageDimension_height')) * 100)
+						- var ratioHeightMax = Math.round((layout.textHeightMax / codex.get('pageDimension_height')) * 100)
+						- var ratioWidthMin = Math.round((layout.textWidthMin / codex.get("pageDimension_width")) * 100)
+						- var ratioWidthMax = Math.round((layout.textWidthMax / codex.get("pageDimension_width")) * 100)
+						//- - var ratioHeight = (ratioHeightMin !== ratioHeightMax) ? ratioHeightMin +"% - "+ratioHeightMax}+"%" : ratioHeightMin+"%"
+						- var ratioHeight = (ratioHeightMin !== ratioHeightMax) ? (ratioHeightMin + "-" + ratioHeightMax + "%") : ratioHeightMin+"%"
+						- var ratioWidth = (ratioWidthMin !== ratioWidthMax) ? (ratioWidthMin + "-" + ratioWidthMax + "%") : ratioWidthMin+"%"
 						li
 							ul
 								li #{layout.linesMin} to #{layout.linesMax} lines of #{layout.lineHeight} mm height
 								li #{layout.foliaCount} pages: #{layout.pages}
-								li Text block size: #{layout.textWidthMin} - #{layout.textWidthMax} x #{layout.textHeightMin} - #{layout.textHeightMax}
+								li Text block size: #{layout.textHeightMin} - #{layout.textHeightMax} x #{layout.textWidthMin} - #{layout.textWidthMax}
+								li Text block ratio: #{ratioHeight} x #{ratioWidth}
 
 
 		h3 
