@@ -45,7 +45,11 @@ gulp.task 'copy-svg', ->
 	gulp.src('./node_modules/hi-svg-icons/*.svg')
 		.pipe(gulp.dest('./build/development/svg'))
 
-gulp.task 'server', ['concatCss', 'stylus', 'copy-svg', 'watch', 'watchify'], ->
+gulp.task 'copy-images', ->
+	gulp.src('./src/images/*')
+		.pipe(gulp.dest('./build/development/images'))
+
+gulp.task 'server', ['concatCss', 'stylus', 'copy-svg', 'copy-images', 'watch', 'watchify'], ->
 	browserSync
 		server:
 			baseDir: './build/development'
