@@ -56,7 +56,7 @@ class Search extends Backbone.View
 	###
 	initialize: (@options) ->
 		@render()
-	
+
 	###
 	# @method
 	###
@@ -82,12 +82,13 @@ class Search extends Backbone.View
 			searchResult = @facetedSearch.searchResults.getCurrent()
 
 			urls = searchResult.get("results").map (result) ->
-				config.get('facsimileUrl') + "thumbnail_" + result["^codex"].substr(6) + ".jpg"
-		
+				codexId = result["^codex"].substr(result["^codex"].lastIndexOf("/") + 1)
+				"#{config.get('facsimileUrl')}thumbnail_#{codexId}.jpg"
+
 			Array.prototype.slice.call(@facetedSearch.el.querySelectorAll("li.result .img-container img")).map (img, index) ->
 				img.onerror = ->
 					img.src = "http://placehold.it/75x75"
-				
+
 				img.src = urls[index]
 
 			if @facetedSearch.queryOptions.get("facetValues").length
@@ -98,7 +99,8 @@ class Search extends Backbone.View
 				@$(".results .pages ul.page").prepend page
 
 		@listenTo @facetedSearch, 'result:click', (codex) ->
-			Backbone.history.navigate codex["^codex"], trigger: true
+			codexId = codex["^codex"].substr(codex["^codex"].lastIndexOf("/") + 1)
+			Backbone.history.navigate "/codex/#{codexId}", trigger: true
 
 		@
 
@@ -123,7 +125,7 @@ class Search extends Backbone.View
 
 	_handleCollapse: do ->
 		down = false
-		
+
 		(ev) ->
 			@facetedSearch.facets.slideFacets down
 			down = not down

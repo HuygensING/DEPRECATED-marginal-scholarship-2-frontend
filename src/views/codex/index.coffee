@@ -40,12 +40,12 @@ class CodexView extends Backbone.View
 				error: =>
 					console.error @options.pid, arguments
 					throw new Error "Unable to fetch codex #{@options.pid}"
-	
+
 	###
 	# @method
 	###
 	render: ->
-		@$el.html tpl 
+		@$el.html tpl
 			codex: @codex
 			user: LoginComponent.getUser()
 
