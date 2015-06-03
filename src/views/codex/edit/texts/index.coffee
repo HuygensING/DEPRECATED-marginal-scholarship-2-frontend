@@ -40,7 +40,7 @@ class TextsView extends Backbone.View
 	events: ->
 		"click ul.alphabet > li": "_handleFilter"
 		"click ul.alphabet > li.all": "_handleFilterAll"
-		"click ul.texts > li": "_handlePerson"
+		"click ul.texts > li": "_handleText"
 
 	_handleFilter: (ev) ->
 		@_currentChar = ev.currentTarget.innerHTML
@@ -59,12 +59,12 @@ class TextsView extends Backbone.View
 
 		filteredPersons
 
-	_handlePerson: (ev) ->
+	_handleText: (ev) ->
 		active = @el.querySelector("ul.texts li.active")
 		activeId = active?.getAttribute("data-id")
 
 		id = ev.currentTarget.getAttribute("data-id")
-
+		id = id.substr(id.lastIndexOf('/') + 1)
 		return if activeId is id
 
 		text = new Text pid: id
@@ -79,7 +79,7 @@ class TextsView extends Backbone.View
 
 		(target, model) ->
 			destroy = =>
-				form.destroy() 
+				form.destroy()
 				@$("ul.texts li.active").removeClass "active"
 
 			destroy() if form?
@@ -93,7 +93,7 @@ class TextsView extends Backbone.View
 				jqXHRTexts = $.getJSON config.get("textsUrl"), (data) ->
 					texts.reset(data, parse: true)
 
-			form.on 'cancel', => 
+			form.on 'cancel', =>
 				destroy()
 
 			@$(target).addClass "active"
@@ -104,7 +104,7 @@ class TextsView extends Backbone.View
 		arr.reduce (prev, curr, index) ->
 			if index is 1
 				prev = [prev.charAt(0).toUpperCase()]
-			
+
 			firstChar = curr.charAt(0).toUpperCase()
 
 			if prev.indexOf(firstChar) is -1

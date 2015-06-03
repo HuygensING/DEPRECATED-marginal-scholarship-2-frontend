@@ -5,7 +5,7 @@ class TextListitem extends BaseModel
 
 	parse: (attrs, options) ->
 		attrs.title = attrs.label
-		attrs.id = attrs.id.replace("/texts/", "")
+		# attrs.id = attrs.id.replace("/texts/", "")
 
 		attrs
 
