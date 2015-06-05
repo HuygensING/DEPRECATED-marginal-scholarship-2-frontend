@@ -40,7 +40,7 @@ class Data extends Backbone.Model
 		facetData: null
 		persons: null
 		texts: null
-		localities: null
+		# localities: null
 		users: null
 
 	initialize: ->
@@ -61,10 +61,10 @@ class Data extends Backbone.Model
 	fetch: (done) ->
 		jqXHRPersons = $.getJSON config.get("personsUrl")
 		jqXHRTexts = $.getJSON config.get("textsUrl")
-		jqXHRLocalities = $.getJSON config.get("localitiesUrl")
+		# jqXHRLocalities = $.getJSON config.get("localitiesUrl")
 		jqXHRUsers = $.getJSON config.get("usersUrl")
 
-		$.when(jqXHRPersons, jqXHRTexts, jqXHRLocalities, jqXHRUsers).done (personsArgs, textsArgs, localitiesArgs, usersArgs) =>
+		$.when(jqXHRPersons, jqXHRTexts, jqXHRUsers).done (personsArgs, textsArgs, usersArgs) =>
 			persons.reset(personsArgs[0], parse: true)
 			texts.reset(textsArgs[0], parse: true)
 			users.reset(usersArgs[0])
@@ -72,7 +72,7 @@ class Data extends Backbone.Model
 			@set
 				persons: persons
 				texts: texts
-				localities: @_handleLocalities(localitiesArgs[0])
+				# localities: @_handleLocalities(localitiesArgs[0])
 
 			done()
 

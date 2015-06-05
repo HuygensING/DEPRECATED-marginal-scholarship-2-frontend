@@ -27,6 +27,8 @@ header = require './views/header'
 
 
 $ ->
+	$('body > header').html header.el
+
 	data.fetch ->
 		Backbone.history.start pushState: true
 
@@ -40,11 +42,10 @@ $ ->
 			else
 				document.body.classList.remove 'small-header'
 
-		$('body > header').html header.el
 
 		$(document).on 'click', 'a:not([data-bypass])', (e) ->
 			href = $(@).attr 'href'
-			
+
 			if href?
 				e.preventDefault()
 
