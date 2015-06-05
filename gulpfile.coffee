@@ -49,13 +49,32 @@ gulp.task 'copy-images', ->
 	gulp.src('./src/images/*')
 		.pipe(gulp.dest('./build/development/images'))
 
-gulp.task 'server', ['concatCss', 'stylus', 'copy-svg', 'copy-images', 'watch', 'watchify'], ->
+gulp.task 'copy-hire-forms-html', ->
+	gulp.src('./node_modules/hire-forms/build/development/index.html')
+		.pipe(rename("form.html"))
+		.pipe(gulp.dest('./build/development'))
+
+gulp.task 'copy-hire-forms-js', ->
+	gulp.src('./node_modules/hire-forms/build/development/js/form.js')
+		.pipe(gulp.dest('./build/development/js'))
+
+gulp.task 'copy-hire-forms-css', ->
+	gulp.src('./node_modules/hire-forms/build/development/css/form.css')
+		.pipe(gulp.dest('./build/development/css'))
+
+gulp.task 'copy-hire-forms', ['copy-hire-forms-html', 'copy-hire-forms-css', 'copy-hire-forms-js'], (done) ->
+	done()
+
+
+gulp.task 'server', ['concatCss', 'stylus', 'copy-svg', 'copy-hire-forms', 'copy-images', 'watch', 'watchify'], ->
 	browserSync
 		server:
 			baseDir: './build/development'
 			middleware: [
 				# proxy(proxyOptions),
 				modRewrite([
+					'^/codex/(.*)/edit$ /form.html [L]'
+					'^/codex/(.*)/edit/(.*)$ /form.html [L]'
 					'^[^\\.]*$ /index.html [L]'
 				])
 			]

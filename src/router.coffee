@@ -19,7 +19,7 @@ show = (activePage, options) ->
 	# showIt = ->
 	prevPage = activePage
 	activePage.activate(options) if activePage.activate?
-	
+
 	for pageId, pageInstance of pages
 
 		if pageInstance?
@@ -55,7 +55,7 @@ class MainRouter extends Backbone.Router
 	_removeCodexView: (id, redirectPath="") ->
 		pages.codices[id].remove()
 		delete pages.codices[id]
-		
+
 		if Backbone.history.getFragment() is ""
 			pagesClone = $.extend {}, pages, true
 			delete pagesClone['notFound']

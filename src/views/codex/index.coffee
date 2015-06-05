@@ -120,7 +120,8 @@ class CodexView extends Backbone.View
 			document.body.scrollTop = 0
 			Backbone.history.navigate "", trigger: true
 		"click svg.edit": ->
-			Backbone.history.navigate "/codex/#{@options.pid}/edit", trigger: true
+			window.location = "/codex/#{@options.pid}/edit"
+			# Backbone.history.navigate "/codex/#{@options.pid}/edit", trigger: true
 
 	_handleTabClick: (ev) ->
 		tab = ev.currentTarget.getAttribute("data-tab")
