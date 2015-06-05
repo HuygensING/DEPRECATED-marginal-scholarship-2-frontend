@@ -62,8 +62,9 @@ gulp.task 'copy-hire-forms-css', ->
 	gulp.src('./node_modules/hire-forms/build/development/css/form.css')
 		.pipe(gulp.dest('./build/development/css'))
 
-gulp.task 'copy-hire-forms', ['copy-hire-forms-html', 'copy-hire-forms-css', 'copy-hire-forms-js'], (done) ->
-	done()
+gulp.task 'copy-hire-forms', ['copy-hire-forms-html', 'copy-hire-forms-css', 'copy-hire-forms-js'], ->
+	gulp.src("src/index.coffee").
+		pipe(browserSync.reload({stream: true}))
 
 
 gulp.task 'server', ['concatCss', 'stylus', 'copy-svg', 'copy-hire-forms', 'copy-images', 'watch', 'watchify'], ->
@@ -135,5 +136,6 @@ gulp.task 'watch', ->
 	gulp.watch cssFiles, ['concatCss']
 	gulp.watch ['./src/**/*.styl'], ['stylus']
 	gulp.watch ['./src/index.jade'], ['jade']
+	gulp.watch ["./node_modules/hire-forms/build/development/**/*"], ["copy-hire-forms"]
 
 gulp.task 'default', ['server']

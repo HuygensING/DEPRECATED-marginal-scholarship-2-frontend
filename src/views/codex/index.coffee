@@ -7,6 +7,7 @@ tpl = require "./index.jade"
 codices = require "../../collections/codices"
 Codex = require "../../models/codex"
 config = require "../../models/config"
+data = require "../../models/data"
 
 searchView = require "../search"
 
@@ -119,8 +120,7 @@ class CodexView extends Backbone.View
 		"click svg.search": ->
 			document.body.scrollTop = 0
 			Backbone.history.navigate "", trigger: true
-		"click svg.edit": ->
-			window.location = "/codex/#{@options.pid}/edit"
+		"click svg.edit": "_handleClickEditButton"
 			# Backbone.history.navigate "/codex/#{@options.pid}/edit", trigger: true
 
 	_handleTabClick: (ev) ->
@@ -138,5 +138,14 @@ class CodexView extends Backbone.View
 
 	_handleFacsimileClick: (ev) ->
 		@$el.toggleClass 'small-facsimile'
+
+	_handleClickEditButton: ->
+		localStorage.setItem "hi-marschol2-form-data", JSON.stringify
+			persons: data.get("persons").toJSON()
+			texts: data.get("texts").toJSON()
+			facetData: data.get("facetData")
+			token: LoginComponent.getUser().getToken()
+
+		window.location = "/codex/#{@options.pid}/edit"
 
 module.exports = CodexView
