@@ -17,7 +17,7 @@ mixin labelLocality(locality, certain)
 		label Locality
 		span
 			+locality(locality.region, locality.place, locality.scriptorium)
-	
+
 			if certain
 				span.certainty(title="Uncertain") ?
 
@@ -44,7 +44,7 @@ h2= codex.get('name')
 		+edit-icon
 
 ul.tabs
-	li.tab(data-tab="metadata").active 
+	li.tab(data-tab="metadata").active
 		button Codex Unit
 	li.tab(data-tab="textual-units")
 		button Text Unit
@@ -63,22 +63,22 @@ ul.tabs
 			li.identifiers= identifiers.join("; ")
 			li.created
 				label Created by #{codex.get('creator')}
-				span #{codex.get('creationDate')} 
+				span #{codex.get('creationDate')}
 			li.changed
 				label Changed by #{codex.get('modifier')}:
-				span #{codex.get('modificationDate')} 
+				span #{codex.get('modificationDate')}
 
 .tab-container
 	.tab.metadata.active
 		ul.data
 			+labelValue("Date", codex.get("date"))
 			+labelValue("Date and locale remarks", codex.get('dateAndLocaleRemarks'))
-			
+
 			//- li
 			//- 	label Persons
 			//- 	span= codex.get('name')
-		
-		h3 
+
+		h3
 			div Localisation
 
 		h4 Origin
@@ -120,7 +120,7 @@ ul.tabs
 						- var ratioWidthMax = Math.round((layout.textWidthMax / codex.get("pageDimension_width")) * 100)
 						- var ratioHeight = (ratioHeightMin !== ratioHeightMax && ratioHeightMax !== 0) ? (ratioHeightMin + "-" + ratioHeightMax + "%") : ratioHeightMin+"%"
 						- var ratioWidth = (ratioWidthMin !== ratioWidthMax && ratioWidthMax !== 0) ? (ratioWidthMin + "-" + ratioWidthMax + "%") : ratioWidthMin+"%"
-						
+
 						- var lines = (layout.linesMax > 0 && layout.linesMin !== layout.linesMax) ? layout.linesMin + " to " + layout.linesMax : layout.linesMin;
 						- lines = lines + " lines";
 						- lines = (layout.lineHeight > 0) ? lines + " of " + layout.lineHeight + " mm height" : lines
@@ -135,7 +135,7 @@ ul.tabs
 						- var marginRatioWidthMax = (ratioWidthMax > 0) ? 100 - ratioWidthMax: 0
 						- var marginRatioHeight = (marginRatioHeightMin !== marginRatioHeightMax && marginRatioHeightMax !== 0) ? (marginRatioHeightMin + "-" + marginRatioHeightMax + "%") : marginRatioHeightMin+"%"
 						- var marginRatioWidth = (marginRatioWidthMin !== marginRatioWidthMax && marginRatioWidthMax !== 0) ? (marginRatioWidthMin + "-" + marginRatioWidthMax + "%") : marginRatioWidthMin+"%"
-						
+
 
 						li
 							ul
@@ -149,7 +149,7 @@ ul.tabs
 									canvas
 
 
-		h3 
+		h3
 			div Script
 		- var script = codex.get('script');
 		ul.script
@@ -184,7 +184,7 @@ ul.tabs
 					li= bibliopgraphy
 
 		if codex.get('URLs').length > 0
-			h3 
+			h3
 				div URL(s)
 			ul.urls
 				for url in codex.get('URLs')
@@ -196,7 +196,7 @@ ul.tabs
 		ol
 			for textUnit in codex.get('textUnits')
 				- var authors = textUnit.text.authors.map(function (author) { return author.person.name; }).join(", ");
-				
+
 				li
 					ul
 						+labelValueOrDash("Title", textUnit.text.title)
@@ -238,17 +238,11 @@ ul.tabs
 						+labelValueOrDash("Script remarks", marginUnit.scriptRemarks)
 						li
 							label Origin
-							if marginUnit.origins.length > 0
 								ul.origin
-									for origin in marginUnit.origins
-										li
-											ul
-												- var locality = origin.locality.region + ", " + origin.locality.place + ", " + origin.locality.scriptorium;
-												+labelValueOrDash("Locality", locality)
-												+labelValueOrDash("Remarks", origin.remarks)
-												+labelValueOrDash("Certain", origin.certain)
-							else
-								span -
+									- var locality = marginUnit.origin.locality.region + ", " + marginUnit.origin.locality.place + ", " + marginUnit.origin.locality.scriptorium;
+									+labelValueOrDash("Locality", locality)
+									+labelValueOrDash("Remarks", marginUnit.origin.remarks)
+									+labelValueOrDash("Certain", marginUnit.origin.certain)
 						li
 							label Annotation type
 							if marginUnit.marginTypes.length > 0

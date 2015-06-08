@@ -21,7 +21,7 @@ class Codex extends Backbone.Model
 		marginalQuantities: []
 		layoutRemarks: ""
 		quireStructure: ""
-	
+
 	url: ->
 		config.get('backendUrl') + "codex/#{@id}"
 
@@ -32,7 +32,7 @@ class Codex extends Backbone.Model
 		options.beforeSend = (xhr) ->
 			if LoginComponent.getUser().isLoggedIn()
 				xhr.setRequestHeader 'Authorization', LoginComponent.getUser().getToken()
-			
+
 			xhr.setRequestHeader 'Accept', "application/json"
 
 		if method is 'read'
@@ -70,13 +70,13 @@ class Codex extends Backbone.Model
 					@_slug(loc.place)
 					@_slug(loc.scriptorium)
 				].join("-")
-				
+
 				delete provenance.locality
 
 				provenance
 
 			model.set "marginUnits", model.get("marginUnits").map (marginUnit) =>
-				@_replaceLocality(origin) for origin in marginUnit.origins
+				@_replaceLocality(marginUnit.origin)
 				@_replacePerson(annotator) for annotator in marginUnit.annotators
 
 				marginUnit
@@ -104,7 +104,7 @@ class Codex extends Backbone.Model
 			@_slug(obj.locality.place)
 			@_slug(obj.locality.scriptorium)
 		].join("-")
-		
+
 		delete obj.locality
 
 		obj
