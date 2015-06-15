@@ -119,5 +119,4 @@ class Codex extends Backbone.Model
 
 		value
 
-
 module.exports = Codex
