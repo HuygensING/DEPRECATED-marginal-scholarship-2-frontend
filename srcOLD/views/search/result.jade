@@ -1,0 +1,21 @@
+//- - var ids = [140, 141, 144, 145, 146, 147, 148, 149, 150, 201, 203]
+//- - var file = "thumbnail_COD" + ids[Math.floor(Math.random() * ids.length)] + ".jpg"
+
+//- - var file = "thumbnail_" + data["^codex"].substr(6) + ".jpg"
+//- - var src = facsimileUrl+file;
+
+.img-container
+	img
+
+.data
+	label= data.name
+	ul.metadata
+		li
+			label Date &amp; location
+			span= data.date + " " + data.localization
+		li
+			label Content
+			span= data.contentSummary
+		li
+			label Marginalia
+			span= data.marginalsSummary

@@ -1,0 +1,13 @@
+ul.medium.formpart(data-cid=model.cid)
+	li
+		label Name
+		input.large(name="name", data-view-id=viewId, value=model.get('name'))
+	li
+		label Born
+		input(name="birthDate", data-view-id=viewId, value=model.get('birthDate'))
+	li
+		label Died
+		input(name="deathDate", data-view-id=viewId, value=model.get('deathDate'))
+	li
+		label Active
+		input(name="activityDate", data-view-id=viewId, value=model.get('activityDate'))

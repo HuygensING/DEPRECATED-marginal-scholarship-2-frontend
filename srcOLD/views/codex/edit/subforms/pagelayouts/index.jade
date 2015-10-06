@@ -1,0 +1,63 @@
+if (collection.length)
+	ul.collection.layouts
+		each model in collection.models
+			li.model(data-cid=model.cid)
+				ul.medium.formpart
+					li
+						h4 General
+					li.layout
+						label Textblock width
+						span.x x
+						label textblock height
+						span.is =
+						input.small(data-view-id=viewId, name="textWidthMin", value=model.get('textWidthMin'), placeholder="min")
+						span -
+						input.small(data-view-id=viewId, name="textWidthMax", value=model.get('textWidthMax'), placeholder="max")
+						span.x x
+						input.small(data-view-id=viewId, name="textHeightMin", value=model.get('textHeightMin'), placeholder="min")
+						span -
+						input.small(data-view-id=viewId, name="textHeightMax", value=model.get('textHeightMax'), placeholder="max")
+						span.generallayoutratio
+					li &nbsp;
+					li.canvas-placeholder
+						h4.detailed Detailed
+						button.layoutinfo ?
+						canvas.layout
+					li
+						label Horizontal layout
+						input(data-view-id=viewId, name="horizontalLayout", value=model.get('horizontalLayout'))
+					li
+						label Vertical layout
+						input(data-view-id=viewId, name="verticalLayout", value=model.get('verticalLayout'))
+					li
+						label &nbsp;
+						span.space
+					li &nbsp;
+					li
+						label Lines
+						input.small(data-view-id=viewId, name="linesMin", value=model.get('linesMin')) 
+						span - 
+						input.small(data-view-id=viewId, name="linesMax", value=model.get('linesMax'))
+					li
+						label Line height
+						input.small(data-view-id=viewId, name="lineHeight", value=model.get('lineHeight'))
+						span &nbsp;mm (per 10 lines)
+					li
+						label Number of pages
+						input.small(data-view-id=viewId, name="foliaCount", value=model.get('foliaCount'))
+					li
+						label Folia range
+						input(data-view-id=viewId, name="pages", value=model.get('pages'))
+					li
+						label Remarks
+						input.large(data-view-id=viewId, name="remarks", value=model.get('remarks'))
+
+				button.remove(title="Remove layout") x
+
+button.addform Add layout
+
+#layoutinfo
+	h3 Layout information
+	p= 'For width, fill in the measurements (in millimeters) of outer margin< textblock> inner margin, or, if applicable, margin<textblock of the first column>intercolumnal space<textblock of the second column>margin.'
+	p= 'For example: for a text in one column, with a width of 80 mm, and margins of 20 mm, the formula looks like this: 20<80>20 mm. For a text in two columns of 40 mm, with margins of 10 mm, and an intercolumnal space of 5 mm, the formula looks like this: 10<40>5<40>10 mm.'
+	p= 'For height, fill in the measurements (in millimeters) of upper margin<textblock>lower margin.'

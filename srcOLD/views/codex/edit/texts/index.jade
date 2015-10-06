@@ -1,0 +1,11 @@
+ul.alphabet
+	li.all Show all
+	for letter in letters
+		li= letter
+
+ul.texts
+	for text in texts
+		li(data-id=text.id)
+			label= text.get("title")
+
+//- .form-container

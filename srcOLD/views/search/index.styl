@@ -1,0 +1,142 @@
+.faceted-search-placeholder.with-results
+	padding-top 20px
+	
+	.overlay
+		background-color rgba(msDarkBlue, 0.3)
+		margin-left 40px
+
+	.faceted-search
+		min-height 300px
+		width calc((100%/3) - 40px)
+		margin-left 40px
+		box-shadow 1px 1px 3px #999
+		margin-bottom 100px
+		background-color white
+		
+		.text-search
+			.search-input
+				input
+					border 1px solid msLightBlue
+					border-right 0
+					
+				.search-icon
+					background msLightBlue
+					
+					svg
+						fill msDarkBlue
+						margin-top 5px
+					
+		.facets-menu
+			display none
+			
+
+		.facets
+			position relative
+			
+			.reset, .collapse
+				background #DDD
+				color #CCC
+				position absolute
+				top -18px
+				left -28px
+				width 8px
+				text-align center
+				cursor pointer
+				height 28px
+				border-top-left-radius 3px
+				border-bottom-left-radius 3px
+				line-height 28px
+				transition all 250ms
+				
+				&:hover
+					width 24px
+					left -44px
+					
+					span
+						opacity 1
+				
+				span
+					opacity 0
+					transition all 250ms
+					
+					svg
+						width 12px
+						height 12px
+						fill msDarkBlue
+					
+			.collapse
+				top 10px
+				background-color #CCC
+				color #BBB
+			
+			ul.tabs
+				list-style none
+				position absolute
+				top -46px
+				left -20px
+				right -21px
+				
+				li
+					padding 4px 0
+					inline-block()
+					width 25%
+					text-align center
+					border 1px solid msBlue
+					border-right 0px
+					font-size 1em
+					cursor pointer
+					color msDarkBlue
+					background white
+						
+					&:first-child
+						border-top-left-radius 4px
+						// border-bottom-left-radius 4px
+					
+					&:last-child
+						border-right 1px solid msBlue
+						border-top-right-radius 4px
+						// border-bottom-right-radius 4px				
+					
+					&.active
+						cursor default
+						background msBlue
+						color white
+						border-top-left-radius 4px
+						border-top-right-radius 4px
+						
+						& + li
+							border-top-left-radius 4px
+							
+					&[data-tab="person"]
+						line-height 9px
+						font-size 0.8em
+							
+
+			.tab
+				display none
+				
+				&.active
+					display block
+					
+			.facet
+				color msDarkerBlue
+				margin-top 20px
+				
+				svg
+					fill msDarkBlue
+				
+				header
+					h3
+						color msDarkerBlue
+				
+				.body
+					margin-top 4px
+					
+					label
+						color msDarkBlue
+						
+				&.range .body .slider .bar
+					background rgba(msBlue, 0.3)
+					
+				&.list label em
+					color rgba(msDarkBlue, 0.5)

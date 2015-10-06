@@ -1,0 +1,31 @@
+ul.selection-criteria
+	
+	li.criterium
+		border-bottom 1px solid #DDD
+		padding 6px 0
+		&:last-child
+			border-bottom none
+				
+		& > ul, span.range
+			inline-block()
+			width 70%
+			font-size 0.8em
+			color #666
+
+		span.facet-name
+			inline-block()
+			width 30%
+			max-width 240px
+			font-size 0.8em
+			margin-top 0.5em
+			
+			&:first-child
+				margin-top 0
+
+		// li.facet-value, span.range
+		// 	margin-left 20px
+		// 	font-size 0.8em
+		// 	color #666
+		
+	span.range
+		display block

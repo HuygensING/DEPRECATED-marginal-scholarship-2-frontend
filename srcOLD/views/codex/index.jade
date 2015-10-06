@@ -101,7 +101,7 @@ ul.tabs
 		h3
 			div Physical appearance
 		ul.data
-			- var pageDimensions = codex.get('pageDimensionHeight') + " x " + codex.get('pageDimensionWidth') + " mm";
+			- var pageDimensions = codex.get('pageDimension_height') + " x " + codex.get('pageDimension_width') + " mm";
 			+labelValue("Page Dimensions", pageDimensions)
 			+labelValue("Number of Pages", codex.get("folia"))
 			+labelValue("Quire Structure", codex.get('quireStructure'))
@@ -114,11 +114,10 @@ ul.tabs
 			if codex.get('pageLayouts').length > 0
 				ul.layouts
 					for layout in codex.get('pageLayouts')
-						- console.log(codex)
-						- var ratioHeightMin = Math.round((layout.textHeightMin / codex.get('pageDimensionHeight')) * 100)
-						- var ratioHeightMax = Math.round((layout.textHeightMax / codex.get('pageDimensionHeight')) * 100)
-						- var ratioWidthMin = Math.round((layout.textWidthMin / codex.get("pageDimensionWidth")) * 100)
-						- var ratioWidthMax = Math.round((layout.textWidthMax / codex.get("pageDimensionWidth")) * 100)
+						- var ratioHeightMin = Math.round((layout.textHeightMin / codex.get('pageDimension_height')) * 100)
+						- var ratioHeightMax = Math.round((layout.textHeightMax / codex.get('pageDimension_height')) * 100)
+						- var ratioWidthMin = Math.round((layout.textWidthMin / codex.get("pageDimension_width")) * 100)
+						- var ratioWidthMax = Math.round((layout.textWidthMax / codex.get("pageDimension_width")) * 100)
 						- var ratioHeight = (ratioHeightMin !== ratioHeightMax && ratioHeightMax !== 0) ? (ratioHeightMin + "-" + ratioHeightMax + "%") : ratioHeightMin+"%"
 						- var ratioWidth = (ratioWidthMin !== ratioWidthMax && ratioWidthMax !== 0) ? (ratioWidthMin + "-" + ratioWidthMax + "%") : ratioWidthMin+"%"
 
@@ -239,15 +238,11 @@ ul.tabs
 						+labelValueOrDash("Script remarks", marginUnit.scriptRemarks)
 						li
 							label Origin
-							if marginUnit.hasOwnProperty("origin")
-								ul
-									- var locality = marginUnit.origin.locality.region + ", " + marginUnit.origin.locality.place + ", " + marginUnit.origin.locality.scriptorium;
-									+labelValueOrDash("Locality", locality)
-									+labelValueOrDash("Remarks", marginUnit.origin.remarks)
-									+labelValueOrDash("Certain", marginUnit.origin.certain)
-							else
-								span -
-
+							ul
+								- var locality = marginUnit.origin.locality.region + ", " + marginUnit.origin.locality.place + ", " + marginUnit.origin.locality.scriptorium;
+								+labelValueOrDash("Locality", locality)
+								+labelValueOrDash("Remarks", marginUnit.origin.remarks)
+								+labelValueOrDash("Certain", marginUnit.origin.certain)
 						li
 							label Annotation type
 							if marginUnit.marginTypes.length > 0

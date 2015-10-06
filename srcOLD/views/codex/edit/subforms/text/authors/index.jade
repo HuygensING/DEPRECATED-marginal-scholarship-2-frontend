@@ -1,0 +1,15 @@
+if (collection.length)
+	ul.collection
+		each model in collection.models
+			li.model(data-cid=model.cid)
+				ul.small.formpart
+					li
+						label Person
+						.person-placeholder.placeholder
+					li
+						label &nbsp;
+						textarea(data-view-id=viewId, name="remarks", placeholder="Remarks")= model.get('remarks')
+
+				button.remove(title="Remove person") x
+
+button.addform Add person

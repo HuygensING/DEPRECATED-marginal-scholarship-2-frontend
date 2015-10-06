@@ -1,0 +1,56 @@
+inline-block()
+	display inline-block
+	box-sizing border-box
+	vertical-align top
+
+select_none()
+	-webkit-touch-callout none
+	-webkit-user-select none
+	-khtml-user-select none
+	-moz-user-select none
+	-ms-user-select none
+	user-select none
+
+msBlue = #8AB0C9
+msLighterBlue = lighten(msBlue, 90%)
+msLightBlue = lighten(msBlue, 50%)
+msDarkBlue = darken(msBlue, 50%)
+msDarkerBlue = darken(msBlue, 75%)
+
+html, body
+	height 100%
+	font-size 14px
+	background-color #EEE
+	
+html
+	overflow-y scroll
+	
+html, body, ul, ol, h1, h2, h3, h4, h5, label, button, input
+	font-family 'Merriweather Sans'
+	margin 0
+	padding 0
+	
+button
+		background msBlue
+		color white
+		box-shadow 1px 1px 1px msDarkBlue
+		text-shadow 1px 1px 1px msDarkBlue
+		border none
+		border-radius 2px
+		padding 3px 10px
+		cursor pointer
+		outline none
+
+@import "./small-header"
+@import "./views/header/index"
+@import "./views/header/tabs/index"
+@import "./views/search/index"
+@import "./views/search/results"
+@import "./views/search/selection-criteria"
+@import "./views/codex/index"
+@import "./views/codex/edit/form/index"
+@import "./views/codex/edit/index"
+@import "./views/codex/edit/tabs"
+@import "./views/codex/edit/texts-persons"
+@import "./views/codex/edit/persons"
+@import "./views/codex/edit/texts"

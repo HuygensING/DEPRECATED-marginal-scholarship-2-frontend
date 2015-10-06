@@ -1,0 +1,55 @@
+body > header
+	background msBlue
+	padding 15px 40px 15px 40px
+	box-shadow 0 1px 3px msDarkBlue
+	margin-bottom 20px
+	position relative
+	
+	h1, h1 small
+		color white
+		font-size 2em
+		text-shadow 1px 1px 1px msDarkBlue
+		
+	h1
+		inline-block()
+		width 50%
+		
+		small
+			font-size 0.5em
+			position absolute
+			top 29px
+			padding-left 8px
+			// left 330px
+				
+	button, span
+		position absolute
+		right 40px
+		top 20px
+		height 26px
+		
+	button
+		width 80px
+		background-color msDarkBlue
+		color msBlue
+		
+		&:hover
+			color white
+			
+	span
+		line-height 26px
+		color msDarkBlue
+		
+	.logos
+		inline-block()
+		width 40%
+		text-align center
+		
+		img
+			width 34px
+			margin-right 20px
+			
+			&.huygens, &.nwo
+				width 46px
+				
+			&.nwo
+				height 32px

@@ -1,0 +1,24 @@
+if (collection.length)
+	ul.collection
+		each model in collection.models
+			li.model(data-cid=model.cid)
+				ul.small.formpart
+					li
+						label Person
+						.person-placeholder.placeholder
+					li
+						label Certain
+						input(data-view-id=viewId, name="certain", type="checkbox" checked=model.get('certain'))
+					li
+						label Folia range
+						input(data-view-id=viewId, name="pages", value=model.get('pages'))
+					li
+						label Role
+						.role-placeholder.placeholder
+					li
+						label Remarks
+						textarea(data-view-id=viewId, name="remarks")= model.get('remarks')
+
+				button.remove(title="Remove person") x
+
+button.addform Add person

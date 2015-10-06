@@ -1,0 +1,48 @@
+.editcodex > form
+	.tab.menu, .tab.menu2
+		padding 0
+		margin 0
+		inline-block()
+
+		li
+			color lighten(black, 50%)
+			padding 8px 30px 6px 30px
+			margin 0
+			border 1px solid #DDD
+			border-left 0
+			border-bottom 0
+			background-color #EEE
+			list-style none
+			line-height 24px
+			inline-block()
+			cursor pointer
+
+			&:first-child
+				border-left 1px solid #DDDDDD
+				border-top-left-radius 8px
+
+			&:last-child
+				border-top-right-radius 8px
+
+			&:hover
+				background-color lighten(#DDDDDD, 30%)
+
+			&.active
+				color black
+				background-color #FFF
+				box-shadow 0px 1px 0px #FFF // To blur the top border of the div[data-tab]
+
+	.tab.menu2
+		margin-left 80px
+
+	div[data-tab]
+		display none
+		padding 0 10px 60px 10px
+		box-shadow 1px 1px 3px #DDD
+		border 1px solid #DDD
+		border-radius 12px
+		border-top-left-radius 0px
+		background-color white
+
+		&.active
+			display block

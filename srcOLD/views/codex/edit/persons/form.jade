@@ -1,0 +1,23 @@
+- var id = "qwADF3D5";
+
+ul.form(data-model-id=model.cid, data-cid=model.cid)
+	li
+		label(for=id) Name
+		input(id=id, type="text", value=model.get("name"), name="name")
+	li
+		- id = "F3D5qwAD"
+		label(for=id) Activity date
+		input(id=id, type="text", value=model.get("activityDate"), name="activityDate")
+	li
+		- id = "ADF3qwD5"
+		label(for=id) Birthdate
+		input(id=id, type="text", value=model.get("birthDate"), name="birthDate")
+	li
+		- id = "qwD5ADF3"
+		label(for=id) Deathdate
+		input(id=id, type="text", value=model.get("deathDate"), name="deathDate")
+	li.buttons
+		label &nbsp;
+		button(name="submit") Save
+		span or
+		button(name="cancel") Cancel

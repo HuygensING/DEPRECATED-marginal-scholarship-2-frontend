@@ -1,0 +1,22 @@
+if (collection.length)
+	ul.collection
+		for model in collection.models
+			li.model(data-cid=model.cid)
+				ul.small.formpart
+					li
+						label Locality
+						.locality-placeholder.placeholder
+					li
+						label(for="") Date
+						input(data-view-id=viewId, name="date", value=model.get('date'))= model.get('dateInfo')
+						button.dateinfo ?
+					li
+						label(for="") Remarks
+						input(data-view-id=viewId, name="remarks", value=model.get('remarks'))
+					li
+						label(for="") Certain
+						input(data-view-id=viewId, name="certain", type="checkbox", checked=model.get('certain'))
+
+				button.remove(title="Remove provenance") x
+
+button.addform Add provenance

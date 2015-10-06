@@ -1,0 +1,30 @@
+if (collection.length)
+	ul.collection
+		each model in collection.models
+			li.model(data-cid=model.cid)
+				ul.formpart
+					li
+						label Author - Text
+						.text-placeholder.placeholder
+					li
+						label Folia range
+						input(data-view-id=viewId, name="pages", value=model.get('pages'))
+					li
+						label Title in codex
+						input.large(data-view-id=viewId, name="titleInCodex", value=model.get('titleInCodex'))
+					li
+						label Incipit
+						input.large(data-view-id=viewId, name="incipit", value=model.get('incipit'))
+					li
+						label Explicit
+						input(data-view-id=viewId, name="explicit", value=model.get('explicit'))
+					li
+						label State of preservation
+						.stateOfPreservation-placeholder.placeholder
+					li
+						label Remarks
+						textarea(data-view-id=viewId, name="remarks")= model.get('remarks')
+
+				button.remove(title="Remove text unit") x
+
+button.addform Add text unit

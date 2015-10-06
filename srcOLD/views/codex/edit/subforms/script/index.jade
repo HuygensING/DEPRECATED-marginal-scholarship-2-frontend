@@ -1,0 +1,20 @@
+ul.formpart(data-cid=model.cid)
+	li
+		label Type(s)
+		.types-placeholder.placeholder
+		textarea.remark(data-view-id=viewId, name="typesRemarks", placeholder="Remarks")= model.get('typesRemarks')
+	li
+		label Characteristics
+		input.large(data-view-id=viewId, name="characteristics", value=model.get('characteristics'))= model.get('characteristicsRemarks')
+	li
+		label Number of hands
+		input(data-view-id=viewId, name="handsCount", value=model.get('handsCount'))
+	li
+		label Range
+		input.large(data-view-id=viewId, name="handsRange", value=model.get('handsRange'))
+	li
+		label Scribes
+		.scribes-placeholder.placeholder
+	li
+		label Remarks
+		textarea(data-view-id=viewId, name="scribeRemarks")= model.get('scribeRemarks') + model.get('additionalRemarks')
