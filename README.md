@@ -1,1 +1,3 @@
-# Marginal Scholarship 2
+# DEPRECATED
+
+## Marginal Scholarship 2
